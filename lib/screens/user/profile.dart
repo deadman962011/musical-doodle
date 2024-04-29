@@ -87,31 +87,17 @@ class _ProfileState extends State<UserProfile> {
     return Scaffold(
       appBar: UserAppBar.buildUserAppBar(context, 'profile'),
       backgroundColor: MyTheme.background_color,
-      body: SingleChildScrollView(
-          controller: _mainScrollController,
-          physics: const BouncingScrollPhysics(
-              parent: AlwaysScrollableScrollPhysics()),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 14.0,
-            ),
-            child: Column(
-              children: [
-                buildMenuSection(mainProfilesData),
-              ],
-            ),
-          )),
-    )
-        // ,
-
-        //   Container(
-        // margin: EdgeInsets.only(top: 26),
-        // height: DeviceInfo(context).height,
-        // child: Stack(children: [
-
-        // ]))
-
-        ;
+      body: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 14.0,
+        ),
+        child: Column(
+          children: [
+            buildMenuSection(mainProfilesData),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget buildMenuSection(data) {
@@ -169,6 +155,10 @@ class _ProfileState extends State<UserProfile> {
             return Padding(
                 padding: EdgeInsets.symmetric(horizontal: 10),
                 child: TextButton(
+                    style: ButtonStyle(
+                      overlayColor:
+                          MaterialStateProperty.all(Colors.transparent),
+                    ),
                     onPressed: () {
                       if (tab['redirect_to'] == 'profile') {
                         Navigator.push(context,

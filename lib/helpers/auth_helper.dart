@@ -46,7 +46,9 @@ class AuthHelper {
     access_token.save();
     user_id.$ = loginResponse['user']['id'].toString();
     user_id.save();
-    user_name.$ = loginResponse['user']['name'];
+    user_name.$ = loginResponse['user']['first_name'] +
+        '' +
+        loginResponse['user']['last_name'];
     user_name.save();
     user_email.$ = loginResponse['user']['email'];
     user_email.save();

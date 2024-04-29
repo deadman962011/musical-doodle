@@ -74,7 +74,7 @@ class UserAppBar {
           width: MediaQuery.of(context).size.width,
           margin: EdgeInsets.only(top: 30, bottom: 10),
           padding: const EdgeInsets.symmetric(
-            horizontal: 10,
+            horizontal: 14,
           ),
           // height: preferredSize.height,
           color: Colors.transparent,

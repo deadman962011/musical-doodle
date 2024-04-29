@@ -5,6 +5,7 @@ import 'package:csh_app/models/items/Offer.dart';
 import 'package:csh_app/models/responses/merchant/offer/merchant_offers_response.dart';
 import 'package:csh_app/my_theme.dart';
 import 'package:csh_app/ui_elements/merchant_appbar.dart';
+import 'package:csh_app/ui_elements/merchant_drawer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -52,7 +53,8 @@ class _OfferDetailsState extends State<OfferDetails> {
       child: Scaffold(
           key: _scaffoldKey,
           appBar: MerchantAppBar.buildMerchantAppBar(
-              context, 'list_offers', _scaffoldKey),
+              context, 'offer_details', _scaffoldKey),
+          drawer: MerchantDrawer.buildDrawer(context),
           body: Container(
             padding: EdgeInsets.symmetric(horizontal: 26, vertical: 12),
             child: Column(

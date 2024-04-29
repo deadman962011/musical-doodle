@@ -32,6 +32,13 @@ class MerchantAppBar {
           Container(),
         ];
         break;
+      case 'offer_details':
+        widgets = [
+          _buildToggleDrawerButton(context, scaffoldKey),
+          Text(page.toString()),
+          Container()
+        ];
+        break;
 
       default:
     }
@@ -39,11 +46,12 @@ class MerchantAppBar {
     return PreferredSize(
         preferredSize: const Size.fromHeight(50),
         child: Container(
-          padding: const EdgeInsets.only(top: 16),
+          padding: const EdgeInsets.only(top: 16, right: 14, left: 14),
           // height: preferredSize.height,
           color: Colors.transparent,
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: widgets,
           ),
         ));
@@ -57,7 +65,7 @@ class MerchantAppBar {
         icon: Image.asset('assets/switch_bar.png'),
         onPressed: () {
           // Scaffold.of(context).openDrawer();
-
+          // debugPrint(scaffoldKey.currentState.openDrawer());
           scaffoldKey.currentState?.openDrawer();
         },
       ),
@@ -81,14 +89,15 @@ class MerchantAppBar {
 
   static Widget _buildAddOfferButton(context) {
     return SizedBox(
-      width: 60,
-      height: 60,
+      width: 46,
+      height: 46,
       child: IconButton(
         color: MyTheme.accent_color,
         onPressed: () {
-          final offerProvider =Provider.of<OfferProvider>(context, listen: false);
+          final offerProvider =
+              Provider.of<OfferProvider>(context, listen: false);
           final firstOffer = offerProvider.firstOffer;
-          
+
           if (firstOffer != null && firstOffer.state == 'active') {
             _showModalPopup(context);
           } else if (firstOffer != null && firstOffer.state == 'pending') {
@@ -99,13 +108,17 @@ class MerchantAppBar {
             }));
           }
         },
-        icon: Image.asset('assets/add.svg'),
+        icon: Image.asset(
+          'assets/add.png',
+          color: MyTheme.accent_color,
+        ),
       ),
     );
   }
 
   static void _showModalPopup(BuildContext context) {
     showDialog(
-        context: context, builder: (BuildContext context) => AddOfferErrorDialog());
+        context: context,
+        builder: (BuildContext context) => AddOfferErrorDialog());
   }
 }

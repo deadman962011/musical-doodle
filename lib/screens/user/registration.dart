@@ -63,10 +63,10 @@ class _UserRegistrationState extends State<UserRegistration> {
     String last_name = _lastNameController.text.toString();
     String birth_date = _birthDateController.text.toString();
     String referral_code = _referralCodeController.text.toString();
-    String full_name = first_name + last_name;
     setState(() {
       _isLoading = true;
     });
+    debugPrint(_gender);
     await UserAuthRepository()
         .getUserCompleteRegisterResponse(widget.email, first_name, last_name,
             _gender, birth_date, referral_code)

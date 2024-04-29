@@ -73,6 +73,7 @@ class MerchantAuthRepository {
     @required String shop_admin_email,
     @required String longitude,
     @required String latitude,
+    @required int zoneId,
     String referral_code,
   ) async {
     var post_body = jsonEncode({
@@ -85,6 +86,7 @@ class MerchantAuthRepository {
       "shop_admin_email": shop_admin_email,
       "longitude": longitude,
       "latitude": latitude,
+      "zone_id": zoneId,
       "referral_code": referral_code
     });
     debugPrint(post_body.toString());

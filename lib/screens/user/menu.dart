@@ -49,36 +49,39 @@ class _MenuState extends State<UserMenu> {
     };
 
     return Container(
-      margin: EdgeInsets.only(top: 26),
+        margin: EdgeInsets.only(top: 26),
         height: DeviceInfo(context).height,
         child: Stack(
           children: [
             Scaffold(
-              backgroundColor: MyTheme.background_color,
-              body: SingleChildScrollView(
-                  controller: _mainScrollController,
-                  physics: const BouncingScrollPhysics(
-                      parent: AlwaysScrollableScrollPhysics()),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 14.0,
-                    ),
-                    child: Column(
-                      children: [
-                        Container(
-                          margin: EdgeInsets.symmetric(vertical: 14),
-                          alignment: Alignment.center,
-                          width: 120,
-                          child: Image.asset(
-                            'assets/splash_screen_logo.png',
-                          ),
+                backgroundColor: MyTheme.background_color,
+                body: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 14.0,
+                  ),
+                  child: Column(
+                    children: [
+                      Container(
+                        margin: EdgeInsets.symmetric(vertical: 14),
+                        alignment: Alignment.center,
+                        width: 120,
+                        child: Image.asset(
+                          'assets/splash_screen_logo.png',
                         ),
-                        buildMenuSection(themeSettingsData),
-                        buildMenuSection(languageSettingsData),
-                      ],
-                    ),
-                  )),
-            ),
+                      ),
+                      buildMenuSection(themeSettingsData),
+                      buildMenuSection(languageSettingsData),
+                    ],
+                  ),
+                )
+
+                //  SingleChildScrollView(
+                //     controller: _mainScrollController,
+                //     physics: const BouncingScrollPhysics(
+                //         parent: AlwaysScrollableScrollPhysics()),
+                //     child:
+                //     ),
+                ),
           ],
         ));
   }
@@ -138,6 +141,10 @@ class _MenuState extends State<UserMenu> {
             return Padding(
                 padding: EdgeInsets.symmetric(horizontal: 10),
                 child: TextButton(
+                    style: ButtonStyle(
+                      overlayColor:
+                          MaterialStateProperty.all(Colors.transparent),
+                    ),
                     onPressed: () {
                       if (tab['redirect_to'] == 'change_language') {
                         Navigator.push(context,

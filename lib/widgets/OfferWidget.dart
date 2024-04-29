@@ -1,9 +1,11 @@
 import 'package:csh_app/custom/box_decorations.dart';
+import 'package:csh_app/helpers/shared_value_helper.dart';
 import 'package:csh_app/models/items/Offer.dart';
 import 'package:csh_app/models/responses/merchant/offer/merchant_offers_response.dart';
 import 'package:csh_app/my_theme.dart';
 import 'package:csh_app/repositories/user/user_favorite_offers_repository.dart';
 import 'package:csh_app/repositories/user/user_offers_repository.dart';
+import 'package:csh_app/screens/login.dart';
 import 'package:csh_app/screens/user/offer_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -24,7 +26,7 @@ class OfferWidget extends StatefulWidget {
 
 class _OfferWidgetState extends State<OfferWidget> {
   onFavoritePressed() async {
-    // if()
+    debugPrint('preeeed');
     await UserFavoriteOfferRepository()
         .toggleUserFavoriteOffersResponse(offerId: widget.offer.id)
         .then((value) {
@@ -38,15 +40,15 @@ class _OfferWidgetState extends State<OfferWidget> {
   Widget build(BuildContext context) {
     return GestureDetector(
       child: Container(
-        margin: EdgeInsets.only(bottom: 20),
+        margin: EdgeInsets.only(bottom: 20, left: 2, right: 2),
         decoration: BoxDecoration(
           // border: Border.all(width: 0.1),
           borderRadius: BorderRadius.circular(8),
           color: Colors.white,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(.08),
-              blurRadius: 0,
+              color: Colors.black.withOpacity(0.12),
+              blurRadius: 6,
               spreadRadius: 0.0,
               offset: Offset(0.0, 0.0), // shadow direction: bottom right
             )
@@ -71,7 +73,7 @@ class _OfferWidgetState extends State<OfferWidget> {
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withOpacity(0.2),
-                    blurRadius: 7,
+                    blurRadius: 6,
                     spreadRadius: 0.0,
                     offset: Offset(0.0, -3.0), // shadow direction: bottom right
                   )
@@ -129,7 +131,16 @@ class _OfferWidgetState extends State<OfferWidget> {
                           borderRadius: BorderRadius.all(Radius.circular(50))),
                       child: IconButton(
                           onPressed: () {
-                            onFavoritePressed();
+                            if (is_logged_in.$) {
+                              onFavoritePressed();
+                            } else {
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) {
+                                return Login(
+                                  model: 'user',
+                                );
+                              }));
+                            }
                           },
                           icon: Icon(
                             widget.offer.isFavorite

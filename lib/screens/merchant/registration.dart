@@ -52,7 +52,7 @@ class _MerchantRegistrationState extends State<MerchantRegistration> {
   late List _categories_list = [];
   late List _zones_list = [];
   late String categoriesIds = '';
-  late String zoneId = '';
+  late int zoneId;
   bool _isLoading = false;
   bool _enableBtn = false;
 
@@ -67,8 +67,8 @@ class _MerchantRegistrationState extends State<MerchantRegistration> {
   @override
   void initState() {
     //on Splash Screen hide statusbar
-    // SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-    //     overlays: [SystemUiOverlay.bottom]);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+        overlays: [SystemUiOverlay.bottom]);
     fetchCategories();
     fetchZones();
     super.initState();
@@ -107,7 +107,7 @@ class _MerchantRegistrationState extends State<MerchantRegistration> {
     var dropDownItems = [];
 
     var response = await ZoneRepository().getAllZonesResponse();
-    if (response.runtimeType.toString() == 'AllCategoriesResponse') {
+    if (response.runtimeType.toString() == 'AllZonesResponse') {
       List<dynamic> zones = response.zones;
       if (zones.length > 0) {
         zones.forEach((zone) {
@@ -149,6 +149,7 @@ class _MerchantRegistrationState extends State<MerchantRegistration> {
             shop_admin_email,
             selectedLocation.longitude.toString(),
             selectedLocation.latitude.toString(),
+            zoneId,
             referral_code);
     if (response.runtimeType.toString() == 'MerchantCompleteRegisterResponse') {
       Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -380,7 +381,7 @@ class _MerchantRegistrationState extends State<MerchantRegistration> {
                       children: [
                         DropdownSearch(
                             dropdownBuilder: (context, selectedItem) {
-                              if (selectedItem) {
+                              if (selectedItem != null) {
                                 return Padding(
                                     padding: const EdgeInsets.all(4.0),
                                     child: Container(

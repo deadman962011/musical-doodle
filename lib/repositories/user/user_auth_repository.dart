@@ -73,6 +73,7 @@ class UserAuthRepository {
       "first_name": first_name,
       'last_name': last_name,
       "birth_date": birth_date,
+      "gender": gender,
       "referral_code": referral_code,
     });
     debugPrint(post_body.toString());

@@ -12,7 +12,7 @@ class AppConfig {
   static bool app_language_rtl = false;
 
   //configure this
-  static const bool HTTPS = false;
+  static const bool HTTPS = true;
 
   //configure this
 
@@ -21,7 +21,7 @@ class AppConfig {
   // https://admin.mybill1.com/
   // static const DOMAIN_PATH = "192.168.43.103:8000"; // directly inside the public folder
   static const DOMAIN_PATH =
-      "192.168.43.103:8000"; //  http://192.168.43.103:8000/
+      "admin.mybill1.com"; //  http://192.168.43.103:8000/
   // 192.168.43.103
   //do not configure these below
   static const String API_ENDPATH = "api/v1";

@@ -130,16 +130,17 @@ class _MyAppState extends State<MyApp> {
                 primaryColor: MyTheme.white,
                 scaffoldBackgroundColor: Colors.white,
                 visualDensity: VisualDensity.adaptivePlatformDensity,
+                dialogBackgroundColor: Colors.white,
                 /*textTheme: TextTheme(
                 bodyText1: TextStyle(),
                 bodyText2: TextStyle(fontSize: 12.0),
               )*/
                 //
                 // the below code is getting fonts from http
-                textTheme: GoogleFonts.publicSansTextTheme(textTheme).copyWith(
+                textTheme: GoogleFonts.interTightTextTheme(textTheme).copyWith(
                   bodyText1:
-                      GoogleFonts.publicSans(textStyle: textTheme.bodyText1),
-                  bodyText2: GoogleFonts.publicSans(
+                      GoogleFonts.interTight(textStyle: textTheme.bodyText1),
+                  bodyText2: GoogleFonts.interTight(
                       textStyle: textTheme.bodyText2, fontSize: 12),
                 ),
                 colorScheme: ColorScheme.fromSwatch()

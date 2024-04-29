@@ -9,6 +9,7 @@ import 'package:csh_app/models/responses/category/all_categories_response.dart';
 import 'package:csh_app/models/responses/merchant/offer/merchant_offers_response.dart';
 import 'package:csh_app/my_theme.dart';
 import 'package:csh_app/repositories/category_repository.dart';
+import 'package:csh_app/repositories/slider_repository.dart';
 import 'package:csh_app/repositories/user/user_offers_repository.dart';
 import 'package:csh_app/screens/user/main.dart';
 import 'package:csh_app/ui_elements/home_map.dart';
@@ -61,15 +62,27 @@ class _UserHomeState extends State<UserHome> {
   }
 
   fetchAll() async {
-    debugPrint('categories feth triggerd');
     fetchCarousel();
     fethCategories();
     fethOffers();
   }
 
   fetchCarousel() async {
-    _isCarouselLoading = false;
-    _carouselImageList = ['https://placehold.co/600x400.png'];
+    setState(() {
+      _isCarouselLoading = true;
+    });
+
+    var response =
+        await SliderRepository().getUserHomeSliderResponse().then((value) {
+      if (value.runtimeType.toString() == 'HomeSliderResponse') {
+        setState(() {
+          _isCarouselLoading = false;
+          if (value.slider.slides.length > 0) {
+            _carouselImageList = value.slider.slides;
+          }
+        });
+      }
+    });
   }
 
   fethCategories() async {
@@ -110,8 +123,14 @@ class _UserHomeState extends State<UserHome> {
   }
 
   selectCategory(categoryId) {
-    selectedCategoryId = categoryId;
-    fethOffers();
+    if (selectedCategoryId == categoryId) {
+      setState(() {
+        selectedCategoryId = null;
+      });
+    } else {
+      selectedCategoryId = categoryId;
+      fethOffers();
+    }
   }
 
   toggleFavorite(int offerId) {
@@ -159,6 +178,7 @@ class _UserHomeState extends State<UserHome> {
                 child: SingleChildScrollView(
                   // physics: ,
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
                           width: MediaQuery.of(context).size.width,
@@ -167,7 +187,21 @@ class _UserHomeState extends State<UserHome> {
                       showMapWidget
                           ? HomeMap()
                           : _buildHomeCarouselSlider(context),
+                      Padding(
+                          padding: EdgeInsets.only(top: 16),
+                          child: Text(
+                            'Select Category',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 16),
+                          )),
                       _buildCategoriesSlide(),
+                      Padding(
+                          padding: EdgeInsets.only(top: 16, bottom: 10),
+                          child: Text(
+                            'Best Offers',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 16),
+                          )),
                       _buildOfferList()
                     ],
                   ),
@@ -187,10 +221,11 @@ class _UserHomeState extends State<UserHome> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              ShimmerHelper().buildBasicShimmer(width: 70, height: 30),
-              ShimmerHelper().buildBasicShimmer(width: 70, height: 30),
-              ShimmerHelper().buildBasicShimmer(width: 70, height: 30),
-              ShimmerHelper().buildBasicShimmer(width: 70, height: 30)
+              ShimmerHelper().buildBasicShimmer(width: 70, height: 70),
+              ShimmerHelper().buildBasicShimmer(width: 70, height: 70),
+              ShimmerHelper().buildBasicShimmer(width: 70, height: 70),
+              ShimmerHelper().buildBasicShimmer(width: 70, height: 70),
+              ShimmerHelper().buildBasicShimmer(width: 70, height: 70)
             ],
           ));
     } else {
@@ -201,62 +236,74 @@ class _UserHomeState extends State<UserHome> {
             width: MediaQuery.of(context).size.width,
             margin: EdgeInsets.symmetric(vertical: 12),
             child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            selectedCategoryId = null;
-                            fethOffers();
-                          });
-                        },
-                        child: Container(
-                            margin: EdgeInsetsDirectional.only(end: 6),
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 18, vertical: 10),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(24),
-                              color: selectedCategoryId != null
-                                  ? MyTheme.background_item_color
-                                  : MyTheme.accent_color,
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: _categoriesList.map((category) {
+                    return GestureDetector(
+                      child: Container(
+                        margin: const EdgeInsetsDirectional.only(end: 6),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 18,
+                        ),
+                        child: Column(
+                          children: [
+                            Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                ClipRRect(
+                                    borderRadius: BorderRadius.circular(18),
+                                    child: Image.network(
+                                      category.thumbnail,
+                                      width: 64,
+                                      height: 64,
+                                    )),
+                                selectedCategoryId == category.id
+                                    ? Image.asset(
+                                        'assets/add.png',
+                                        width: 32,
+                                        height: 32,
+                                        color: MyTheme.accent_color_shadow,
+                                      )
+                                    : Container()
+                              ],
                             ),
-                            child: Text(
-                              'All',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: selectedCategoryId != null
-                                      ? Colors.black
-                                      : MyTheme.white),
-                            ))),
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: _categoriesList.map((category) {
-                          return GestureDetector(
-                            child: Container(
-                                margin: EdgeInsetsDirectional.only(end: 6),
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 18, vertical: 10),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(24),
-                                  color: selectedCategoryId == category.id
-                                      ? MyTheme.accent_color
-                                      : MyTheme.background_item_color,
-                                ),
-                                child: Text(
-                                  category.name,
-                                  style: TextStyle(
-                                      color: selectedCategoryId == category.id
-                                          ? MyTheme.white
-                                          : Colors.black),
-                                )),
-                            onTap: () {
-                              selectCategory(category.id);
-                            },
-                          );
-                        }).toList()),
-                  ],
-                )));
+                            Text(
+                              category.name,
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            )
+                          ],
+                        ),
+                      ),
+                      onTap: () {
+                        selectCategory(category.id);
+                      },
+                    );
+
+                    // return GestureDetector(
+                    //   child: Container(
+                    //       margin: EdgeInsetsDirectional.only(end: 6),
+                    //       padding: const EdgeInsets.symmetric(
+                    //           horizontal: 18, vertical: 10),
+                    //       decoration: BoxDecoration(
+                    //         borderRadius: BorderRadius.circular(24),
+                    //         color: selectedCategoryId == category.id
+                    //             ? MyTheme.accent_color
+                    //             : MyTheme.background_item_color,
+                    //       ),
+                    //       child: Text(
+                    //         category.name,
+                    //         style: TextStyle(
+                    //             color: selectedCategoryId == category.id
+                    //                 ? MyTheme.white
+                    //                 : Colors.black),
+                    //       )),
+                    //   onTap: () {
+                    //     selectCategory(category.id);
+                    //   },
+                    // );
+                  }).toList()),
+            ));
       }
     }
   }
@@ -309,7 +356,7 @@ class _UserHomeState extends State<UserHome> {
     } else {
       if (_carouselImageList.isEmpty) {
         return Container(
-            height: 100,
+            height: 220,
             child: Center(
                 child: Text(
               AppLocalizations.of(context)!.no_offers_found,
@@ -318,7 +365,7 @@ class _UserHomeState extends State<UserHome> {
       } else {
         return CarouselSlider(
           options: CarouselOptions(
-              aspectRatio: 338 / 140,
+              // aspectRatio: 338 / 140,
               viewportFraction: 1,
               initialPage: 0,
               enableInfiniteScroll: true,
@@ -352,8 +399,8 @@ class _UserHomeState extends State<UserHome> {
                                   const BorderRadius.all(Radius.circular(6)),
                               child: FadeInImage.assetNetwork(
                                 placeholder: 'assets/dummy_376x238.png',
-                                image: i,
-                                height: 140,
+                                image: i.image_url,
+                                height: 220,
                                 fit: BoxFit.cover,
                               ))),
                     ],

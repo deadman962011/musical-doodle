@@ -107,8 +107,7 @@ class _MerchantOffersState extends State<MerchantOffers>
                   padding: EdgeInsets.symmetric(horizontal: 14, vertical: 12),
                   child: SingleChildScrollView(
                       controller: _mainScrollController,
-                      physics: const BouncingScrollPhysics(
-                          parent: AlwaysScrollableScrollPhysics()),
+                      physics: const AlwaysScrollableScrollPhysics(),
                       child: _isOffersLoading
                           ? _buildLoaderWidget()
                           : _buildOffersList())))),
