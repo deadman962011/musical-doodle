@@ -40,18 +40,21 @@ class MerchantOfferRepository {
 
   Future<dynamic> saveMerchantOfferResponse(
       @required String name,
+      @required String name_en,
       @required String start_date,
       @required String end_date,
-      @required String cashback_amount) async {
+      @required String cashback_amount,
+      @required int thumbnail_id) async {
     var post_body = jsonEncode({
-      "name": name,
+      "name_ar": name,
+      "name_en": name_en,
       "start_date": start_date,
       "end_date": end_date,
       "cashback_amount": cashback_amount,
-      'offer_thumbnail': '1'
+      'offer_thumbnail': thumbnail_id
     });
 
-    Uri url = Uri.parse("${AppConfig.BASE_URL}/shop/offer/");
+    Uri url = Uri.parse("${AppConfig.BASE_URL}/shop/offer");
     final response = await http.post(url,
         headers: {
           'Accept': 'application/json',

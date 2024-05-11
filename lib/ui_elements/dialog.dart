@@ -1,4 +1,5 @@
 import 'package:csh_app/custom/box_decorations.dart';
+import 'package:csh_app/models/items/MerchantIOffer.dart';
 import 'package:csh_app/models/items/Offer.dart';
 import 'package:csh_app/models/responses/merchant/offer/merchant_offers_response.dart';
 import 'package:csh_app/my_theme.dart';
@@ -15,7 +16,7 @@ class AddOfferErrorDialog extends StatefulWidget {
 }
 
 class _AddOfferErrorDialogState extends State<AddOfferErrorDialog> {
-  late Offer firstOffer;
+  late MerchantOffer firstOffer;
   late String errorString = '';
   late String errorButtonString = '';
   late Color errorColor;

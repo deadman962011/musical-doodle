@@ -93,7 +93,10 @@ class _MerchantRegistrationState extends State<MerchantRegistration> {
         categories.forEach((category) {
           dropDownItems.add(DropdownMenuItem(
             value: category.id,
-            child: Text(category.name),
+            child: Text(
+              category.name,
+              // style: TextStyle(color: Colors.white),
+            ),
           ));
         });
       }
@@ -263,14 +266,22 @@ class _MerchantRegistrationState extends State<MerchantRegistration> {
                               if (selectedItems.isNotEmpty) {
                                 return Wrap(
                                     children: selectedItems.map((e) {
-                                  return Padding(
-                                    padding: const EdgeInsets.all(4.0),
-                                    child: Container(
-                                      child: ListTile(
-                                        contentPadding: EdgeInsets.all(0),
-                                        title: e ?? Text(''),
-                                      ),
+                                  return Container(
+                                    margin: EdgeInsets.symmetric(
+                                        vertical: 8, horizontal: 6),
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 10,
+                                      horizontal: 10,
                                     ),
+                                    decoration: BoxDecoration(
+                                      color: MyTheme.accent_color,
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    child: Text(
+                                          e.child.data,
+                                          style: TextStyle(color: Colors.white),
+                                        ) ??
+                                        Text(''),
                                   );
                                 }).toList());
                               } else {

@@ -52,6 +52,8 @@ class AuthHelper {
     user_name.save();
     user_email.$ = loginResponse['user']['email'];
     user_email.save();
+    user_avatar.$ = loginResponse['user']['avatar_image'];
+    user_avatar.save();
   }
 
   clearUserData() {
@@ -67,6 +69,8 @@ class AuthHelper {
     user_name.save();
     user_email.$ = '';
     user_email.save();
+    user_avatar.$ = '';
+    user_avatar.save();
   }
 
   fetch_and_set() async {

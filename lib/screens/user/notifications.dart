@@ -2,6 +2,7 @@ import 'package:csh_app/helpers/shared_value_helper.dart';
 import 'package:csh_app/my_theme.dart';
 import 'package:csh_app/ui_elements/user_appbar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class UserNotifications extends StatefulWidget {
   const UserNotifications({Key? key}) : super(key: key);
@@ -19,7 +20,8 @@ class _NotificationsState extends State<UserNotifications> {
             app_language_rtl.$ ? TextDirection.rtl : TextDirection.ltr,
         child: Scaffold(
           key: _scaffoldKey,
-          appBar: UserAppBar.buildUserAppBar(context, 'notifications'),
+          appBar: UserAppBar.buildUserAppBar(context, 'notifications',
+              AppLocalizations.of(context)!.notifications, {}),
           body: Container(
               width: MediaQuery.of(context).size.width,
               padding: EdgeInsets.symmetric(horizontal: 14),

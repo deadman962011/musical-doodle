@@ -6,7 +6,8 @@ import 'package:latlong2/latlong.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class HomeMap extends StatefulWidget {
-  const HomeMap({Key? key}) : super(key: key);
+  final List items;
+  const HomeMap({required this.items, Key? key}) : super(key: key);
 
   @override
   _HomeMapState createState() => _HomeMapState();
@@ -14,13 +15,23 @@ class HomeMap extends StatefulWidget {
 
 class _HomeMapState extends State<HomeMap> {
   bool counterRotate = false;
-  late final customMarkers = <Marker>[
-    buildPin(const LatLng(24.712501, 46.677882)),
-    buildPin(const LatLng(24.715123, 46.677882)),
-    // 24.715123, 46.693656
-    // 24.712501, 46.677882
-    // buildPin(const LatLng(53.33360293799854, -6.284001062079881)),
-  ];
+  List<Marker> _markers = [];
+  @override
+  void initState() {
+    super.initState();
+    _requestLocationPermission();
+    setPins();
+  }
+
+  setPins() {
+    if (widget.items.isNotEmpty) {
+      for (var item in widget.items) {
+        setState(() {
+          _markers.add(buildPin(item['coordinates'], item['amount']));
+        });
+      }
+    }
+  }
 
   TileLayer get openStreetMapTileLayer => TileLayer(
         urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -48,49 +59,35 @@ class _HomeMapState extends State<HomeMap> {
     }
   }
 
-  Marker buildPin(LatLng point) => Marker(
-    alignment: Alignment.topCenter,
-        point: point,
-        width: 30,
-        height: 30,
-        child:
-        Stack(
-          children: [
-         Icon(Icons.location_pin, size: 60, color: MyTheme.accent_color),
-            Container(
-              alignment: Alignment.center,
-              margin: EdgeInsets.only(top: 10),
-              padding: EdgeInsets.all(4),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(60),
-                color: Colors.white
-              ),
-              child: Text('13%',
-              style: TextStyle(
-                // fontSize: 8
-              ),
-              ),
+  Marker buildPin(LatLng point, amount) => Marker(
+      alignment: Alignment.topCenter,
+      point: point,
+      width: 100,
+      height: 100,
+      child: Stack(
+        alignment: Alignment.topCenter,
+        children: [
+          // Icon(Icons.location_pin, size: 60, color: MyTheme.accent_color),
+          Image.asset(
+            'assets/location_pin.png',
+            width: 64,
+            height: 64,
+          ),
+          Container(
+            alignment: Alignment.center,
+            margin: EdgeInsets.only(top: 10),
+            padding: EdgeInsets.all(4),
+            width: 26,
+            height: 26,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(60), color: Colors.white),
+            child: Text(
+              '${amount.toString()}%',
+              style: TextStyle(color: Colors.black, fontSize: 10),
             ),
-          ],
-        )
-        
-        // GestureDetector(
-        //   onTap: () => ScaffoldMessenger.of(context).showSnackBar(
-        //     const SnackBar(
-        //       content: Text('Tapped existing marker'),
-        //       duration: Duration(seconds: 1),
-        //       showCloseIcon: true,
-        //     ),
-        //   ),
-        //   child: ,
-        // ),
-      );
-
-  @override
-  void initState() {
-    super.initState();
-    _requestLocationPermission();
-  }
+          ),
+        ],
+      ));
 
   @override
   void dispose() {
@@ -104,11 +101,12 @@ class _HomeMapState extends State<HomeMap> {
   Widget build(BuildContext context) {
     return Container(
         padding: EdgeInsets.only(top: 16),
-        height: 190,
+        height: 200,
         child: FlutterMap(
             options: const MapOptions(
               initialCenter: LatLng(24.7136, 46.6753),
-              initialZoom: 13,
+              initialZoom: 9,
+              zoom: 9,
               interactionOptions: InteractionOptions(
                 flags: ~InteractiveFlag.doubleTapZoom,
               ),
@@ -120,7 +118,7 @@ class _HomeMapState extends State<HomeMap> {
                 markers: const [],
               ),
               MarkerLayer(
-                markers: customMarkers,
+                markers: _markers,
                 rotate: counterRotate,
               ),
             ]));

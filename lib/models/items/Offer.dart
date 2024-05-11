@@ -9,7 +9,9 @@ class Offer {
       required this.start_date,
       required this.end_date,
       required this.thumbnail,
-      required this.isFavorite});
+      required this.isFavorite,
+      required this.days_left,
+      required this.shop});
 
   int id;
   String name;
@@ -21,6 +23,8 @@ class Offer {
   String end_date;
   String thumbnail;
   bool isFavorite;
+  int days_left;
+  Map<String, dynamic> shop;
 
   factory Offer.fromJson(Map<String, dynamic> json) => Offer(
       id: json["id"],
@@ -32,7 +36,9 @@ class Offer {
       start_date: json['start_date'],
       end_date: json['end_date'],
       thumbnail: json['thumbnail'],
-      isFavorite: json['isFavorite']);
+      isFavorite: json['isFavorite'],
+      days_left: json['days_left'],
+      shop: json['shop']);
 
   Map<String, dynamic> toJson() => {
         "id": id,

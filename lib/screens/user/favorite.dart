@@ -1,12 +1,12 @@
 import 'package:csh_app/helpers/shared_value_helper.dart';
 import 'package:csh_app/helpers/shimmer_helper.dart';
 import 'package:csh_app/models/items/Offer.dart';
-import 'package:csh_app/models/responses/merchant/offer/merchant_offers_response.dart';
 import 'package:csh_app/my_theme.dart';
 import 'package:csh_app/repositories/user/user_favorite_offers_repository.dart';
 import 'package:csh_app/ui_elements/user_appbar.dart';
 import 'package:csh_app/widgets/OfferWidget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Favorite extends StatefulWidget {
   const Favorite({Key? key}) : super(key: key);
@@ -84,7 +84,8 @@ class _FavoriteState extends State<Favorite> {
             app_language_rtl.$ ? TextDirection.rtl : TextDirection.ltr,
         child: Scaffold(
             key: _scaffoldKey,
-            appBar: UserAppBar.buildUserAppBar(context, 'favorite'),
+            appBar: UserAppBar.buildUserAppBar(context, 'favorite',
+                AppLocalizations.of(context)!.favorite, {}),
             body: Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
@@ -131,7 +132,7 @@ class _FavoriteState extends State<Favorite> {
                     onTabClicked('codes');
                   },
                   child: Text(
-                    'اكوادي',
+                    AppLocalizations.of(context)!.my_codes,
                     style: TextStyle(
                         color: activeTab == 'codes'
                             ? Colors.white
@@ -151,7 +152,7 @@ class _FavoriteState extends State<Favorite> {
                     onPressed: () {
                       onTabClicked('offers');
                     },
-                    child: Text('العروض',
+                    child: Text(AppLocalizations.of(context)!.offers,
                         style: TextStyle(
                             color: activeTab == 'offers'
                                 ? Colors.white
@@ -215,7 +216,7 @@ class _FavoriteState extends State<Favorite> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 8),
             child: Text(
-              'No Favorite',
+              AppLocalizations.of(context)!.no_favorites,
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
           )

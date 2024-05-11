@@ -1,6 +1,7 @@
 import 'package:csh_app/custom/box_decorations.dart';
 import 'package:csh_app/custom/device_info.dart';
 import 'package:csh_app/my_theme.dart';
+import 'package:csh_app/screens/guest.dart';
 import 'package:csh_app/screens/merchant/main.dart';
 import 'package:csh_app/ui_elements/auth_ui.dart';
 import 'package:flutter/material.dart';
@@ -75,7 +76,7 @@ class _RegistrationCompletedState extends State<RegistartionCompleted> {
               ),
               onPressed: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return MerchantMain();
+                  return Guest();
                 }));
               },
               child: Text(

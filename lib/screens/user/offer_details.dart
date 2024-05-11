@@ -1,12 +1,14 @@
 import 'package:csh_app/custom/box_decorations.dart';
+import 'package:csh_app/custom/toast_component.dart';
 import 'package:csh_app/helpers/shared_value_helper.dart';
 import 'package:csh_app/models/items/Offer.dart';
-import 'package:csh_app/models/responses/merchant/offer/merchant_offers_response.dart';
 import 'package:csh_app/my_theme.dart';
+import 'package:csh_app/repositories/user/user_favorite_offers_repository.dart';
 import 'package:csh_app/ui_elements/user_appbar.dart';
-import 'package:csh_app/widgets/OfferWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:toast/toast.dart';
 
 class OfferDetails extends StatefulWidget {
   final int offerId;
@@ -32,7 +34,9 @@ class _OfferDetailsState extends State<OfferDetails> {
       state: 'active',
       isFavorite: false,
       thumbnail:
-          'http://192.168.43.103:8000/uploads/all/X9REONCvtAIL2BlojDsZL8Sneg0pK64gdyqWfse2.png');
+          'http://192.168.43.103:8000/uploads/all/X9REONCvtAIL2BlojDsZL8Sneg0pK64gdyqWfse2.png',
+      days_left: 12,
+      shop: Map());
 
   fetchOffer() async {
     _offer = Offer(
@@ -46,7 +50,32 @@ class _OfferDetailsState extends State<OfferDetails> {
         state: 'active',
         isFavorite: false,
         thumbnail:
-            'http://192.168.43.103:8000/uploads/all/X9REONCvtAIL2BlojDsZL8Sneg0pK64gdyqWfse2.png');
+            'http://192.168.43.103:8000/uploads/all/X9REONCvtAIL2BlojDsZL8Sneg0pK64gdyqWfse2.png',
+        days_left: 12,
+        shop: Map());
+  }
+
+  onFavoritePressed(context) async {
+    debugPrint('asasxas');
+    await UserFavoriteOfferRepository()
+        .toggleUserFavoriteOffersResponse(offerId: _offer.id)
+        .then((value) {
+      if (value.runtimeType.toString() == 'bool' && value) {
+        if (_offer.isFavorite) {
+          ToastComponent.showDialog(
+              'offer removed from favorite successfully', context,
+              gravity: Toast.bottom, duration: Toast.lengthLong);
+        } else {
+          ToastComponent.showDialog(
+              'offer added to favorite successfully', context,
+              gravity: Toast.bottom, duration: Toast.lengthLong);
+        }
+
+        setState(() {
+          _offer.isFavorite = !_offer.isFavorite;
+        });
+      }
+    });
   }
 
   @override
@@ -55,7 +84,11 @@ class _OfferDetailsState extends State<OfferDetails> {
       textDirection: app_language_rtl.$ ? TextDirection.rtl : TextDirection.ltr,
       child: Scaffold(
           key: _scaffoldKey,
-          appBar: UserAppBar.buildUserAppBar(context, 'offer_details'),
+          appBar: UserAppBar.buildUserAppBar(
+              context, 'offer_details', _offer.name, {
+            'addToFavorite': () => onFavoritePressed(context),
+            'isFavorite': _offer.isFavorite
+          }),
           body: SingleChildScrollView(
               child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 14),

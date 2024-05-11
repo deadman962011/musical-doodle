@@ -10,6 +10,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class OfferDetails extends StatefulWidget {
   final offer;
   const OfferDetails({Key? key, required this.offer}) : super(key: key);
@@ -53,7 +55,7 @@ class _OfferDetailsState extends State<OfferDetails> {
       child: Scaffold(
           key: _scaffoldKey,
           appBar: MerchantAppBar.buildMerchantAppBar(
-              context, 'offer_details', _scaffoldKey),
+              context, 'offer_details', _scaffoldKey, widget.offer.name),
           drawer: MerchantDrawer.buildDrawer(context),
           body: Container(
             padding: EdgeInsets.symmetric(horizontal: 26, vertical: 12),
@@ -65,12 +67,20 @@ class _OfferDetailsState extends State<OfferDetails> {
                     child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(6)),
-                    color: MyTheme.warning_color,
+                    color: widget.offer.state == 'pendig'
+                        ? MyTheme.warning_color
+                        : widget.offer.state == 'active'
+                            ? Colors.green
+                            : MyTheme.accent_color,
                   ),
                   child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 6, vertical: 4),
                     child: Text(
-                      'مننهي / غير مدفوع',
+                      widget.offer.state == 'pendig'
+                          ? '${AppLocalizations.of(context)!.done} / ${AppLocalizations.of(context)!.unpaid}'
+                          : widget.offer.state == 'active'
+                              ? '${AppLocalizations.of(context)!.active}'
+                              : '',
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w700,
@@ -86,45 +96,73 @@ class _OfferDetailsState extends State<OfferDetails> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('5 %',
-                              style: TextStyle(
-                                  fontSize: 13, fontWeight: FontWeight.w900)),
                           Text(
-                            ': الكاش باك',
+                            ' ${AppLocalizations.of(context)!.cashback} :',
                             style: TextStyle(
                                 fontSize: 13, fontWeight: FontWeight.w900),
                           ),
+                          Text('5 %',
+                              style: TextStyle(
+                                  fontSize: 13, fontWeight: FontWeight.w900)),
                         ],
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('145'),
-                          Text(': عدد المستفيدين من العرض ',
+                          Text(
+                              ' ${AppLocalizations.of(context)!.offer_num_of_beneficiaries} :',
                               style: TextStyle(
                                   fontSize: 13, fontWeight: FontWeight.w700)),
+                          widget.offer.state == 'pending'
+                              ? Text('-')
+                              : Text('0'),
                         ],
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('14500'),
-                          Text(': إجمالي المبيعات ',
+                          Text(
+                              ' ${AppLocalizations.of(context)!.total_sales} :',
                               style: TextStyle(
                                   fontSize: 13, fontWeight: FontWeight.w700)),
+                          widget.offer.state == 'pending'
+                              ? Text('-')
+                              : Text('0'),
                         ],
                       )
                     ],
                   ),
                 ),
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecorations.buildBoxDecoration2(radius: 16),
-                  child: _buildSalesList(),
+                Expanded(
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                    decoration: BoxDecorations.buildBoxDecoration2(radius: 10),
+                    child: _buildSalesList(),
+                  ),
                 ),
                 Container(
                   width: MediaQuery.of(context).size.width,
                   child: _buildOfferTicket(),
+                ),
+                Container(
+                  margin: EdgeInsets.symmetric(vertical: 16),
+                  width: double.infinity,
+                  height: 50,
+                  child: TextButton(
+                    child: Text(
+                      AppLocalizations.of(context)!.pay,
+                      style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w700),
+                    ),
+                    style: TextButton.styleFrom(
+                        backgroundColor: MyTheme.warning_color,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.0))),
+                    onPressed: () {},
+                  ),
                 )
               ],
             ),
@@ -133,44 +171,72 @@ class _OfferDetailsState extends State<OfferDetails> {
   }
 
   Widget _buildSalesList() {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Directionality(
+        textDirection:
+            app_language_rtl.$ ? TextDirection.rtl : TextDirection.ltr,
+        child: Column(
           children: [
-            Text(
-              'رقم الفاتورة',
-              style: TextStyle(fontSize: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  '${AppLocalizations.of(context)!.bill_number}',
+                  style: TextStyle(fontSize: 10),
+                ),
+                Text(AppLocalizations.of(context)!.client_name,
+                    style: TextStyle(fontSize: 10)),
+                Text(AppLocalizations.of(context)!.date,
+                    style: TextStyle(fontSize: 10)),
+                Text(AppLocalizations.of(context)!.amount,
+                    style: TextStyle(fontSize: 10)),
+                Text(AppLocalizations.of(context)!.bill,
+                    style: TextStyle(fontSize: 10)),
+              ],
             ),
-            Text('اسم العميل', style: TextStyle(fontSize: 10)),
-            Text('التاريخ', style: TextStyle(fontSize: 10)),
-            Text('المبلغ ', style: TextStyle(fontSize: 10)),
-            Text('الفاتورة ', style: TextStyle(fontSize: 10)),
-          ],
-        ),
-        DataTable(
-            dividerThickness: 0.00000000000000000001,
-            headingRowHeight: 0.00000000000000000001,
-            rows: [
-              DataRow(
-                cells: <DataCell>[
-                  DataCell(Text('Sarah', style: TextStyle(fontSize: 10))),
-                  DataCell(Text('19', style: TextStyle(fontSize: 10))),
-                  DataCell(Text('Student', style: TextStyle(fontSize: 10))),
-                  DataCell(Text('Student', style: TextStyle(fontSize: 10))),
-                  DataCell(Text('Student', style: TextStyle(fontSize: 10))),
-                ],
+            Expanded(
+              child: Center(
+                child: Text(AppLocalizations.of(context)!.no_data),
               ),
-            ],
-            columns: [
-              DataColumn(label: Text('')),
-              DataColumn(label: Text('')),
-              DataColumn(label: Text('')),
-              DataColumn(label: Text('')),
-              DataColumn(label: Text('')),
-            ])
-      ],
-    );
+            ),
+            Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // Text('no data')
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //   children: [
+                  //     Text('23'),
+                  //     Text('Ahmad AMohamad'),
+                  //     Text('20/10/2025'),
+                  //     Text('12'),
+                  //     Image.asset('assets/bill.png')
+                  //   ],
+                  // )
+                ])
+            // DataTable(
+            //     dividerThickness: 0.00000000000000000001,
+            //     headingRowHeight: 0.00000000000000000001,
+            //     rows: [
+            //       DataRow(
+            //         cells: <DataCell>[
+            //           DataCell(Text('Sarah', style: TextStyle(fontSize: 10))),
+            //           DataCell(Text('19', style: TextStyle(fontSize: 10))),
+            //           DataCell(Text('Student', style: TextStyle(fontSize: 10))),
+            //           DataCell(Text('Student', style: TextStyle(fontSize: 10))),
+            //           DataCell(Text('Student', style: TextStyle(fontSize: 10))),
+            //         ],
+            //       ),
+            //     ],
+            //     columns: [
+            //       DataColumn(label: Text('')),
+            //       DataColumn(label: Text('')),
+            //       DataColumn(label: Text('')),
+            //       DataColumn(label: Text('')),
+            //       DataColumn(label: Text('')),
+            //     ])
+          ],
+        ));
   }
 
   Widget _buildOfferTicket() {
@@ -179,43 +245,81 @@ class _OfferDetailsState extends State<OfferDetails> {
       children: [
         Container(
           margin: EdgeInsets.only(top: 20),
-          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          padding: EdgeInsets.symmetric(horizontal: 26, vertical: 18),
           height: 140,
-          color: Color.fromARGB(255, 236, 236, 236),
+          decoration: BoxDecorations.buildBoxDecoration2(radius: 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              Column(
                 children: [
-                  Text('4250 ر.س'),
-                  Text(':الكاش باك'),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        '${AppLocalizations.of(context)!.cashback} :',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w200, fontSize: 16),
+                      ),
+                      widget.offer.state == 'pending'
+                          ? Text('-')
+                          : Text(' 0 ${AppLocalizations.of(context)!.sar}',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w200, fontSize: 16)),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('${AppLocalizations.of(context)!.commission} : ',
+                          style: TextStyle(
+                              fontWeight: FontWeight.w200, fontSize: 16)),
+                      widget.offer.state == 'pending'
+                          ? Text('-')
+                          : Text(
+                              '0 ${AppLocalizations.of(context)!.sar}',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w200, fontSize: 16),
+                            ),
+                    ],
+                  ),
                 ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('145 ر.س'),
-                  Text(':العمولة'),
+                  Text(AppLocalizations.of(context)!.payment,
+                      style: TextStyle(
+                          fontWeight: FontWeight.w200,
+                          fontSize: 16,
+                          color: MyTheme.accent_color)),
+                  widget.offer.state == 'pending'
+                      ? Text('-')
+                      : Text('0 ${AppLocalizations.of(context)!.sar}',
+                          style: TextStyle(
+                              fontWeight: FontWeight.w200,
+                              fontSize: 16,
+                              color: MyTheme.accent_color))
                 ],
               ),
             ],
           ),
         ),
         Positioned(
-            bottom: 14,
+            bottom: 32,
             left: -20,
             child: Container(
-              height: 30,
+              height: 40,
               width: 30,
               decoration: const BoxDecoration(
                   color: Colors.white, shape: BoxShape.circle),
             )),
         Positioned(
-            bottom: 14,
+            bottom: 32,
             right: -20,
             child: Container(
-              height: 30,
+              height: 40,
               width: 30,
               decoration: const BoxDecoration(
                   color: Colors.white, shape: BoxShape.circle),

@@ -30,7 +30,7 @@ class _LoginState extends State<Login> {
 
   final _formKey = GlobalKey<FormBuilderState>();
   bool _isLoading = false;
-Map<String, dynamic> _errors = {};
+  Map<String, dynamic> _errors = {};
   @override
   void initState() {
     //on Splash Screen hide statusbar
@@ -72,11 +72,10 @@ Map<String, dynamic> _errors = {};
         setState(() {
           _isLoading = false;
         });
-        if (value.runtimeType.toString() == 'ValidationResponse') {          
+        if (value.runtimeType.toString() == 'ValidationResponse') {
           setState(() {
-            _errors = value.errors; 
+            _errors = value.errors;
           });
-
         } else if (value.runtimeType.toString() == 'UserLoginResponse') {
           Navigator.push(context, MaterialPageRoute(builder: (context) {
             return CheckMail(
@@ -93,10 +92,11 @@ Map<String, dynamic> _errors = {};
                 if (value.runtimeType.toString() == 'ValidationResponse')
                   {
                     setState(() {
-                      _errors = value.errors; 
+                      _errors = value.errors;
                     }),
                   }
-                else if (value.runtimeType.toString() =='MerchantLoginResponse')
+                else if (value.runtimeType.toString() ==
+                    'MerchantLoginResponse')
                   {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
@@ -115,9 +115,9 @@ Map<String, dynamic> _errors = {};
 
   @override
   Widget build(BuildContext context) {
-    
     final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-    return AuthScreen.buildScreen(context, 'login', login(), false,scaffoldKey);
+    return AuthScreen.buildScreen(
+        context, 'login', login(), false, scaffoldKey);
   }
 
   Widget login() {
@@ -155,7 +155,7 @@ Map<String, dynamic> _errors = {};
                       key: _formKey,
                       onChanged: () {
                         setState(() {
-                          _errors={};
+                          _errors = {};
                         });
                       },
                       autovalidateMode: AutovalidateMode.disabled,
@@ -169,8 +169,13 @@ Map<String, dynamic> _errors = {};
                                 autovalidateMode: AutovalidateMode.disabled,
                                 decoration:
                                     InputDecorations.buildInputDecoration_1(
-                                        error_text: _errors['email'] != null ? _errors['email']![0] : null,
-                                        hint_text: AppLocalizations.of(context)!.email),
+                                        error_text:
+                                            _errors['email'] !=
+                                                    null
+                                                ? _errors['email']![0]
+                                                : null,
+                                        hint_text: AppLocalizations.of(context)!
+                                            .email),
                                 validator: FormBuilderValidators.compose([
                                   FormBuilderValidators.required(),
                                   FormBuilderValidators.email(),

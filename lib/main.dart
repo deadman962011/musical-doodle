@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'package:csh_app/helpers/shared_value_helper.dart';
 import 'package:csh_app/providers/offer_provider.dart';
 import 'package:csh_app/screens/verifyLink.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 import 'package:one_context/one_context.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -77,6 +79,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     initUniLinks();
+    getLocation();
   }
 
   Future<void> initUniLinks() async {
@@ -86,6 +89,7 @@ class _MyAppState extends State<MyApp> {
       //   handleDeepLink(initialLink);
       // }
       uriLinkStream.listen((Uri? uri) {
+        debugPrint(uri.toString());
         if (uri != null) {
           handleDeepLink(uri);
         }
@@ -98,15 +102,25 @@ class _MyAppState extends State<MyApp> {
   }
 
   void handleDeepLink(Uri uri) {
-    if (!mounted) return;
+    // if (!mounted) return;
+    debugPrint('am at hander deeep link');
 
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      navigatorKey.currentState?.push(MaterialPageRoute(builder: (context) {
-        return VerifyLink(
-          url: uri,
-        );
-      }));
-    });
+    navigatorKey.currentState?.push(MaterialPageRoute(builder: (context) {
+      return VerifyLink(
+        url: uri,
+      );
+    }));
+    // SchedulerBinding.instance.addPostFrameCallback((_) {
+    // });
+  }
+
+  getLocation() async {
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    user_longitude.$ = position.longitude.toString();
+    user_longitude.save();
+    user_latitude.$ = position.latitude.toString();
+    user_latitude.save();
   }
 
   @override
@@ -131,11 +145,6 @@ class _MyAppState extends State<MyApp> {
                 scaffoldBackgroundColor: Colors.white,
                 visualDensity: VisualDensity.adaptivePlatformDensity,
                 dialogBackgroundColor: Colors.white,
-                /*textTheme: TextTheme(
-                bodyText1: TextStyle(),
-                bodyText2: TextStyle(fontSize: 12.0),
-              )*/
-                //
                 // the below code is getting fonts from http
                 textTheme: GoogleFonts.interTightTextTheme(textTheme).copyWith(
                   bodyText1:

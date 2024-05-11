@@ -6,7 +6,7 @@ import 'package:csh_app/helpers/shared_value_helper.dart';
 
 class ZoneRepository {
   Future<dynamic> getAllZonesResponse() async {
-    Uri url = Uri.parse("${AppConfig.BASE_URL}/category");
+    Uri url = Uri.parse("${AppConfig.BASE_URL}/zone");
     final response = await http.get(
       url,
       headers: {

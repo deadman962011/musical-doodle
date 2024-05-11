@@ -136,6 +136,11 @@ class _UserRegistrationState extends State<UserRegistration> {
             ),
             FormBuilder(
               key: _formKey,
+              onChanged: () {
+                setState(() {
+                  // _errors = {};
+                });
+              },
               autovalidateMode: AutovalidateMode.disabled,
               child: Column(children: [
                 Padding(
@@ -231,7 +236,8 @@ class _UserRegistrationState extends State<UserRegistration> {
                             : null,
                       ),
                       onPressed: _formKey.currentState != null &&
-                              _formKey.currentState!.isValid
+                                  _formKey.currentState!.isValid ||
+                              _isLoading
                           ? () {
                               onPressSignUp();
                             }

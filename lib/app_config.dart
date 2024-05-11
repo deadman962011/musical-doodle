@@ -14,14 +14,17 @@ class AppConfig {
   //configure this
   static const bool HTTPS = true;
 
+  static const bool IsDevelp = false;
+
   //configure this
 
   // static const DOMAIN_PATH = "192.168.6.1/folder"; //localhost
   //192.168.56.1
   // https://admin.mybill1.com/
   // static const DOMAIN_PATH = "192.168.43.103:8000"; // directly inside the public folder
-  static const DOMAIN_PATH =
-      "admin.mybill1.com"; //  http://192.168.43.103:8000/
+  static const DOMAIN_PATH = IsDevelp
+      ? "192.168.43.103:8000"
+      : 'admin.mybill1.com'; //  http://192.168.43.103:8000/
   // 192.168.43.103
   //do not configure these below
   static const String API_ENDPATH = "api/v1";

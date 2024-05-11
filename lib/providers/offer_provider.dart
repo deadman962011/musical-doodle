@@ -1,13 +1,12 @@
-import 'package:csh_app/models/items/Offer.dart';
-import 'package:csh_app/models/responses/merchant/offer/merchant_offers_response.dart';
+import 'package:csh_app/models/items/MerchantIOffer.dart';
 import 'package:flutter/material.dart';
 
 class OfferProvider with ChangeNotifier {
-  late Offer? _firstOffer;
+  late MerchantOffer? _firstOffer;
 
-  Offer? get firstOffer => _firstOffer;
+  MerchantOffer? get firstOffer => _firstOffer;
 
-  void setFirstOffer(Offer offer) {
+  void setFirstOffer(MerchantOffer offer) {
     _firstOffer = offer;
     notifyListeners();
   }

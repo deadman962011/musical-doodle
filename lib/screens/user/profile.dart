@@ -3,7 +3,7 @@ import 'package:csh_app/helpers/auth_helper.dart';
 import 'package:csh_app/helpers/shared_value_helper.dart';
 import 'package:csh_app/my_theme.dart';
 import 'package:csh_app/screens/user/banks.dart';
-import 'package:csh_app/screens/user/edit_profile.dart';
+import 'package:csh_app/screens/user/profile_edit.dart';
 import 'package:csh_app/screens/user/favorite.dart';
 import 'package:csh_app/screens/user/main.dart';
 import 'package:csh_app/screens/user/my_codes.dart';
@@ -52,7 +52,7 @@ class _ProfileState extends State<UserProfile> {
           'items': []
         },
         {
-          'title': AppLocalizations.of(context)!.offers,
+          'title': AppLocalizations.of(context)!.my_codes,
           'image': 'assets/offers.png',
           'redirect_to': 'my_codes',
           'items': []
@@ -85,7 +85,7 @@ class _ProfileState extends State<UserProfile> {
     };
 
     return Scaffold(
-      appBar: UserAppBar.buildUserAppBar(context, 'profile'),
+      appBar: UserAppBar.buildUserAppBar(context, 'profile', '', {}),
       backgroundColor: MyTheme.background_color,
       body: Padding(
         padding: const EdgeInsets.symmetric(
@@ -163,7 +163,7 @@ class _ProfileState extends State<UserProfile> {
                       if (tab['redirect_to'] == 'profile') {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) {
-                          return const EditProfile();
+                          return const ProfileEdit();
                         }));
                       }
                       if (tab['redirect_to'] == 'favorite') {

@@ -2,6 +2,7 @@ import 'package:csh_app/custom/box_decorations.dart';
 import 'package:csh_app/custom/device_info.dart';
 import 'package:csh_app/helpers/shared_value_helper.dart';
 import 'package:csh_app/helpers/shimmer_helper.dart';
+import 'package:csh_app/models/items/MerchantIOffer.dart';
 import 'package:csh_app/models/items/Offer.dart';
 import 'package:csh_app/models/responses/merchant/offer/merchant_offers_response.dart';
 import 'package:csh_app/my_theme.dart';
@@ -27,7 +28,7 @@ class _MerchantOffersState extends State<MerchantOffers>
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   ScrollController _mainScrollController = ScrollController();
   bool _isOffersLoading = true;
-  late List<Offer> _offersList = [];
+  late List<MerchantOffer> _offersList = [];
   int _page = 1;
 
   @override
@@ -93,8 +94,8 @@ class _MerchantOffersState extends State<MerchantOffers>
       textDirection: app_language_rtl.$ ? TextDirection.rtl : TextDirection.ltr,
       child: Scaffold(
           key: _scaffoldKey,
-          appBar: MerchantAppBar.buildMerchantAppBar(
-              context, 'list_offers', _scaffoldKey),
+          appBar: MerchantAppBar.buildMerchantAppBar(context, 'list_offers',
+              _scaffoldKey, AppLocalizations.of(context)!.offers),
           drawer: MerchantDrawer.buildDrawer(context),
           extendBody: true,
           body: RefreshIndicator(
@@ -130,7 +131,7 @@ class _MerchantOffersState extends State<MerchantOffers>
     return Column(
       children: _offersList.length > 0
           ? _offersList.map((offer) {
-              TextSpan getOfferStateText(Offer offer) {
+              TextSpan getOfferStateText(MerchantOffer offer) {
                 // Provide default values for state and end_date if they are null
                 String state = offer.state ?? 'Unknown';
                 String endDate = offer.end_date ?? 'N/A';

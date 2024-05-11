@@ -110,8 +110,8 @@ class _MerchantMainState extends State<MerchantMain> {
             app_language_rtl.$ ? TextDirection.rtl : TextDirection.ltr,
         child: Scaffold(
           key: _scaffoldKey,
-          appBar:
-              MerchantAppBar.buildMerchantAppBar(context, 'main', _scaffoldKey),
+          appBar: MerchantAppBar.buildMerchantAppBar(
+              context, 'main', _scaffoldKey, ''),
           drawer: MerchantDrawer.buildDrawer(context),
           extendBody: true,
           body: MerchantHome(),

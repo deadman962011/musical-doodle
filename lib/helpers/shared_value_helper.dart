@@ -11,7 +11,6 @@ final SharedValue<String> logged_in_model = SharedValue(
   key: "logged_in_model", // disk storage key for shared_preferences
 );
 
-
 final SharedValue<String> access_token = SharedValue(
   value: "", // initial value
   key: "access_token", // disk storage key for shared_preferences
@@ -22,13 +21,10 @@ final SharedValue<String> app_language = SharedValue(
   key: "app_language", // disk storage key for shared_preferences
 );
 
-
 final SharedValue<String> app_theme = SharedValue(
   value: 'system', // initial value
   key: "app_theme", // disk storage key for shared_preferences
 );
-
-
 
 final SharedValue<String> shop_id = SharedValue(
   value: "", // initial value
@@ -55,7 +51,6 @@ final SharedValue<String> shop_admin_email = SharedValue(
   key: "shop_admin_email", // disk storage key for shared_preferences
 );
 
-
 final SharedValue<String> shop_admin_avatar = SharedValue(
   value: "", // initial value
   key: "shop_admin_avatar", // disk storage key for shared_preferences
@@ -64,6 +59,11 @@ final SharedValue<String> shop_admin_avatar = SharedValue(
 final SharedValue<String> user_id = SharedValue(
   value: "", // initial value
   key: "user_id", // disk storage key for shared_preferences
+);
+
+final SharedValue<String> user_avatar = SharedValue(
+  value: "", // initial value
+  key: "user_avatar", // disk storage key for shared_preferences
 );
 
 final SharedValue<String> user_name = SharedValue(
@@ -76,6 +76,15 @@ final SharedValue<String> user_email = SharedValue(
   key: "user_email", // disk storage key for shared_preferences
 );
 
+final SharedValue<String> user_latitude = SharedValue(
+  value: "", // initial value
+  key: "user_latitude", // disk storage key for shared_preferences
+);
+
+final SharedValue<String> user_longitude = SharedValue(
+  value: "", // initial value
+  key: "user_longitude", // disk storage key for shared_preferences
+);
 
 final SharedValue<bool> app_language_rtl = SharedValue(
   value: AppConfig.app_language_rtl, // initial value

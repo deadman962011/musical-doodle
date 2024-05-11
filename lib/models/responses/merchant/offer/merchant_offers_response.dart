@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:csh_app/models/items/MerchantIOffer.dart';
 import 'package:csh_app/models/items/Offer.dart';
 
 MerchantOffersResponse merchantOffersResponseFromJson(String str) =>
@@ -11,13 +12,14 @@ class MerchantOffersResponse {
     required this.success,
   });
 
-  List<Offer> offers;
+  List<MerchantOffer> offers;
   bool success;
 
   factory MerchantOffersResponse.fromJson(Map<String, dynamic> json) =>
       MerchantOffersResponse(
         success: json["success"],
-        offers: List<Offer>.from(json["payload"].map((x) => Offer.fromJson(x))),
+        offers: List<MerchantOffer>.from(
+            json["payload"].map((x) => MerchantOffer.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {"success": success, "offers": offers};

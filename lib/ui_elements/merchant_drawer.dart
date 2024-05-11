@@ -2,6 +2,7 @@ import 'package:csh_app/my_theme.dart';
 import 'package:csh_app/screens/merchant/home.dart';
 import 'package:csh_app/screens/merchant/main.dart';
 import 'package:csh_app/screens/merchant/offers/offers.dart';
+import 'package:csh_app/screens/merchant/profile_edit.dart';
 import 'package:csh_app/screens/merchant/reports.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -57,7 +58,11 @@ class MerchantDrawer {
       {
         'title': AppLocalizations.of(context)!.profile,
         'image': 'assets/profile.png',
-        'action': () {},
+        'action': () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return MerchantProfileEdit();
+          }));
+        },
         'sub': []
       },
       {
@@ -112,8 +117,12 @@ class MerchantDrawer {
                           )
                         ],
                       ),
-                      children:item['sub'].map<Widget>((child){
-                        return Text(child['title'],style:TextStyle(color: MyTheme.white, fontSize: 12,));
+                      children: item['sub'].map<Widget>((child) {
+                        return Text(child['title'],
+                            style: TextStyle(
+                              color: MyTheme.white,
+                              fontSize: 12,
+                            ));
                       }).toList(),
                       shape: Border(),
                     )
@@ -129,7 +138,8 @@ class MerchantDrawer {
                           ),
                           Text(
                             item['title'],
-                            style:TextStyle(color: MyTheme.white, fontSize: 12),
+                            style:
+                                TextStyle(color: MyTheme.white, fontSize: 12),
                           )
                         ],
                       ),

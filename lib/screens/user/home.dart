@@ -21,6 +21,7 @@ import 'package:flutter/material.dart';
 import 'package:csh_app/helpers/shared_value_helper.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:http/http.dart';
+import 'package:latlong2/latlong.dart';
 
 class UserHome extends StatefulWidget {
   UserHome() : super();
@@ -40,6 +41,7 @@ class _UserHomeState extends State<UserHome> {
   List<dynamic> _carouselImageList = [];
   List<CategoryItem> _categoriesList = [];
   List<Offer> _offersList = [];
+  List _mapPinsLis = [];
   bool showMapWidget = false;
 
   @override
@@ -57,6 +59,7 @@ class _UserHomeState extends State<UserHome> {
     _carouselImageList = [];
     _categoriesList = [];
     _offersList = [];
+    _mapPinsLis = [];
     fetchAll();
     setState(() {});
   }
@@ -105,14 +108,35 @@ class _UserHomeState extends State<UserHome> {
     setState(() {
       _isOffersLoading = true;
     });
-    var response =
-        await UserOfferRepository().getUserOffersResponse().then((value) {
+    var response = await UserOfferRepository()
+        .getUserOffersResponse(
+            page: _current_slider, category: selectedCategoryId)
+        .then((value) {
       if (value.runtimeType.toString() == 'UserOffersResponse') {
-        setState(() {
-          _isOffersLoading = false;
-          _offersList = value.offers;
-        });
+        List<Offer> offers = value.offers;
+
+        if (offers.isNotEmpty) {
+          offers.forEach(
+            (offer) {
+              var pin = {
+                'coordinates': LatLng(double.parse(offer.shop['latitude']),
+                    double.parse(offer.shop['longitude'])),
+                "amount": offer.cashback_amount
+              };
+              setState(() {
+                _mapPinsLis.add(pin);
+              });
+            },
+          );
+          setState(() {
+            _offersList = offers;
+          });
+        }
       }
+    });
+
+    setState(() {
+      _isOffersLoading = false;
     });
   }
 
@@ -129,8 +153,8 @@ class _UserHomeState extends State<UserHome> {
       });
     } else {
       selectedCategoryId = categoryId;
-      fethOffers();
     }
+    fethOffers();
   }
 
   toggleFavorite(int offerId) {
@@ -162,7 +186,7 @@ class _UserHomeState extends State<UserHome> {
       textDirection: app_language_rtl.$ ? TextDirection.rtl : TextDirection.ltr,
       child: Scaffold(
         key: _scaffoldKey,
-        appBar: UserAppBar.buildUserAppBar(context, 'home'),
+        appBar: UserAppBar.buildUserAppBar(context, 'home', '', {}),
         body: Padding(
           padding: EdgeInsets.symmetric(horizontal: 14),
           child: Column(
@@ -185,12 +209,14 @@ class _UserHomeState extends State<UserHome> {
                           margin: EdgeInsets.symmetric(vertical: 4),
                           child: HomeSearch(onToggle: () => toggleMap())),
                       showMapWidget
-                          ? HomeMap()
+                          ? HomeMap(
+                              items: _mapPinsLis,
+                            )
                           : _buildHomeCarouselSlider(context),
                       Padding(
                           padding: EdgeInsets.only(top: 16),
                           child: Text(
-                            'Select Category',
+                            AppLocalizations.of(context)!.select_category_home,
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 16),
                           )),
@@ -198,7 +224,7 @@ class _UserHomeState extends State<UserHome> {
                       Padding(
                           padding: EdgeInsets.only(top: 16, bottom: 10),
                           child: Text(
-                            'Best Offers',
+                            AppLocalizations.of(context)!.best_offers,
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 16),
                           )),
@@ -234,7 +260,7 @@ class _UserHomeState extends State<UserHome> {
       } else {
         return Container(
             width: MediaQuery.of(context).size.width,
-            margin: EdgeInsets.symmetric(vertical: 12),
+            margin: EdgeInsets.symmetric(vertical: 6),
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
@@ -242,9 +268,9 @@ class _UserHomeState extends State<UserHome> {
                   children: _categoriesList.map((category) {
                     return GestureDetector(
                       child: Container(
-                        margin: const EdgeInsetsDirectional.only(end: 6),
+                        // margin: const EdgeInsetsDirectional.only(end: 2),
                         padding: const EdgeInsets.symmetric(
-                          horizontal: 18,
+                          horizontal: 8,
                         ),
                         child: Column(
                           children: [
@@ -255,8 +281,8 @@ class _UserHomeState extends State<UserHome> {
                                     borderRadius: BorderRadius.circular(18),
                                     child: Image.network(
                                       category.thumbnail,
-                                      width: 64,
-                                      height: 64,
+                                      width: 82,
+                                      height: 82,
                                     )),
                                 selectedCategoryId == category.id
                                     ? Image.asset(
@@ -270,7 +296,9 @@ class _UserHomeState extends State<UserHome> {
                             ),
                             Text(
                               category.name,
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
                             )
                           ],
                         ),
@@ -279,29 +307,6 @@ class _UserHomeState extends State<UserHome> {
                         selectCategory(category.id);
                       },
                     );
-
-                    // return GestureDetector(
-                    //   child: Container(
-                    //       margin: EdgeInsetsDirectional.only(end: 6),
-                    //       padding: const EdgeInsets.symmetric(
-                    //           horizontal: 18, vertical: 10),
-                    //       decoration: BoxDecoration(
-                    //         borderRadius: BorderRadius.circular(24),
-                    //         color: selectedCategoryId == category.id
-                    //             ? MyTheme.accent_color
-                    //             : MyTheme.background_item_color,
-                    //       ),
-                    //       child: Text(
-                    //         category.name,
-                    //         style: TextStyle(
-                    //             color: selectedCategoryId == category.id
-                    //                 ? MyTheme.white
-                    //                 : Colors.black),
-                    //       )),
-                    //   onTap: () {
-                    //     selectCategory(category.id);
-                    //   },
-                    // );
                   }).toList()),
             ));
       }
@@ -311,6 +316,7 @@ class _UserHomeState extends State<UserHome> {
   Widget _buildOfferList() {
     if (_isOffersLoading) {
       return Container(
+          alignment: Alignment.center,
           margin: EdgeInsets.only(bottom: 80),
           padding: const EdgeInsets.symmetric(vertical: 4),
           child: Column(
@@ -323,7 +329,13 @@ class _UserHomeState extends State<UserHome> {
           ));
     } else {
       if (_offersList.isEmpty) {
-        return Text('no Offers');
+        return Container(
+          height: 260,
+          alignment: Alignment.topCenter,
+          child: Text(
+            'no Offers',
+          ),
+        );
       } else {
         return Container(
             margin: EdgeInsets.only(bottom: 80),
@@ -339,15 +351,6 @@ class _UserHomeState extends State<UserHome> {
     }
   }
 
-  // Widget _buildHomeMap(context){
-
-  //   return Container(
-  //     height: 40,
-  //     child:
-  //   );
-
-  // }
-
   Widget _buildHomeCarouselSlider(context) {
     if (_isCarouselLoading) {
       return Padding(
@@ -359,7 +362,7 @@ class _UserHomeState extends State<UserHome> {
             height: 220,
             child: Center(
                 child: Text(
-              AppLocalizations.of(context)!.no_offers_found,
+              'no slides Found',
               style: TextStyle(color: MyTheme.font_grey),
             )));
       } else {

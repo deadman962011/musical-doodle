@@ -1,16 +1,25 @@
+import 'dart:ffi';
+
 import 'package:csh_app/custom/input_decorations.dart';
+import 'package:csh_app/custom/toast_component.dart';
+import 'package:csh_app/helpers/file_helper.dart';
 import 'package:csh_app/helpers/shared_value_helper.dart';
 import 'package:csh_app/my_theme.dart';
+import 'package:csh_app/repositories/file_repository.dart';
 import 'package:csh_app/repositories/merchant/merchant_offer_repository.dart';
+import 'package:csh_app/repositories/setting_repository.dart';
 import 'package:csh_app/screens/merchant/offers/offers.dart';
 import 'package:csh_app/ui_elements/merchant_appbar.dart';
 import 'package:csh_app/ui_elements/merchant_drawer.dart';
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:toast/toast.dart';
 
 class AddOffer extends StatefulWidget {
   const AddOffer({Key? key}) : super(key: key);
@@ -24,7 +33,8 @@ class _AddOfferState extends State<AddOffer> {
   final _formKey = GlobalKey<FormBuilderState>();
 
   // MultiSelectController _categoriesController = MultiSelectController();
-  final TextEditingController _offerNameController = TextEditingController();
+  final TextEditingController _offerNameEnController = TextEditingController();
+  final TextEditingController _offerNameArController = TextEditingController();
   final TextEditingController _offerStartDateController =
       TextEditingController();
   final TextEditingController _offerEndDateController = TextEditingController();
@@ -32,18 +42,107 @@ class _AddOfferState extends State<AddOffer> {
       TextEditingController();
   final TextEditingController _offerComissionAmountController =
       TextEditingController(text: '5% من قيمة الفاتورة');
-  DateTime? _endDateFirstDate;
+  DateTime? _endDateFirstDate = DateTime.now();
+  DateTime? _endDateLastDate;
+  DateTime? _endDateInitalDate;
   bool _isLoading = false;
+  late List<DropdownMenuItem> _checkout_amounts = [];
+
+  final ImagePicker _picker = ImagePicker();
+  late XFile _file;
+  late String? _uploaded_file = '';
+  late int? _uploaded_file_id = null;
+  @override
+  void initState() {
+    //on Splash Screen hide statusbar
+    // SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+    //     overlays: [SystemUiOverlay.bottom]);
+    super.initState();
+    fetchCheckoutAmounts();
+  }
+
+  fetchCheckoutAmounts() async {
+    // setState(() {
+    //   _checkout_amounts.add(DropdownMenuItem(
+    //     value: '',
+    //     child: Text(AppLocalizations.of(context)!.cashback_amount_placeholder),
+    //   ));
+    // });
+
+    var response =
+        await SettingRepository().getSettingResponse(key: 'cashbak_amounts');
+
+    if (response.runtimeType.toString() == 'SettingResponse') {
+      List amounts = response.value.split(',');
+      amounts.forEach((element) {
+        setState(() {
+          _checkout_amounts.add(DropdownMenuItem(
+            value: element.toString(),
+            child: Text(element.toString()),
+          ));
+        });
+      });
+    }
+  }
+
+  bool isFormValid() {
+    if (_formKey.currentState != null && !_formKey.currentState!.isValid) {
+      return false;
+    }
+    if (_uploaded_file_id == null) {
+      return false;
+    }
+
+    if (_isLoading) {
+      return false;
+    }
+
+    return true;
+  }
 
   Color bgColorSub() {
-    if (_formKey.currentState == null || !_formKey.currentState!.isValid) {
+    if (isFormValid()) {
+      return MyTheme.accent_color;
+    } else {
       return MyTheme.accent_color_shadow;
     }
-    if (_isLoading) {
-      return MyTheme.accent_color_shadow;
-    }
+  }
 
-    return MyTheme.accent_color;
+  DateTime parseDateString(String dateString) {
+    debugPrint(dateString);
+    List<String> dateParts = dateString.split(' ');
+    List<String> parts = dateParts[0].split('/');
+    // List<String> parts = dateString.split('/');
+    int month = int.parse(parts[0]);
+    int day = int.parse(parts[1]);
+    int year = int.parse(parts[2]);
+
+    return DateTime(year, month, day);
+  }
+
+  onChangeStartDate(DateTime date) {
+    DateTime startDateVal = date;
+    DateTime startDateInpEndDate = startDateVal;
+    DateTime endDateInpEndDate = startDateVal.add(Duration(days: 13));
+    if (_offerEndDateController.value.text.isNotEmpty) {
+      var endDateInpval = parseDateString(_offerEndDateController.value.text);
+      if (endDateInpval.isAfter(startDateInpEndDate) ||
+          endDateInpval.isBefore(endDateInpEndDate)) {
+        setState(() {
+          _formKey.currentState!.fields['end_date']!.reset();
+          _endDateFirstDate = endDateInpEndDate;
+          _endDateLastDate = null;
+        });
+      }
+    }
+    setState(() {
+      _endDateInitalDate = startDateVal;
+      _endDateFirstDate = startDateInpEndDate;
+      _endDateLastDate = endDateInpEndDate;
+    });
+
+    debugPrint(
+        "${_endDateFirstDate.toString()}, ${_endDateLastDate.toString()}");
   }
 
   onPressedSaveOffer() async {
@@ -51,25 +150,57 @@ class _AddOfferState extends State<AddOffer> {
       _isLoading = true;
     });
 
-    var offerName = _offerNameController.text.toString();
+    var offerNameAr = _offerNameArController.text.toString();
+    var offerNameEn = _offerNameEnController.text.toString();
     var startDate = _offerStartDateController.text.toString();
     var endDate = _offerEndDateController.text.toString();
     var cashbackAmount = _offerCashbackAmountController.text.toString();
 
     var response = await MerchantOfferRepository().saveMerchantOfferResponse(
-        offerName, startDate, endDate, cashbackAmount);
+        offerNameAr,
+        offerNameEn,
+        startDate,
+        endDate,
+        cashbackAmount,
+        _uploaded_file_id!);
     debugPrint(response.runtimeType.toString());
     if (response.runtimeType.toString() == 'MerchantSaveOfferResponse') {
+      ToastComponent.showDialog('offer successfully saved', context,
+          gravity: Toast.center, duration: Toast.lengthLong);
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
         return MerchantOffers();
       }));
-
-      debugPrint('offer successfully saved');
-    } else {}
+    } else {
+      ToastComponent.showDialog('unable to save offer', context,
+          gravity: Toast.center, duration: Toast.lengthLong);
+    }
 
     setState(() {
       _isLoading = false;
     });
+  }
+
+  chooseAndUploadImage(context) async {
+    _file = (await _picker.pickImage(source: ImageSource.gallery))!;
+    if (_file == null) {
+      ToastComponent.showDialog('no file chosen', context,
+          gravity: Toast.center, duration: Toast.lengthLong);
+      return;
+    } else {
+      String base64Image = FileHelper.getBase64FormateFile(_file.path);
+      String fileName = _file.path.split("/").last;
+      var response = await FileRepository().getFileUploadResponse(
+        base64Image,
+        fileName,
+      );
+      if (response.runtimeType.toString() == 'FileUploadResponse' &&
+          response.success) {
+        setState(() {
+          _uploaded_file_id = response.id;
+          _uploaded_file = response.path;
+        });
+      }
+    }
   }
 
   @override
@@ -79,8 +210,8 @@ class _AddOfferState extends State<AddOffer> {
             app_language_rtl.$ ? TextDirection.rtl : TextDirection.ltr,
         child: Scaffold(
             key: _scaffoldKey,
-            appBar: MerchantAppBar.buildMerchantAppBar(
-                context, 'add_offer', _scaffoldKey),
+            appBar: MerchantAppBar.buildMerchantAppBar(context, 'add_offer',
+                _scaffoldKey, AppLocalizations.of(context)!.add_offer),
             drawer: MerchantDrawer.buildDrawer(context),
             body: Padding(
                 padding: const EdgeInsets.only(right: 14, left: 14, bottom: 20),
@@ -90,7 +221,8 @@ class _AddOfferState extends State<AddOffer> {
                     },
                     key: _formKey,
                     autovalidateMode: AutovalidateMode.disabled,
-                    child: Column(
+                    child: SingleChildScrollView(
+                        child: Column(
                       mainAxisSize: MainAxisSize.max,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -145,10 +277,10 @@ class _AddOfferState extends State<AddOffer> {
                                                 firstDate: DateTime.now(),
                                                 onChanged: (DateTime? value) {
                                                   if (value != null) {
-                                                    // Update the endDate's firstDate based on the startDate
-                                                    setState(() {
-                                                      _endDateFirstDate = value;
-                                                    });
+                                                    setState(
+                                                      () {},
+                                                    );
+                                                    onChangeStartDate(value);
                                                   }
                                                 },
                                               ),
@@ -184,14 +316,9 @@ class _AddOfferState extends State<AddOffer> {
                                                 ]),
                                                 textInputAction:
                                                     TextInputAction.next,
-                                                initialDate: _endDateFirstDate
-                                                        ?.add(const Duration(
-                                                            hours: 1)) ??
-                                                    DateTime.now(),
-                                                firstDate: _endDateFirstDate
-                                                        ?.add(const Duration(
-                                                            hours: 1)) ??
-                                                    DateTime.now(),
+                                                initialDate: _endDateInitalDate,
+                                                firstDate: _endDateFirstDate,
+                                                lastDate: _endDateLastDate,
                                               ),
                                             ],
                                           ),
@@ -206,12 +333,37 @@ class _AddOfferState extends State<AddOffer> {
                                 Padding(
                                   padding:
                                       const EdgeInsets.only(top: 12, bottom: 3),
-                                  child: Text(
-                                      AppLocalizations.of(context)!.offer_name),
+                                  child: Text(AppLocalizations.of(context)!
+                                      .offer_name_in_en),
                                 ),
                                 FormBuilderTextField(
-                                  name: 'offerName',
-                                  controller: _offerNameController,
+                                  name: 'offerNameEn',
+                                  controller: _offerNameEnController,
+                                  decoration:
+                                      InputDecorations.buildInputDecoration_1(
+                                          hint_text:
+                                              AppLocalizations.of(context)!
+                                                  .offer_name_placeholder),
+                                  validator: FormBuilderValidators.compose([
+                                    FormBuilderValidators.required(),
+                                    FormBuilderValidators.minLength(3),
+                                  ]),
+                                  textInputAction: TextInputAction.next,
+                                ),
+                              ],
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.only(top: 12, bottom: 3),
+                                  child: Text(AppLocalizations.of(context)!
+                                      .offer_name_in_ar),
+                                ),
+                                FormBuilderTextField(
+                                  name: 'offerNameAr',
+                                  controller: _offerNameArController,
                                   decoration:
                                       InputDecorations.buildInputDecoration_1(
                                           hint_text:
@@ -236,6 +388,7 @@ class _AddOfferState extends State<AddOffer> {
                                 ),
                                 FormBuilderDropdown(
                                   name: 'offerCashback',
+                                  iconEnabledColor: MyTheme.accent_color,
                                   onChanged: (value) => {
                                     _offerCashbackAmountController.text =
                                         value.toString(),
@@ -243,33 +396,7 @@ class _AddOfferState extends State<AddOffer> {
                                     //   _formKey.currentState?.validate();
                                     // })
                                   },
-                                  items: [
-                                    DropdownMenuItem(
-                                      value: '',
-                                      child: Text(AppLocalizations.of(context)!
-                                          .cashback_amount_placeholder),
-                                    ),
-                                    const DropdownMenuItem(
-                                      value: '10',
-                                      child: Text('10 %'),
-                                    ),
-                                    const DropdownMenuItem(
-                                      value: '15',
-                                      child: Text('15 %'),
-                                    ),
-                                    const DropdownMenuItem(
-                                      value: '30',
-                                      child: Text('30 %'),
-                                    ),
-                                    const DropdownMenuItem(
-                                      value: '50',
-                                      child: Text('50 %'),
-                                    ),
-                                    const DropdownMenuItem(
-                                      value: '70',
-                                      child: Text('70'),
-                                    ),
-                                  ],
+                                  items: _checkout_amounts,
                                   decoration: InputDecorations
                                       .buildDropdownInputDecoration_1(
                                           hint_text:
@@ -281,6 +408,118 @@ class _AddOfferState extends State<AddOffer> {
                                 ),
                               ],
                             ),
+
+                            //
+                            //
+                            //
+                            //
+                            Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                textDirection: app_language_rtl.$
+                                    ? TextDirection.rtl
+                                    : TextDirection.ltr,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 12, bottom: 3),
+                                    child: Text(AppLocalizations.of(context)!
+                                        .application_commission),
+                                  ),
+                                  GestureDetector(
+                                      child: DottedBorder(
+                                          color: Colors.grey,
+                                          borderType: BorderType.RRect,
+                                          radius: Radius.circular(20),
+                                          dashPattern: [10, 10],
+                                          child: Container(
+                                              width: double.infinity,
+                                              height: 120,
+                                              padding: EdgeInsets.all(7.0),
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(20)),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.black
+                                                        .withOpacity(0.12),
+                                                    blurRadius: 6,
+                                                    spreadRadius: 0.0,
+                                                    offset: Offset(0.0,
+                                                        0.0), // shadow direction: bottom right
+                                                  )
+                                                ],
+                                              ),
+                                              child: ClipRRect(
+                                                  child: _uploaded_file !=
+                                                              null &&
+                                                          _uploaded_file!
+                                                              .isNotEmpty
+                                                      ? Container(
+                                                          alignment:
+                                                              Alignment.center,
+                                                          child: Stack(
+                                                            alignment: Alignment
+                                                                .topRight,
+                                                            children: [
+                                                              Image.network(
+                                                                _uploaded_file!,
+                                                                width: 140,
+                                                                height: 140,
+                                                              ),
+                                                              GestureDetector(
+                                                                child:
+                                                                    Container(
+                                                                  padding:
+                                                                      EdgeInsets
+                                                                          .all(
+                                                                              3),
+                                                                  decoration: BoxDecoration(
+                                                                      color: Colors
+                                                                          .red,
+                                                                      borderRadius:
+                                                                          BorderRadius.all(
+                                                                              Radius.circular(50))),
+                                                                  child: Icon(
+                                                                    Icons.close,
+                                                                    size: 18,
+                                                                    color: Colors
+                                                                        .white,
+                                                                  ),
+                                                                ),
+                                                                onTap: () {
+                                                                  setState(() {
+                                                                    _uploaded_file =
+                                                                        '';
+                                                                    _uploaded_file_id =
+                                                                        null;
+                                                                  });
+                                                                },
+                                                              )
+                                                            ],
+                                                          ),
+                                                        )
+                                                      : Icon(Icons
+                                                          .file_upload_outlined)
+                                                  // user_avatar.$ != ''
+                                                  //     ? FadeInImage.assetNetwork(
+                                                  //         placeholder:
+                                                  //             'assets/default_avatar.png',
+                                                  //         image: user_avatar.$,
+                                                  //         width: 140,
+                                                  //         height: 140,
+                                                  //       )
+                                                  //     : Image.asset(
+                                                  //         'assets/default_avatar.png',
+                                                  //         width: 140,
+                                                  //         height: 140,
+                                                  //       )
+
+                                                  ))),
+                                      onTap: () {
+                                        chooseAndUploadImage(context);
+                                      })
+                                ]),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               textDirection: app_language_rtl.$
@@ -298,6 +537,7 @@ class _AddOfferState extends State<AddOffer> {
                                     ..text =
                                         '5% ${AppLocalizations.of(context)!.of_bill_amount}',
                                   readOnly: true,
+                                  style: TextStyle(color: MyTheme.accent_color),
                                   decoration:
                                       InputDecorations.buildInputDecoration_1(
                                           hint_text: ''),
@@ -378,7 +618,7 @@ class _AddOfferState extends State<AddOffer> {
                                 padding: const EdgeInsets.only(
                                     top: 8.0, left: 12, right: 12),
                                 child: SizedBox(
-                                  width: 100,
+                                  width: 160,
                                   height: 46,
                                   child: TextButton(
                                     style: TextButton.styleFrom(
@@ -391,7 +631,7 @@ class _AddOfferState extends State<AddOffer> {
                                       //     ? const EdgeInsets.symmetric(vertical: 12)
                                       //     : null,
                                     ),
-                                    onPressed: !_isLoading
+                                    onPressed: isFormValid()
                                         ? () {
                                             onPressedSaveOffer();
                                           }
@@ -414,7 +654,7 @@ class _AddOfferState extends State<AddOffer> {
                                             ))
                                         : Text(
                                             AppLocalizations.of(context)!
-                                                .add_offer,
+                                                .add_offer_btn,
                                             style: TextStyle(
                                               color: MyTheme.white,
                                               fontSize: 16,
@@ -426,6 +666,6 @@ class _AddOfferState extends State<AddOffer> {
                           ],
                         ),
                       ],
-                    )))));
+                    ))))));
   }
 }

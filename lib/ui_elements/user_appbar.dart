@@ -1,28 +1,35 @@
-import 'package:csh_app/my_theme.dart';
-import 'package:csh_app/providers/offer_provider.dart';
-import 'package:csh_app/screens/merchant/offers/add_offer.dart';
-import 'package:csh_app/ui_elements/dialog.dart';
+import 'package:csh_app/custom/toast_component.dart';
+import 'package:csh_app/helpers/shared_value_helper.dart';
+import 'package:csh_app/models/items/Offer.dart';
+import 'package:csh_app/repositories/user/user_favorite_offers_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:csh_app/my_theme.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:toast/toast.dart';
+// import 'package:csh_app/providers/offer_provider.dart';
+// import 'package:csh_app/screens/merchant/offers/add_offer.dart';
+// import 'package:csh_app/ui_elements/dialog.dart';
+// import 'package:provider/provider.dart';
 
 class UserAppBar {
-  static PreferredSizeWidget buildUserAppBar(context, page) {
+  static PreferredSizeWidget buildUserAppBar(
+      context, page, title, Map<String, dynamic> methods) {
     late List<Widget> widgets = [];
     // debugPrint(page.toString());
     switch (page) {
       case 'home':
       case 'profile':
         widgets = [
-          const Row(
+          Row(
             children: [
               Text(
-                'Balance:  ',
+                AppLocalizations.of(context)!.balance,
                 style: TextStyle(
                     fontSize: 18,
                     // height: 37.48,
                     fontWeight: FontWeight.w700),
               ),
-              Text('50',
+              Text(' : 0',
                   style: TextStyle(
                       fontSize: 20,
                       // height: 37.48,
@@ -37,12 +44,12 @@ class UserAppBar {
           Row(
             children: [
               _buildBackButton(context),
-              Text(page.toString()),
+              Text(title),
             ],
           ),
           Row(
             children: [
-              _buildFavoriteOfferButton(context),
+              _buildFavoriteOfferButton(context, methods),
               _buildLocationOfferButton(context)
             ],
           )
@@ -53,15 +60,10 @@ class UserAppBar {
       case 'notifications':
         widgets = [
           _buildBackButton(context),
-          Text(page.toString()),
+          _buildTitle(title),
           Container(
             width: 50,
           )
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //   children: [
-          //   ],
-          // ),
         ];
         break;
 
@@ -69,7 +71,7 @@ class UserAppBar {
     }
 
     return PreferredSize(
-        preferredSize: const Size.fromHeight(46),
+        preferredSize: const Size.fromHeight(80),
         child: Container(
           width: MediaQuery.of(context).size.width,
           margin: EdgeInsets.only(top: 30, bottom: 10),
@@ -85,29 +87,38 @@ class UserAppBar {
         ));
   }
 
+  static Widget _buildTitle(title) {
+    return Text(
+      title,
+      style: TextStyle(fontWeight: FontWeight.w800, fontSize: 14),
+    );
+  }
+
+// app_language_rtl.$ ?  : Icons.chevron_left
   static Widget _buildBackButton(context) {
     return SizedBox(
       width: 40,
       height: 40,
       child: IconButton(
-        icon: const Icon(Icons.chevron_right),
+        icon: Icon(Icons.chevron_left),
         onPressed: () {
           Navigator.pop(context);
-          // RootScaffold.openDrawer(context);
-          // Scaffold.of(context).openDrawer();
         },
       ),
     );
   }
 
-  static Widget _buildFavoriteOfferButton(context) {
+  static Widget _buildFavoriteOfferButton(context, methods) {
     return SizedBox(
       width: 40,
       height: 40,
       child: IconButton(
         color: MyTheme.accent_color,
-        onPressed: () {},
-        icon: Icon(Icons.favorite_border_outlined),
+        onPressed: () {
+          methods['addToFavorite']();
+        },
+        icon: Icon(
+            methods['isFavorite'] ? Icons.favorite : Icons.favorite_outline),
       ),
     );
   }

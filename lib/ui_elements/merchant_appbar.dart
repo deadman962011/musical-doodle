@@ -7,35 +7,47 @@ import 'package:provider/provider.dart';
 
 class MerchantAppBar {
   static PreferredSizeWidget buildMerchantAppBar(
-      context, page, GlobalKey<ScaffoldState> scaffoldKey) {
+    context,
+    page,
+    GlobalKey<ScaffoldState> scaffoldKey,
+    title,
+  ) {
     late List<Widget> widgets = [];
     // debugPrint(page.toString());
     switch (page) {
       case 'main':
         widgets = [
           _buildToggleDrawerButton(context, scaffoldKey),
-          Text(page),
+          Text(title),
           Container()
         ];
         break;
       case 'list_offers':
         widgets = [
           _buildToggleDrawerButton(context, scaffoldKey),
-          Text(page.toString()),
+          Text(title),
           _buildAddOfferButton(context),
         ];
         break;
       case 'add_offer':
         widgets = [
           _buildBackButton(context),
-          Text(page.toString()),
+          Text(title),
           Container(),
         ];
         break;
       case 'offer_details':
         widgets = [
           _buildToggleDrawerButton(context, scaffoldKey),
-          Text(page.toString()),
+          Text(title),
+          Container()
+        ];
+        break;
+
+      case 'profile_edit':
+        widgets = [
+          _buildToggleDrawerButton(context, scaffoldKey),
+          Text(title),
           Container()
         ];
         break;
