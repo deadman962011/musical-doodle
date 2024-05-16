@@ -1,14 +1,14 @@
-import 'package:csh_app/custom/device_info.dart';
-import 'package:csh_app/helpers/auth_helper.dart';
-import 'package:csh_app/helpers/shared_value_helper.dart';
-import 'package:csh_app/my_theme.dart';
-import 'package:csh_app/screens/user/banks.dart';
-import 'package:csh_app/screens/user/profile_edit.dart';
-import 'package:csh_app/screens/user/favorite.dart';
-import 'package:csh_app/screens/user/main.dart';
-import 'package:csh_app/screens/user/my_codes.dart';
-import 'package:csh_app/screens/user/notifications.dart';
-import 'package:csh_app/ui_elements/user_appbar.dart';
+import 'package:com.mybill.app/custom/device_info.dart';
+import 'package:com.mybill.app/helpers/auth_helper.dart';
+import 'package:com.mybill.app/helpers/shared_value_helper.dart';
+import 'package:com.mybill.app/my_theme.dart';
+import 'package:com.mybill.app/screens/user/banks.dart';
+import 'package:com.mybill.app/screens/user/profile_edit.dart';
+import 'package:com.mybill.app/screens/user/favorite.dart';
+import 'package:com.mybill.app/screens/user/main.dart';
+import 'package:com.mybill.app/screens/user/my_codes.dart';
+import 'package:com.mybill.app/screens/user/notifications.dart';
+import 'package:com.mybill.app/ui_elements/user_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 

@@ -1,4 +1,4 @@
-import 'package:csh_app/my_theme.dart';
+import 'package:com.mybill.app/my_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -76,18 +76,11 @@ class _HomeSearchState extends State<HomeSearch> {
                         shape: CircleBorder(),
                         backgroundColor: MyTheme.accent_color),
                     onPressed: _toggleWidgets,
-                    icon: Icon(
-                      _showMapWidget ? Icons.home : Icons.place
-                      
-                      ),
+                    icon: Icon(_showMapWidget ? Icons.home : Icons.place),
                     color: MyTheme.white,
                   )),
-
-      
             )
           ],
         ));
-
   }
-
 }

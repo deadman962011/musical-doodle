@@ -1,9 +1,9 @@
-import 'package:csh_app/custom/box_decorations.dart';
-import 'package:csh_app/models/items/MerchantIOffer.dart';
-import 'package:csh_app/models/items/Offer.dart';
-import 'package:csh_app/models/responses/merchant/offer/merchant_offers_response.dart';
-import 'package:csh_app/my_theme.dart';
-import 'package:csh_app/providers/offer_provider.dart';
+import 'package:com.mybill.app/custom/box_decorations.dart';
+import 'package:com.mybill.app/models/items/MerchantIOffer.dart';
+import 'package:com.mybill.app/models/items/Offer.dart';
+import 'package:com.mybill.app/models/responses/merchant/offer/merchant_offers_response.dart';
+import 'package:com.mybill.app/my_theme.dart';
+import 'package:com.mybill.app/providers/offer_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';

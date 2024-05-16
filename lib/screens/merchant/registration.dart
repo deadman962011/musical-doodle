@@ -1,20 +1,20 @@
-import 'package:csh_app/app_config.dart';
-import 'package:csh_app/helpers/general_helper.dart';
-import 'package:csh_app/helpers/shared_value_helper.dart';
-import 'package:csh_app/repositories/category_repository.dart';
-import 'package:csh_app/repositories/zones_repository.dart';
+import 'package:com.mybill.app/app_config.dart';
+import 'package:com.mybill.app/helpers/general_helper.dart';
+import 'package:com.mybill.app/helpers/shared_value_helper.dart';
+import 'package:com.mybill.app/repositories/category_repository.dart';
+import 'package:com.mybill.app/repositories/zones_repository.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:csh_app/custom/box_decorations.dart';
-import 'package:csh_app/custom/device_info.dart';
-import 'package:csh_app/my_theme.dart';
-import 'package:csh_app/repositories/merchant/merchant_auth_repository.dart';
-import 'package:csh_app/screens/merchant/location_selector.dart';
-import 'package:csh_app/screens/merchant/registration_completed.dart';
-import 'package:csh_app/ui_elements/auth_ui.dart';
+import 'package:com.mybill.app/custom/box_decorations.dart';
+import 'package:com.mybill.app/custom/device_info.dart';
+import 'package:com.mybill.app/my_theme.dart';
+import 'package:com.mybill.app/repositories/merchant/merchant_auth_repository.dart';
+import 'package:com.mybill.app/screens/merchant/location_selector.dart';
+import 'package:com.mybill.app/screens/merchant/registration_completed.dart';
+import 'package:com.mybill.app/ui_elements/auth_ui.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:csh_app/custom/input_decorations.dart';
+import 'package:com.mybill.app/custom/input_decorations.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -33,7 +33,6 @@ class MerchantRegistration extends StatefulWidget {
 }
 
 class _MerchantRegistrationState extends State<MerchantRegistration> {
-  late LatLng selectedLocation;
   final Debounce _debounce = Debounce(Duration(milliseconds: 900));
   Map<String, dynamic> _errors = {};
   //controllers
@@ -51,8 +50,9 @@ class _MerchantRegistrationState extends State<MerchantRegistration> {
   final _formKey = GlobalKey<FormBuilderState>();
   late List _categories_list = [];
   late List _zones_list = [];
-  late String categoriesIds = '';
-  late int zoneId;
+  String categoriesIds = '';
+  int? zoneId;
+  LatLng? selectedLocation;
   bool _isLoading = false;
   bool _enableBtn = false;
 
@@ -150,9 +150,9 @@ class _MerchantRegistrationState extends State<MerchantRegistration> {
             shop_admin_name,
             shop_admin_phone,
             shop_admin_email,
-            selectedLocation.longitude.toString(),
-            selectedLocation.latitude.toString(),
-            zoneId,
+            selectedLocation!.longitude.toString(),
+            selectedLocation!.latitude.toString(),
+            zoneId!,
             referral_code);
     if (response.runtimeType.toString() == 'MerchantCompleteRegisterResponse') {
       Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -177,17 +177,41 @@ class _MerchantRegistrationState extends State<MerchantRegistration> {
 
 //   }
 
-  Color bgColorSub() {
-    if (_formKey.currentState == null ||
-        !_formKey.currentState!.isValid ||
-        categoriesIds.isEmpty) {
-      return MyTheme.grey_153;
+  bool isFormValid() {
+    if (_formKey.currentState != null && !_formKey.currentState!.isValid) {
+      return false;
     }
+    if (categoriesIds.isEmpty) {
+      return false;
+    }
+    if (zoneId == null) {
+      return false;
+    }
+
+    if (selectedLocation == null) {
+      return false;
+    }
+
     if (_isLoading) {
+      return false;
+    }
+
+    return true;
+  }
+
+  Color bgColorSub() {
+    if (isFormValid()) {
+      return MyTheme.accent_color;
+    } else {
       return MyTheme.accent_color_shadow;
     }
 
-    return MyTheme.accent_color;
+    // if (_formKey.currentState == null ||
+    //     !_formKey.currentState!.isValid ||
+    //     categoriesIds.isEmpty) {
+    //   return MyTheme.grey_153;
+    // }
+    // if (_isLoading) {}
   }
 
   @override
@@ -204,7 +228,7 @@ class _MerchantRegistrationState extends State<MerchantRegistration> {
     return Container(
         width: DeviceInfo(context).width,
         margin: const EdgeInsets.only(top: 140, bottom: 40),
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
         decoration: BoxDecorations.buildBoxDecoration_1(),
         child: Column(
           children: [
@@ -290,8 +314,13 @@ class _MerchantRegistrationState extends State<MerchantRegistration> {
                               }
                             },
                             onChanged: (value) {
-                              categoriesIds =
-                                  value.map((item) => item.value).join(', ');
+                              setState(
+                                () {
+                                  categoriesIds = value
+                                      .map((item) => item.value)
+                                      .join(', ');
+                                },
+                              );
                             },
                             popupProps: PopupPropsMultiSelection.menu(
                                 itemBuilder: _customPopupItemBuilder,
@@ -497,9 +526,7 @@ class _MerchantRegistrationState extends State<MerchantRegistration> {
                                     ? const EdgeInsets.symmetric(vertical: 12)
                                     : null,
                               ),
-                              onPressed: _formKey.currentState != null &&
-                                      _formKey.currentState!.isValid &&
-                                      categoriesIds.isNotEmpty
+                              onPressed: isFormValid()
                                   ? () {
                                       onPressedMerchantRegister();
                                     }

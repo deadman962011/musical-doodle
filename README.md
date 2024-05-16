@@ -1,4 +1,4 @@
-# csh_app
+# com.mybill.app
 
 A new Flutter project.
 

@@ -5,8 +5,8 @@
 import 'dart:convert';
 import 'dart:ffi';
 
-import 'package:csh_app/models/items/Category.dart';
-import 'package:csh_app/models/items/Zone.dart';
+import 'package:com.mybill.app/models/items/Category.dart';
+import 'package:com.mybill.app/models/items/Zone.dart';
 import 'package:flutter/foundation.dart';
 
 AllZonesResponse allZonesResponseFromJson(String str) =>

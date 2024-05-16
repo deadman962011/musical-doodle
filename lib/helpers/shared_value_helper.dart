@@ -1,4 +1,4 @@
-import 'package:csh_app/app_config.dart';
+import 'package:com.mybill.app/app_config.dart';
 import 'package:shared_value/shared_value.dart';
 
 final SharedValue<bool> is_logged_in = SharedValue(

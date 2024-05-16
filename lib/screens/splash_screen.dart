@@ -1,15 +1,15 @@
 // ignore_for_file: unused_field
 
-import 'package:csh_app/app_config.dart';
-import 'package:csh_app/custom/device_info.dart';
-import 'package:csh_app/helpers/auth_helper.dart';
-import 'package:csh_app/helpers/shared_value_helper.dart';
-import 'package:csh_app/my_theme.dart';
-import 'package:csh_app/providers/locale_provider.dart';
-import 'package:csh_app/screens/guest.dart';
-import 'package:csh_app/screens/login.dart';
-import 'package:csh_app/screens/merchant/main.dart';
-import 'package:csh_app/screens/user/main.dart';
+import 'package:com.mybill.app/app_config.dart';
+import 'package:com.mybill.app/custom/device_info.dart';
+import 'package:com.mybill.app/helpers/auth_helper.dart';
+import 'package:com.mybill.app/helpers/shared_value_helper.dart';
+import 'package:com.mybill.app/my_theme.dart';
+import 'package:com.mybill.app/providers/locale_provider.dart';
+import 'package:com.mybill.app/screens/guest.dart';
+import 'package:com.mybill.app/screens/login.dart';
+import 'package:com.mybill.app/screens/merchant/main.dart';
+import 'package:com.mybill.app/screens/user/main.dart';
 import 'package:flutter/material.dart';
 // import 'package:package_info/package_info.dart';
 import 'package:provider/provider.dart';

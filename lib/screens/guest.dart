@@ -1,19 +1,19 @@
-import 'package:csh_app/custom/common_functions.dart';
-import 'package:csh_app/custom/device_info.dart';
-import 'package:csh_app/my_theme.dart';
-import 'package:csh_app/screens/login.dart';
-// import 'package:csh_app/ui_sections/drawer.dart';
+import 'package:com.mybill.app/custom/common_functions.dart';
+import 'package:com.mybill.app/custom/device_info.dart';
+import 'package:com.mybill.app/my_theme.dart';
+import 'package:com.mybill.app/screens/login.dart';
+// import 'package:com.mybill.app/ui_sections/drawer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:csh_app/app_config.dart';
+import 'package:com.mybill.app/app_config.dart';
 
-// import 'package:csh_app/dummy_data/dummy_subscription_steps.dart';
-// import 'package:csh_app/screens/profile.dart';
-// import 'package:csh_app/repositories/layout_repository.dart';
-// import 'package:csh_app/dummy_data/dummy_entities.dart';
-// import 'package:csh_app/dummy_data/dummey_services.dart';
-import 'package:csh_app/helpers/shared_value_helper.dart';
+// import 'package:com.mybill.app/dummy_data/dummy_subscription_steps.dart';
+// import 'package:com.mybill.app/screens/profile.dart';
+// import 'package:com.mybill.app/repositories/layout_repository.dart';
+// import 'package:com.mybill.app/dummy_data/dummy_entities.dart';
+// import 'package:com.mybill.app/dummy_data/dummey_services.dart';
+import 'package:com.mybill.app/helpers/shared_value_helper.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 

@@ -1,24 +1,24 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:csh_app/custom/common_functions.dart';
-import 'package:csh_app/my_theme.dart';
-import 'package:csh_app/presenter/bottom_appbar_index.dart';
-import 'package:csh_app/screens/guest.dart';
-import 'package:csh_app/screens/merchant/home.dart';
-import 'package:csh_app/screens/user/home.dart';
-import 'package:csh_app/screens/user/menu.dart';
-import 'package:csh_app/screens/user/profile.dart';
-import 'package:csh_app/screens/user/scan.dart';
-import 'package:csh_app/screens/user/wallet.dart';
-import 'package:csh_app/ui_elements/merchant_appbar.dart';
+import 'package:com.mybill.app/custom/common_functions.dart';
+import 'package:com.mybill.app/my_theme.dart';
+import 'package:com.mybill.app/presenter/bottom_appbar_index.dart';
+import 'package:com.mybill.app/screens/guest.dart';
+import 'package:com.mybill.app/screens/merchant/home.dart';
+import 'package:com.mybill.app/screens/user/home.dart';
+import 'package:com.mybill.app/screens/user/menu.dart';
+import 'package:com.mybill.app/screens/user/profile.dart';
+import 'package:com.mybill.app/screens/user/scan.dart';
+import 'package:com.mybill.app/screens/user/wallet.dart';
+import 'package:com.mybill.app/ui_elements/merchant_appbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:flutter/services.dart';
-import 'package:csh_app/helpers/shared_value_helper.dart';
+import 'package:com.mybill.app/helpers/shared_value_helper.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:csh_app/ui_elements/merchant_drawer.dart';
+import 'package:com.mybill.app/ui_elements/merchant_drawer.dart';
 
 class MerchantMain extends StatefulWidget {
   late bool go_back;

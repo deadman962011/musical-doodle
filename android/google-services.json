@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "736317098303",
+    "project_id": "mybillapp-66d8f",
+    "storage_bucket": "mybillapp-66d8f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:736317098303:android:74bfba88a9229ddb602b8a",
+        "android_client_info": {
+          "package_name": "com.mybill.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCpFbMHma_jJhZcBp6gM1EItQyCTPMW094"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

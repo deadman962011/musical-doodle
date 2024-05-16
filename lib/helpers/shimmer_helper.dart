@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:csh_app/my_theme.dart';
-import 'package:csh_app/custom/box_decorations.dart';
+import 'package:com.mybill.app/my_theme.dart';
+import 'package:com.mybill.app/custom/box_decorations.dart';
 
 class ShimmerHelper {
   Widget buildBasicShimmer(

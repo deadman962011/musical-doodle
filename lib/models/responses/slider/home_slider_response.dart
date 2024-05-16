@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:csh_app/models/items/Slider.dart';
+import 'package:com.mybill.app/models/items/Slider.dart';
 
 HomeSliderResponse homeSliderResponseFromJson(String str) =>
     HomeSliderResponse.fromJson(json.decode(str));

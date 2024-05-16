@@ -1,14 +1,14 @@
-import 'package:csh_app/custom/toast_component.dart';
-import 'package:csh_app/helpers/shared_value_helper.dart';
-import 'package:csh_app/models/items/Offer.dart';
-import 'package:csh_app/repositories/user/user_favorite_offers_repository.dart';
+import 'package:com.mybill.app/custom/toast_component.dart';
+import 'package:com.mybill.app/helpers/shared_value_helper.dart';
+import 'package:com.mybill.app/models/items/Offer.dart';
+import 'package:com.mybill.app/repositories/user/user_favorite_offers_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:csh_app/my_theme.dart';
+import 'package:com.mybill.app/my_theme.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:toast/toast.dart';
-// import 'package:csh_app/providers/offer_provider.dart';
-// import 'package:csh_app/screens/merchant/offers/add_offer.dart';
-// import 'package:csh_app/ui_elements/dialog.dart';
+// import 'package:com.mybill.app/providers/offer_provider.dart';
+// import 'package:com.mybill.app/screens/merchant/offers/add_offer.dart';
+// import 'package:com.mybill.app/ui_elements/dialog.dart';
 // import 'package:provider/provider.dart';
 
 class UserAppBar {

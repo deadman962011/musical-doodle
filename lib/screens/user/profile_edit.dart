@@ -1,10 +1,10 @@
-import 'package:csh_app/custom/box_decorations.dart';
-import 'package:csh_app/custom/input_decorations.dart';
-import 'package:csh_app/custom/toast_component.dart';
-import 'package:csh_app/helpers/shared_value_helper.dart';
-import 'package:csh_app/my_theme.dart';
-import 'package:csh_app/repositories/user/user_auth_repository.dart';
-import 'package:csh_app/ui_elements/user_appbar.dart';
+import 'package:com.mybill.app/custom/box_decorations.dart';
+import 'package:com.mybill.app/custom/input_decorations.dart';
+import 'package:com.mybill.app/custom/toast_component.dart';
+import 'package:com.mybill.app/helpers/shared_value_helper.dart';
+import 'package:com.mybill.app/my_theme.dart';
+import 'package:com.mybill.app/repositories/user/user_auth_repository.dart';
+import 'package:com.mybill.app/ui_elements/user_appbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -15,7 +15,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:toast/toast.dart';
-import 'package:csh_app/helpers/file_helper.dart';
+import 'package:com.mybill.app/helpers/file_helper.dart';
 
 class ProfileEdit extends StatefulWidget {
   const ProfileEdit({Key? key}) : super(key: key);

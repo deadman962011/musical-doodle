@@ -23,6 +23,7 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "active": MessageLookupByLibrary.simpleMessage("Active"),
+        "add_menu": MessageLookupByLibrary.simpleMessage("Add menu"),
         "add_offer": MessageLookupByLibrary.simpleMessage("Add New  Offer"),
         "add_offer_btn": MessageLookupByLibrary.simpleMessage("Add Offer"),
         "add_offer_has_active_error": MessageLookupByLibrary.simpleMessage(
@@ -61,6 +62,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "client_login": MessageLookupByLibrary.simpleMessage("Client Login"),
         "client_name": MessageLookupByLibrary.simpleMessage("Client name"),
         "commission": MessageLookupByLibrary.simpleMessage("Comission"),
+        "contact_informations":
+            MessageLookupByLibrary.simpleMessage("Contact informations"),
         "continue_b": MessageLookupByLibrary.simpleMessage("Continue"),
         "cruise_through":
             MessageLookupByLibrary.simpleMessage("Cruise through"),
@@ -72,6 +75,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "didnt_recive_email":
             MessageLookupByLibrary.simpleMessage("Didnt recive the email ?  "),
         "done": MessageLookupByLibrary.simpleMessage("Done"),
+        "edit": MessageLookupByLibrary.simpleMessage("Edit"),
         "email": MessageLookupByLibrary.simpleMessage("Email"),
         "end": MessageLookupByLibrary.simpleMessage("End"),
         "end_date_placeholder":
@@ -103,6 +107,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "main_screen_bottom_navigation_wallet":
             MessageLookupByLibrary.simpleMessage("Wallet"),
         "maybe_later": MessageLookupByLibrary.simpleMessage("Maybe Later"),
+        "menu": MessageLookupByLibrary.simpleMessage("Menu"),
         "merchant_login":
             MessageLookupByLibrary.simpleMessage("Merchant Login"),
         "merchant_registration_completed": MessageLookupByLibrary.simpleMessage(
@@ -151,6 +156,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Please login to continue"),
         "profile": MessageLookupByLibrary.simpleMessage("Profile"),
         "profile_edit": MessageLookupByLibrary.simpleMessage("profile edit"),
+        "rating": MessageLookupByLibrary.simpleMessage("rating"),
         "referral_code":
             MessageLookupByLibrary.simpleMessage("referral code (optional)"),
         "reports": MessageLookupByLibrary.simpleMessage("Reports"),
@@ -188,6 +194,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "we_sent_you_confirmatin_email": MessageLookupByLibrary.simpleMessage(
             "We sent you a confirmation email"),
         "white": MessageLookupByLibrary.simpleMessage("white"),
+        "working_hours": MessageLookupByLibrary.simpleMessage("Working hours"),
         "yes": MessageLookupByLibrary.simpleMessage("yes")
       };
 }

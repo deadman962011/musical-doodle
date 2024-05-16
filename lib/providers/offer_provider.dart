@@ -1,4 +1,4 @@
-import 'package:csh_app/models/items/MerchantIOffer.dart';
+import 'package:com.mybill.app/models/items/MerchantIOffer.dart';
 import 'package:flutter/material.dart';
 
 class OfferProvider with ChangeNotifier {

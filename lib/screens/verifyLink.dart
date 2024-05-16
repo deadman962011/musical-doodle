@@ -1,15 +1,15 @@
 import 'dart:async';
 
-import 'package:csh_app/custom/box_decorations.dart';
-import 'package:csh_app/custom/device_info.dart';
-import 'package:csh_app/helpers/auth_helper.dart';
-import 'package:csh_app/repositories/merchant/merchant_auth_repository.dart';
-import 'package:csh_app/repositories/user/user_auth_repository.dart';
-import 'package:csh_app/screens/merchant/main.dart';
-import 'package:csh_app/screens/user/main.dart';
-import 'package:csh_app/screens/merchant/registration.dart';
-import 'package:csh_app/screens/user/registration.dart';
-import 'package:csh_app/ui_elements/auth_ui.dart';
+import 'package:com.mybill.app/custom/box_decorations.dart';
+import 'package:com.mybill.app/custom/device_info.dart';
+import 'package:com.mybill.app/helpers/auth_helper.dart';
+import 'package:com.mybill.app/repositories/merchant/merchant_auth_repository.dart';
+import 'package:com.mybill.app/repositories/user/user_auth_repository.dart';
+import 'package:com.mybill.app/screens/merchant/main.dart';
+import 'package:com.mybill.app/screens/user/main.dart';
+import 'package:com.mybill.app/screens/merchant/registration.dart';
+import 'package:com.mybill.app/screens/user/registration.dart';
+import 'package:com.mybill.app/ui_elements/auth_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 

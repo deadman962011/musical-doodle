@@ -1,12 +1,12 @@
 import 'dart:convert';
 
-import 'package:csh_app/models/responses/merchant/offer/merchant_offers_response.dart';
-import 'package:csh_app/models/responses/merchant/offer/merchant_save_offer_response.dart';
-import 'package:csh_app/models/responses/validation_response.dart';
+import 'package:com.mybill.app/models/responses/merchant/offer/merchant_offers_response.dart';
+import 'package:com.mybill.app/models/responses/merchant/offer/merchant_save_offer_response.dart';
+import 'package:com.mybill.app/models/responses/validation_response.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:csh_app/app_config.dart';
-import 'package:csh_app/helpers/shared_value_helper.dart';
+import 'package:com.mybill.app/app_config.dart';
+import 'package:com.mybill.app/helpers/shared_value_helper.dart';
 
 class MerchantOfferRepository {
   Future<dynamic> getMerchantOffersResponse({int page = 1}) async {

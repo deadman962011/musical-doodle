@@ -1,15 +1,15 @@
 import 'dart:convert';
-import 'package:csh_app/models/responses/merchant/merchant_complete_register_response.dart';
-import 'package:csh_app/models/responses/merchant/merchant_login_response.dart';
-import 'package:csh_app/models/responses/merchant/merchant_validate_login_response.dart';
-// import 'package:csh_app/models/merchant/merchant_validate_login_response.dart';
-import 'package:csh_app/models/responses/merchant/merchant_validate_register_response.dart';
-import 'package:csh_app/models/responses/merchant/validation/merchant_login_validatiom_response.dart';
-import 'package:csh_app/models/responses/validation_response.dart';
+import 'package:com.mybill.app/models/responses/merchant/merchant_complete_register_response.dart';
+import 'package:com.mybill.app/models/responses/merchant/merchant_login_response.dart';
+import 'package:com.mybill.app/models/responses/merchant/merchant_validate_login_response.dart';
+// import 'package:com.mybill.app/models/merchant/merchant_validate_login_response.dart';
+import 'package:com.mybill.app/models/responses/merchant/merchant_validate_register_response.dart';
+import 'package:com.mybill.app/models/responses/merchant/validation/merchant_login_validatiom_response.dart';
+import 'package:com.mybill.app/models/responses/validation_response.dart';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
-import 'package:csh_app/app_config.dart';
-import 'package:csh_app/helpers/shared_value_helper.dart';
+import 'package:com.mybill.app/app_config.dart';
+import 'package:com.mybill.app/helpers/shared_value_helper.dart';
 import 'package:flutter/material.dart';
 
 class MerchantAuthRepository {
@@ -17,7 +17,7 @@ class MerchantAuthRepository {
       @required String email) async {
     var post_body = jsonEncode({"email": "${email}"});
 
-    Uri url = Uri.parse("${AppConfig.BASE_URL}/shop/auth/");
+    Uri url = Uri.parse("${AppConfig.BASE_URL}/shop/auth");
     final response = await http.post(url,
         headers: {
           'Accept': 'application/json',
@@ -39,13 +39,16 @@ class MerchantAuthRepository {
   Future<dynamic> getMerchantValidateMagicLinkResponse(
       @required String token, @required String action) async {
     var post_body = jsonEncode({"token": token, "action": action});
-
+    debugPrint(
+        '${user_latitude.$}, ${user_longitude.$} -----------------------------------------an at auth repo');
     Uri url = Uri.parse("${AppConfig.BASE_URL}/shop/auth/validate");
     final response = await http.post(url,
         headers: {
           'Accept': 'application/json',
           "Content-Type": "application/json",
           "Accept-Language": app_language.$,
+          "latitude": user_latitude.$,
+          "longitude": user_longitude.$
         },
         body: post_body);
     if (response.statusCode == 200) {
@@ -96,6 +99,8 @@ class MerchantAuthRepository {
           'Accept': 'application/json',
           "Content-Type": "application/json",
           "Accept-Language": app_language.$,
+          "latitude": user_latitude.$,
+          "longitude": user_longitude.$
         },
         body: post_body);
 

@@ -1,10 +1,10 @@
-import 'package:csh_app/helpers/shared_value_helper.dart';
-import 'package:csh_app/helpers/shimmer_helper.dart';
-import 'package:csh_app/models/items/Offer.dart';
-import 'package:csh_app/my_theme.dart';
-import 'package:csh_app/repositories/user/user_favorite_offers_repository.dart';
-import 'package:csh_app/ui_elements/user_appbar.dart';
-import 'package:csh_app/widgets/OfferWidget.dart';
+import 'package:com.mybill.app/helpers/shared_value_helper.dart';
+import 'package:com.mybill.app/helpers/shimmer_helper.dart';
+import 'package:com.mybill.app/models/items/Offer.dart';
+import 'package:com.mybill.app/my_theme.dart';
+import 'package:com.mybill.app/repositories/user/user_favorite_offers_repository.dart';
+import 'package:com.mybill.app/ui_elements/user_appbar.dart';
+import 'package:com.mybill.app/widgets/OfferWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 

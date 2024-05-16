@@ -1,8 +1,8 @@
-import 'package:csh_app/helpers/auth_helper.dart';
-import 'package:csh_app/helpers/shared_value_helper.dart';
-import 'package:csh_app/screens/guest.dart';
-import 'package:csh_app/screens/merchant/main.dart';
-import 'package:csh_app/ui_elements/merchant_appbar.dart';
+import 'package:com.mybill.app/helpers/auth_helper.dart';
+import 'package:com.mybill.app/helpers/shared_value_helper.dart';
+import 'package:com.mybill.app/screens/guest.dart';
+import 'package:com.mybill.app/screens/merchant/main.dart';
+import 'package:com.mybill.app/ui_elements/merchant_appbar.dart';
 import 'package:flutter/material.dart';
 
 class MerchantHome extends StatefulWidget {

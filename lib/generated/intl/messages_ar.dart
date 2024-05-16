@@ -23,6 +23,7 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "active": MessageLookupByLibrary.simpleMessage("فعال"),
+        "add_menu": MessageLookupByLibrary.simpleMessage("اضافة منيو"),
         "add_offer": MessageLookupByLibrary.simpleMessage("اضاففة العرض"),
         "add_offer_btn": MessageLookupByLibrary.simpleMessage("اضافة عرض"),
         "add_offer_has_active_error": MessageLookupByLibrary.simpleMessage(
@@ -59,6 +60,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "client_login": MessageLookupByLibrary.simpleMessage("دخول العميل"),
         "client_name": MessageLookupByLibrary.simpleMessage("اسم العميل"),
         "commission": MessageLookupByLibrary.simpleMessage("العمولة"),
+        "contact_informations":
+            MessageLookupByLibrary.simpleMessage("معلومات التواصل"),
         "continue_b": MessageLookupByLibrary.simpleMessage("اكمال"),
         "cruise_through": MessageLookupByLibrary.simpleMessage("ابحر عبر"),
         "date": MessageLookupByLibrary.simpleMessage("التاريخ"),
@@ -67,6 +70,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "didnt_recive_email":
             MessageLookupByLibrary.simpleMessage("لم تستلم رسالة التأكيد ؟"),
         "done": MessageLookupByLibrary.simpleMessage("منتهي"),
+        "edit": MessageLookupByLibrary.simpleMessage("تعديل"),
         "email": MessageLookupByLibrary.simpleMessage("البريد الالكتروني"),
         "end": MessageLookupByLibrary.simpleMessage("انتهاء"),
         "end_date_placeholder":
@@ -93,6 +97,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "main_screen_bottom_navigation_wallet":
             MessageLookupByLibrary.simpleMessage("محفظتي"),
         "maybe_later": MessageLookupByLibrary.simpleMessage("ربما لاحقا"),
+        "menu": MessageLookupByLibrary.simpleMessage("المنيو"),
         "merchant_login": MessageLookupByLibrary.simpleMessage("دخول التاجر"),
         "merchant_registration_completed":
             MessageLookupByLibrary.simpleMessage("تم تسجيل حساب التاجر بنجاح "),
@@ -137,6 +142,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "please_login_to_continue":
             MessageLookupByLibrary.simpleMessage("الرجاء تسجيل الدخول للاكمال"),
         "profile": MessageLookupByLibrary.simpleMessage("حسابي"),
+        "rating": MessageLookupByLibrary.simpleMessage("التقييم  "),
         "referral_code":
             MessageLookupByLibrary.simpleMessage("كود الاحالة (اختياري)"),
         "reports": MessageLookupByLibrary.simpleMessage("التقارير"),
@@ -166,6 +172,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "wallet": MessageLookupByLibrary.simpleMessage("المحفظة"),
         "we_sent_you_confirmatin_email":
             MessageLookupByLibrary.simpleMessage("ارسلنا لك بريد التأكيد"),
+        "working_hours": MessageLookupByLibrary.simpleMessage("ساعات العمل"),
         "yes": MessageLookupByLibrary.simpleMessage("نعم")
       };
 }

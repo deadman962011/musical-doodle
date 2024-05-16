@@ -1,15 +1,15 @@
 import 'dart:ui';
 
-import 'package:csh_app/custom/box_decorations.dart';
-import 'package:csh_app/custom/toast_component.dart';
-import 'package:csh_app/helpers/shared_value_helper.dart';
-import 'package:csh_app/models/items/Offer.dart';
-import 'package:csh_app/models/responses/merchant/offer/merchant_offers_response.dart';
-import 'package:csh_app/my_theme.dart';
-import 'package:csh_app/repositories/user/user_favorite_offers_repository.dart';
-import 'package:csh_app/repositories/user/user_offers_repository.dart';
-import 'package:csh_app/screens/login.dart';
-import 'package:csh_app/screens/user/offer_details.dart';
+import 'package:com.mybill.app/custom/box_decorations.dart';
+import 'package:com.mybill.app/custom/toast_component.dart';
+import 'package:com.mybill.app/helpers/shared_value_helper.dart';
+import 'package:com.mybill.app/models/items/Offer.dart';
+import 'package:com.mybill.app/models/responses/merchant/offer/merchant_offers_response.dart';
+import 'package:com.mybill.app/my_theme.dart';
+import 'package:com.mybill.app/repositories/user/user_favorite_offers_repository.dart';
+import 'package:com.mybill.app/repositories/user/user_offers_repository.dart';
+import 'package:com.mybill.app/screens/login.dart';
+import 'package:com.mybill.app/screens/user/offer_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:form_builder_extra_fields/form_builder_extra_fields.dart';
@@ -262,16 +262,16 @@ class _OfferWidgetState extends State<OfferWidget> {
   }
 }
 
-// import 'package:csh_app/custom/box_decorations.dart';
-// import 'package:csh_app/custom/toast_component.dart';
-// import 'package:csh_app/helpers/shared_value_helper.dart';
-// import 'package:csh_app/models/items/Offer.dart';
-// import 'package:csh_app/models/responses/merchant/offer/merchant_offers_response.dart';
-// import 'package:csh_app/my_theme.dart';
-// import 'package:csh_app/repositories/user/user_favorite_offers_repository.dart';
-// import 'package:csh_app/repositories/user/user_offers_repository.dart';
-// import 'package:csh_app/screens/login.dart';
-// import 'package:csh_app/screens/user/offer_details.dart';
+// import 'package:com.mybill.app/custom/box_decorations.dart';
+// import 'package:com.mybill.app/custom/toast_component.dart';
+// import 'package:com.mybill.app/helpers/shared_value_helper.dart';
+// import 'package:com.mybill.app/models/items/Offer.dart';
+// import 'package:com.mybill.app/models/responses/merchant/offer/merchant_offers_response.dart';
+// import 'package:com.mybill.app/my_theme.dart';
+// import 'package:com.mybill.app/repositories/user/user_favorite_offers_repository.dart';
+// import 'package:com.mybill.app/repositories/user/user_offers_repository.dart';
+// import 'package:com.mybill.app/screens/login.dart';
+// import 'package:com.mybill.app/screens/user/offer_details.dart';
 // import 'package:flutter/material.dart';
 // import 'package:flutter/widgets.dart';
 // import 'package:form_builder_extra_fields/form_builder_extra_fields.dart';

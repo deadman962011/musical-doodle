@@ -12,9 +12,9 @@ class AppConfig {
   static bool app_language_rtl = false;
 
   //configure this
-  static const bool HTTPS = true;
+  static const bool HTTPS = false;
 
-  static const bool IsDevelp = false;
+  static const bool IsDevelp = true;
 
   //configure this
 

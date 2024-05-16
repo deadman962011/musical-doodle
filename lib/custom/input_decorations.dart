@@ -1,12 +1,15 @@
-import 'package:csh_app/custom/input_shadow_border_decoration.dart';
+import 'package:com.mybill.app/custom/input_shadow_border_decoration.dart';
 import 'package:flutter/material.dart';
-import 'package:csh_app/my_theme.dart';
+import 'package:com.mybill.app/my_theme.dart';
 
 class InputDecorations {
   static InputDecoration buildInputDecoration_1(
-      {hint_text = "", error_text=null, horizontalPadding = 16.00, verticalPadding = 0.00}) {
+      {hint_text = "",
+      error_text = null,
+      horizontalPadding = 16.00,
+      verticalPadding = 0.00}) {
     return InputDecoration(
-      errorMaxLines: 3,
+        errorMaxLines: 3,
         hintText: hint_text,
         errorText: error_text,
         filled: true,
@@ -34,10 +37,8 @@ class InputDecorations {
         ),
         contentPadding: EdgeInsets.symmetric(
           horizontal: 16.00,
-        )
-        );
+        ));
   }
-
 
   static InputDecoration buildDropdownInputDecoration_1(
       {hint_text = "", horizontalPadding = 16.00, verticalPadding = 0.00}) {
@@ -68,8 +69,7 @@ class InputDecorations {
         ),
         contentPadding: EdgeInsets.symmetric(
           horizontal: 16.00,
-        )
-        );
+        ));
   }
 
   static InputDecoration buildInputDecoration_phone({hint_text = ""}) {

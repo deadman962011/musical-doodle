@@ -113,5 +113,11 @@
   "payment": "Payment",
   "no_data": "No Data",
   "pay": "Pay",
-  "active": "Active"
+  "active": "Active",
+  "menu": "Menu",
+  "add_menu": "Add menu",
+  "working_hours": "Working hours",
+  "contact_informations": "Contact informations",
+  "rating": "rating",
+  "edit": "Edit"
 }

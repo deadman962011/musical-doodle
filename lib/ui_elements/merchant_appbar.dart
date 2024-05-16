@@ -1,7 +1,7 @@
-import 'package:csh_app/my_theme.dart';
-import 'package:csh_app/providers/offer_provider.dart';
-import 'package:csh_app/screens/merchant/offers/add_offer.dart';
-import 'package:csh_app/ui_elements/dialog.dart';
+import 'package:com.mybill.app/my_theme.dart';
+import 'package:com.mybill.app/providers/offer_provider.dart';
+import 'package:com.mybill.app/screens/merchant/offers/add_offer.dart';
+import 'package:com.mybill.app/ui_elements/dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -51,14 +51,27 @@ class MerchantAppBar {
           Container()
         ];
         break;
+      case 'statistics':
+        widgets = [
+          _buildToggleDrawerButton(context, scaffoldKey),
+          Text(title),
+          Container()
+        ];
+        break;
 
       default:
+        widgets = [
+          _buildBackButton(context),
+          Text(title),
+          Container(),
+        ];
+        break;
     }
 
     return PreferredSize(
-        preferredSize: const Size.fromHeight(50),
+        preferredSize: const Size.fromHeight(60),
         child: Container(
-          padding: const EdgeInsets.only(top: 16, right: 14, left: 14),
+          padding: const EdgeInsets.only(top: 12, right: 14, left: 14),
           // height: preferredSize.height,
           color: Colors.transparent,
           child: Row(

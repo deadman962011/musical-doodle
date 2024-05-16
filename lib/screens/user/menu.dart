@@ -1,8 +1,8 @@
-import 'package:csh_app/custom/device_info.dart';
-import 'package:csh_app/helpers/shared_value_helper.dart';
-import 'package:csh_app/my_theme.dart';
-import 'package:csh_app/screens/change_language.dart';
-import 'package:csh_app/screens/change_theme.dart';
+import 'package:com.mybill.app/custom/device_info.dart';
+import 'package:com.mybill.app/helpers/shared_value_helper.dart';
+import 'package:com.mybill.app/my_theme.dart';
+import 'package:com.mybill.app/screens/change_language.dart';
+import 'package:com.mybill.app/screens/change_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';

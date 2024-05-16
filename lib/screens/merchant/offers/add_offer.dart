@@ -1,16 +1,16 @@
 import 'dart:ffi';
 
-import 'package:csh_app/custom/input_decorations.dart';
-import 'package:csh_app/custom/toast_component.dart';
-import 'package:csh_app/helpers/file_helper.dart';
-import 'package:csh_app/helpers/shared_value_helper.dart';
-import 'package:csh_app/my_theme.dart';
-import 'package:csh_app/repositories/file_repository.dart';
-import 'package:csh_app/repositories/merchant/merchant_offer_repository.dart';
-import 'package:csh_app/repositories/setting_repository.dart';
-import 'package:csh_app/screens/merchant/offers/offers.dart';
-import 'package:csh_app/ui_elements/merchant_appbar.dart';
-import 'package:csh_app/ui_elements/merchant_drawer.dart';
+import 'package:com.mybill.app/custom/input_decorations.dart';
+import 'package:com.mybill.app/custom/toast_component.dart';
+import 'package:com.mybill.app/helpers/file_helper.dart';
+import 'package:com.mybill.app/helpers/shared_value_helper.dart';
+import 'package:com.mybill.app/my_theme.dart';
+import 'package:com.mybill.app/repositories/file_repository.dart';
+import 'package:com.mybill.app/repositories/merchant/merchant_offer_repository.dart';
+import 'package:com.mybill.app/repositories/setting_repository.dart';
+import 'package:com.mybill.app/screens/merchant/offers/offers.dart';
+import 'package:com.mybill.app/ui_elements/merchant_appbar.dart';
+import 'package:com.mybill.app/ui_elements/merchant_drawer.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -96,7 +96,6 @@ class _AddOfferState extends State<AddOffer> {
     if (_isLoading) {
       return false;
     }
-
     return true;
   }
 

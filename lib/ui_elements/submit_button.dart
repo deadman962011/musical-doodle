@@ -1,26 +1,18 @@
-import 'package:csh_app/my_theme.dart';
+import 'package:com.mybill.app/my_theme.dart';
 import 'package:flutter/material.dart';
 
-
-
-
-
-
-
-
 class SubmitButton extends StatefulWidget {
-  bool isLoading= false;
-  List<bool> conditions =[];
-  SubmitButton({ super.key,required this.isLoading,required this.conditions });
+  bool isLoading = false;
+  List<bool> conditions = [];
+  SubmitButton({super.key, required this.isLoading, required this.conditions});
 
   @override
   _SubmitButtonState createState() => _SubmitButtonState();
 }
 
 class _SubmitButtonState extends State<SubmitButton> {
-
-  late bool isActive =false;
-  late Color btnColor=MyTheme.grey_153;
+  late bool isActive = false;
+  late Color btnColor = MyTheme.grey_153;
 
   @override
   void initState() {
@@ -28,32 +20,22 @@ class _SubmitButtonState extends State<SubmitButton> {
     super.initState();
   }
 
-  checkButtonsIsActive(){
-    if(widget.isLoading){
+  checkButtonsIsActive() {
+    if (widget.isLoading) {
       setState(() {
-        btnColor=MyTheme.accent_color_shadow;
-        
-        
+        btnColor = MyTheme.accent_color_shadow;
       });
     }
-    if(!widget.conditions.first){
+    if (!widget.conditions.first) {
       return MyTheme.grey_153;
-    }
-    else{
+    } else {
       return MyTheme.accent_color;
     }
-
-
   }
-
-
-
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      
-    );
+    return Container();
   }
 }
 

@@ -1,4 +1,4 @@
-package com.example.csh_app
+package com.mybill.app
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -1,4 +1,4 @@
-import 'package:csh_app/my_theme.dart';
+import 'package:com.mybill.app/my_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
@@ -126,18 +126,20 @@ class _LocationSelectorState extends State<LocationSelector> {
               ),
             ]),
         SizedBox(
-          width: 150,
-          child:
-          Padding(padding:EdgeInsets.only(bottom: 12),
-          child: FloatingActionButton(
-              child: Text('Select Position'),
-              backgroundColor:customMarkers.isNotEmpty ? MyTheme.accent_color : MyTheme.dark_grey ,
-              onPressed: customMarkers.isNotEmpty ? () {
-                Navigator.pop(context, _selectedLocation);
-              }:null),
-          
-          )
-        ),
+            width: 150,
+            child: Padding(
+              padding: EdgeInsets.only(bottom: 12),
+              child: FloatingActionButton(
+                  child: Text('Select Position'),
+                  backgroundColor: customMarkers.isNotEmpty
+                      ? MyTheme.accent_color
+                      : MyTheme.dark_grey,
+                  onPressed: customMarkers.isNotEmpty
+                      ? () {
+                          Navigator.pop(context, _selectedLocation);
+                        }
+                      : null),
+            )),
       ],
     );
   }

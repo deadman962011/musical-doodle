@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:csh_app/my_theme.dart';
+import 'package:com.mybill.app/my_theme.dart';
 
 class BoxDecorations {
   static BoxDecoration buildBoxDecoration(

@@ -1,7 +1,7 @@
-import 'package:csh_app/models/responses/slider/home_slider_response.dart';
+import 'package:com.mybill.app/models/responses/slider/home_slider_response.dart';
 import 'package:http/http.dart' as http;
-import 'package:csh_app/app_config.dart';
-import 'package:csh_app/helpers/shared_value_helper.dart';
+import 'package:com.mybill.app/app_config.dart';
+import 'package:com.mybill.app/helpers/shared_value_helper.dart';
 
 class SliderRepository {
   Future<dynamic> getUserHomeSliderResponse() async {

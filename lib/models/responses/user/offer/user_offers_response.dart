@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:csh_app/models/items/Offer.dart';
+import 'package:com.mybill.app/models/items/Offer.dart';
 
 UserOffersResponse userOffersResponseFromJson(String str) =>
     UserOffersResponse.fromJson(json.decode(str));

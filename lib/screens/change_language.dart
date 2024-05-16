@@ -1,16 +1,16 @@
-import 'package:csh_app/custom/box_decorations.dart';
-import 'package:csh_app/custom/useful_elements.dart';
+import 'package:com.mybill.app/custom/box_decorations.dart';
+import 'package:com.mybill.app/custom/useful_elements.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:csh_app/my_theme.dart';
-// import 'package:csh_app/repositories/language_repository.dart';
-import 'package:csh_app/helpers/shimmer_helper.dart';
-import 'package:csh_app/helpers/shared_value_helper.dart';
-import 'package:csh_app/screens/user/main.dart';
-import 'package:csh_app/providers/locale_provider.dart';
+import 'package:com.mybill.app/my_theme.dart';
+// import 'package:com.mybill.app/repositories/language_repository.dart';
+import 'package:com.mybill.app/helpers/shimmer_helper.dart';
+import 'package:com.mybill.app/helpers/shared_value_helper.dart';
+import 'package:com.mybill.app/screens/user/main.dart';
+import 'package:com.mybill.app/providers/locale_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:csh_app/dummy_data/dummy_languages.dart';
+import 'package:com.mybill.app/dummy_data/dummy_languages.dart';
 
 class ChangeLanguage extends StatefulWidget {
   ChangeLanguage() : super();

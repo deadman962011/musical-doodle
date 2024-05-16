@@ -1,4 +1,23 @@
+import 'package:com.mybill.app/custom/box_decorations.dart';
+import 'package:com.mybill.app/custom/input_decorations.dart';
+import 'package:com.mybill.app/custom/toast_component.dart';
+import 'package:com.mybill.app/helpers/shared_value_helper.dart';
+import 'package:com.mybill.app/helpers/shimmer_helper.dart';
+import 'package:com.mybill.app/models/responses/merchant/availability/merchant_availability_response.dart';
+import 'package:com.mybill.app/my_theme.dart';
+import 'package:com.mybill.app/repositories/merchant/merchant_repository.dart';
+import 'package:com.mybill.app/ui_elements/merchant_appbar.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:com.mybill.app/ui_elements/merchant_appbar.dart';
+import 'package:com.mybill.app/ui_elements/merchant_drawer.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:intl/intl.dart' as intl;
+import 'package:toast/toast.dart';
 
 class WorkingHours extends StatefulWidget {
   const WorkingHours({Key? key}) : super(key: key);
@@ -8,10 +27,261 @@ class WorkingHours extends StatefulWidget {
 }
 
 class _WorkingHoursState extends State<WorkingHours> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
+  final _formKey = GlobalKey<FormBuilderState>();
+
+  bool isLoading = true;
+  List<AvailabilityDay> _availability_days = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchAll();
+  }
+
+  fetchAll() {
+    setState(() {
+      isLoading = true;
+    });
+    fetchAvailability();
+  }
+
+  reset() {
+    fetchAll();
+  }
+
+  fetchAvailability() async {
+    var response = await MerchantRepository().getMerchantAvailabilityResponse();
+    if (response.runtimeType.toString() == 'MerchantAvailabilityResponse') {
+      setState(() {
+        _availability_days = response.payload;
+      });
+    } else {}
+
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  toggleDay(int id) async {
+    var response =
+        await MerchantRepository().getMerchantAvailabilityToggleDayResponse(id);
+    if (response.runtimeType.toString() ==
+        'MerchantAvailabilityToggleDayStatusResponse') {
+      ToastComponent.showDialog('day status updated', context,
+          gravity: Toast.bottom, duration: Toast.lengthLong);
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  addSlot(int id) async {
+    var response =
+        await MerchantRepository().getMerchantAvailabilityAddSlotResponse(id);
+    if (response.runtimeType.toString() ==
+        'MerchantAvailabilityAddSlotResponse') {
+      fetchAll();
+    } else {}
+  }
+
+  removeSlot(int id) async {
+    var response = await MerchantRepository()
+        .getMerchantAvailabilityRemoveSlotResponse(id);
+    if (response.runtimeType.toString() ==
+        'MerchantAvailabilityAddSlotResponse') {
+      fetchAll();
+    } else {}
+  }
+
+  updatSlot(int id) async {
+    _formKey.currentState!.save();
+    debugPrint(
+        "update slot triggered ${_formKey.currentState!.value['start_date_${id}']}");
+
+    var response = await MerchantRepository()
+        .getMerchantAvailabilityUpdateSlotResponse(
+            id,
+            _formKey.currentState!.value['start_date_${id}'].toString(),
+            _formKey.currentState!.value['end_date_${id}'].toString());
+    if (response.runtimeType.toString() ==
+        'MerchantAvailabilityAddSlotResponse') {
+      ToastComponent.showDialog('availability slot updated', context,
+          gravity: Toast.bottom, duration: Toast.lengthLong);
+    }
+  }
+
+  Future<void> _onRefresh() async {
+    fetchAll();
+  }
+
   @override
   Widget build(BuildContext context) {
+    return Directionality(
+        textDirection:
+            app_language_rtl.$ ? TextDirection.rtl : TextDirection.ltr,
+        child: Scaffold(
+            key: _scaffoldKey,
+            appBar: MerchantAppBar.buildMerchantAppBar(context, 'working_hours',
+                _scaffoldKey, AppLocalizations.of(context)!.add_offer),
+            drawer: MerchantDrawer.buildDrawer(context),
+            backgroundColor: Colors.transparent,
+            body: RefreshIndicator(
+                color: MyTheme.accent_color,
+                backgroundColor: Colors.white,
+                displacement: 0,
+                onRefresh: _onRefresh,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 14),
+                  child: SingleChildScrollView(
+                    child: isLoading
+                        ? Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              ShimmerHelper().buildBasicShimmer(height: 160),
+                              ShimmerHelper().buildBasicShimmer(height: 160),
+                              ShimmerHelper().buildBasicShimmer(height: 160),
+                              ShimmerHelper().buildBasicShimmer(height: 160),
+                              ShimmerHelper().buildBasicShimmer(height: 160),
+                            ],
+                          )
+                        : Column(
+                            children: [_buildDaySlotsList()],
+                          ),
+                  ),
+                ))));
+  }
+
+  Widget _buildDaySlotsList() {
+    return FormBuilder(
+        key: _formKey,
+        child: Column(
+            children: _availability_days.map((day) {
+          return _buildDaySlotDay(day);
+        }).toList()));
+  }
+
+  Widget _buildDaySlotDay(AvailabilityDay day) {
     return Container(
-      child: Text('working hours '),
+        margin: EdgeInsets.symmetric(vertical: 10),
+        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+        decoration: BoxDecorations.buildBoxDecoration_1(),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                    child: FormBuilderSwitch(
+                  name: 'day_status_${day.id}',
+                  title: Text(day.day),
+                  initialValue: day.status == 1 ? true : false,
+                  activeColor: MyTheme.accent_color,
+                  inactiveThumbColor: Colors.grey.shade300,
+                  inactiveTrackColor: Colors.grey.shade500,
+                  onChanged: (value) {
+                    toggleDay(day.id);
+                  },
+                )),
+              ],
+            ),
+            Column(
+              children: day.slots.map((slot) => _buildSlot(slot)).toList(),
+            ),
+            Padding(
+                padding: EdgeInsets.symmetric(vertical: 16),
+                child: GestureDetector(
+                  child: Text(
+                    '+ Add New Slot',
+                    style: TextStyle(
+                        color: MyTheme.accent_color,
+                        fontWeight: FontWeight.w600),
+                  ),
+                  onTap: () {
+                    addSlot(day.id);
+                  },
+                ))
+          ],
+        ));
+  }
+
+  Widget _buildSlot(AvailabilitySlot slot) {
+    return Row(
+      children: [
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(bottom: 4),
+                child: Text(AppLocalizations.of(context)!.start),
+              ),
+              FormBuilderDateTimePicker(
+                name: 'start_date_${slot.id}',
+                format: intl.DateFormat('HH:mm'),
+                inputType: InputType.time,
+                decoration: InputDecorations.buildInputDecoration_1(
+                    hint_text:
+                        AppLocalizations.of(context)!.start_date_placeholder),
+                validator: FormBuilderValidators.compose([
+                  FormBuilderValidators.required(),
+                ]),
+                textInputAction: TextInputAction.next,
+                firstDate: DateTime.now(),
+                // onEditingComplete: () {
+                //   updatSlot(slot.id);
+                // },
+                // onFieldSubmitted: (value) {
+                //   updatSlot(slot.id);
+                // },
+                onChanged: (DateTime? value) {
+                  updatSlot(slot.id);
+                  if (value != null) {}
+                },
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(bottom: 4),
+                child: Text(AppLocalizations.of(context)!.end),
+              ),
+              FormBuilderDateTimePicker(
+                name: 'end_date_${slot.id}',
+                format: intl.DateFormat('HH:mm'),
+                inputType: InputType.time,
+                // controller: _offerEndDateController,
+                decoration: InputDecorations.buildInputDecoration_1(
+                    hint_text:
+                        AppLocalizations.of(context)!.end_date_placeholder),
+                validator: FormBuilderValidators.compose([
+                  FormBuilderValidators.required(),
+                ]),
+                textInputAction: TextInputAction.next,
+                onChanged: (DateTime? value) {
+                  updatSlot(slot.id);
+                  if (value != null) {}
+                },
+              ),
+            ],
+          ),
+        ),
+        IconButton(
+          icon: Icon(Icons.close),
+          onPressed: () {
+            removeSlot(slot.id);
+          },
+        )
+      ],
     );
   }
 }

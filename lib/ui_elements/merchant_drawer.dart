@@ -1,9 +1,12 @@
-import 'package:csh_app/my_theme.dart';
-import 'package:csh_app/screens/merchant/home.dart';
-import 'package:csh_app/screens/merchant/main.dart';
-import 'package:csh_app/screens/merchant/offers/offers.dart';
-import 'package:csh_app/screens/merchant/profile_edit.dart';
-import 'package:csh_app/screens/merchant/reports.dart';
+import 'package:com.mybill.app/my_theme.dart';
+import 'package:com.mybill.app/screens/merchant/home.dart';
+import 'package:com.mybill.app/screens/merchant/main.dart';
+import 'package:com.mybill.app/screens/merchant/offers/offers.dart';
+import 'package:com.mybill.app/screens/merchant/profile_edit.dart';
+import 'package:com.mybill.app/screens/merchant/reports.dart';
+import 'package:com.mybill.app/screens/merchant/statistics/latest_sales.dart';
+import 'package:com.mybill.app/screens/merchant/statistics/statistics.dart';
+import 'package:com.mybill.app/screens/merchant/wallet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -15,8 +18,22 @@ class MerchantDrawer {
         'image': 'assets/pie.png',
         'action': null,
         'sub': [
-          {'title': AppLocalizations.of(context)!.statistics, 'action': () {}},
-          {'title': AppLocalizations.of(context)!.statistics, 'action': () {}}
+          {
+            'title': AppLocalizations.of(context)!.statistics,
+            'action': () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return const MerchantStatistics();
+              }));
+            }
+          },
+          {
+            'title': AppLocalizations.of(context)!.statistics,
+            'action': () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return const MerchantLatestSales();
+              }));
+            }
+          }
         ]
       },
       {
@@ -24,7 +41,7 @@ class MerchantDrawer {
         'image': 'assets/wallet.png',
         'action': () {
           Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return MerchantMain();
+            return MerchantWallet();
           }));
         },
         'sub': []
@@ -118,11 +135,14 @@ class MerchantDrawer {
                         ],
                       ),
                       children: item['sub'].map<Widget>((child) {
-                        return Text(child['title'],
-                            style: TextStyle(
-                              color: MyTheme.white,
-                              fontSize: 12,
-                            ));
+                        return ListTile(
+                          title: Text(child['title'],
+                              style: TextStyle(
+                                color: MyTheme.white,
+                                fontSize: 12,
+                              )),
+                          onTap: child['action'],
+                        );
                       }).toList(),
                       shape: Border(),
                     )

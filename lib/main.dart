@@ -1,10 +1,17 @@
 import 'dart:async';
-import 'package:csh_app/helpers/shared_value_helper.dart';
-import 'package:csh_app/providers/offer_provider.dart';
-import 'package:csh_app/screens/verifyLink.dart';
+import 'package:com.mybill.app/firebase_options.dart';
+import 'package:com.mybill.app/helpers/notification_helper.dart';
+import 'package:com.mybill.app/helpers/shared_value_helper.dart';
+import 'package:com.mybill.app/models/items/notification_body.dart';
+import 'package:com.mybill.app/providers/offer_provider.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:com.mybill.app/screens/verifyLink.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 import 'package:one_context/one_context.dart';
@@ -12,9 +19,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_value/shared_value.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:uni_links/uni_links.dart';
-import 'package:csh_app/screens/splash_screen.dart';
-import 'package:csh_app/my_theme.dart';
-import 'package:csh_app/providers/locale_provider.dart';
+import 'package:com.mybill.app/screens/splash_screen.dart';
+import 'package:com.mybill.app/my_theme.dart';
+import 'package:com.mybill.app/providers/locale_provider.dart';
 import 'app_config.dart';
 import 'lang_config.dart';
 import 'dart:io';
@@ -29,17 +36,24 @@ class MyHttpOverrides extends HttpOverrides {
   }
 }
 
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+
 main() async {
   HttpOverrides.global = MyHttpOverrides();
   WidgetsFlutterBinding.ensureInitialized();
-  // ByteData data = await PlatformAssetBundle().load('assets/ca/lets-encrypt-r3.pem');
-  // SecurityContext.defaultContext.setTrustedCertificatesBytes(data.buffer.asUint8List());
 
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
 
+  // NotificationBodyModel? body;
+  // final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  // ByteData data = await PlatformAssetBundle().load('assets/ca/lets-encrypt-r3.pem');
+  // SecurityContext.defaultContext.setTrustedCertificatesBytes(data.buffer.asUint8List());
   // AddonsHelper().setAddonsData();
   // BusinessSettingHelper().setBusinessSettingData();
   // app_language.load();
@@ -74,12 +88,14 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   String _deepLink = 'No link yet';
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
 
   @override
   void initState() {
     super.initState();
     initUniLinks();
     getLocation();
+    initFirebase();
   }
 
   Future<void> initUniLinks() async {
@@ -114,13 +130,47 @@ class _MyAppState extends State<MyApp> {
     // });
   }
 
-  getLocation() async {
-    Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
-    user_longitude.$ = position.longitude.toString();
-    user_longitude.save();
-    user_latitude.$ = position.latitude.toString();
-    user_latitude.save();
+  void getLocation() async {
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+    } else if (permission == LocationPermission.always) {
+      Position position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high);
+      user_longitude.$ = position.longitude.toString();
+      user_longitude.save();
+      user_latitude.$ = position.latitude.toString();
+      user_latitude.save();
+    }
+  }
+
+  void initFirebase() async {
+    _firebaseMessaging.requestPermission(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
+    // Set foreground notification presentation options
+    _firebaseMessaging.setForegroundNotificationPresentationOptions(
+      alert: true, // Required to display a heads up notification
+      badge: true,
+      sound: true,
+    );
+
+    FirebaseMessaging.instance.subscribeToTopic('all_zone_customer');
+
+    // Get the FCM token
+    _firebaseMessaging.getToken().then((String? token) {
+      assert(token != null);
+      print('FCM Token: $token');
+    });
+    // Listen for messages when the app is in the foreground
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      NotificationHelper.showNotification(
+          message, flutterLocalNotificationsPlugin, false);
+      // Handle your message here
+    });
+    FirebaseMessaging.onBackgroundMessage(myBackgroundMessageHandler);
   }
 
   @override
