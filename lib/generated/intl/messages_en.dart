@@ -167,6 +167,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
         "of_bill_amount":
             MessageLookupByLibrary.simpleMessage("of bill amount"),
+        "offer_added_to_favorite": MessageLookupByLibrary.simpleMessage(
+            "offer successfully added to favorite"),
         "offer_duration":
             MessageLookupByLibrary.simpleMessage("offer duration"),
         "offer_name": MessageLookupByLibrary.simpleMessage("Offer Name"),
@@ -194,6 +196,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Pending balance"),
         "pending_invoice":
             MessageLookupByLibrary.simpleMessage("Pending invoice"),
+        "phone_number": MessageLookupByLibrary.simpleMessage("Phone number"),
         "please_check_your_email_inbox": MessageLookupByLibrary.simpleMessage(
             "Please check your email address"),
         "please_enter_your_informations_to_continue":
@@ -220,7 +223,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "resend_email": MessageLookupByLibrary.simpleMessage("Resend email"),
         "sar": MessageLookupByLibrary.simpleMessage("SAR"),
         "save": MessageLookupByLibrary.simpleMessage("Save"),
-        "scan": MessageLookupByLibrary.simpleMessage("Scan"),
+        "scan_title": MessageLookupByLibrary.simpleMessage("Scan"),
         "search": MessageLookupByLibrary.simpleMessage("Search"),
         "select_category":
             MessageLookupByLibrary.simpleMessage("select category"),

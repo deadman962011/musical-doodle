@@ -1340,7 +1340,15 @@ class S {
     );
   }
 
-  // skipped getter for the 'offer-added_to_favorite' key
+  /// `offer successfully added to favorite`
+  String get offer_added_to_favorite {
+    return Intl.message(
+      'offer successfully added to favorite',
+      name: 'offer_added_to_favorite',
+      desc: '',
+      args: [],
+    );
+  }
 
   /// `Shop contact informations successfully updated`
   String get shop_contact_successfully_updated {
@@ -1673,10 +1681,10 @@ class S {
   }
 
   /// `Scan`
-  String get scan {
+  String get scan_title {
     return Intl.message(
       'Scan',
-      name: 'scan',
+      name: 'scan_title',
       desc: '',
       args: [],
     );
@@ -1787,6 +1795,16 @@ class S {
     return Intl.message(
       'me',
       name: 'me',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Phone number`
+  String get phone_number {
+    return Intl.message(
+      'Phone number',
+      name: 'phone_number',
       desc: '',
       args: [],
     );

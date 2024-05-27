@@ -59,7 +59,8 @@ class _RedeemPointsState extends State<RedeemPoints> {
             app_language_rtl.$ ? TextDirection.rtl : TextDirection.ltr,
         child: Scaffold(
           key: _scaffoldKey,
-          appBar: UserAppBar.buildUserAppBar(context, 'notifications', '', {}),
+          appBar: UserAppBar.buildUserAppBar(
+              context, 'redeem_points', S.of(context).redeem_points, {}),
           body: Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
@@ -98,7 +99,7 @@ class _RedeemPointsState extends State<RedeemPoints> {
                               // await onPressedUpdateProfile();
                             },
                             child: Text(
-                              'next',
+                              S.of(context).next,
                               style: TextStyle(
                                 color: MyTheme.white,
                                 fontSize: 16,
@@ -119,11 +120,11 @@ class _RedeemPointsState extends State<RedeemPoints> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            'Available points: ',
+            S.of(context).available_points,
             style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15),
           ),
           Text(
-            '120 point',
+            '0 ${S.of(context).points}',
             style: TextStyle(
                 fontWeight: FontWeight.w700,
                 fontSize: 15,
@@ -146,7 +147,7 @@ class _RedeemPointsState extends State<RedeemPoints> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Enter pointes amount you want to redeem: ',
+            S.of(context).enter_points_amount_you_want_to_redeem,
             style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15),
           ),
           Padding(
@@ -191,7 +192,7 @@ class _RedeemPointsState extends State<RedeemPoints> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Choose your gift from our partners'),
+                  Text(S.of(context).choose_your_gift_from_our_partners),
                   GestureDetector(
                     child: Container(
                       width: 30,
@@ -218,7 +219,7 @@ class _RedeemPointsState extends State<RedeemPoints> {
                               backgroundColor: MyTheme.accent_color),
                           onPressed: () {},
                           child: Text(
-                            'All',
+                            S.of(context).all,
                             style: TextStyle(color: Colors.white),
                           ))
                     ],
@@ -277,7 +278,7 @@ class _RedeemPointsState extends State<RedeemPoints> {
       } else {
         return Container(
           height: 254,
-          child: Text('no coupons'),
+          child: Text(S.of(context).no_coupons),
         );
       }
     }

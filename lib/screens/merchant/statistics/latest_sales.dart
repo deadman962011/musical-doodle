@@ -90,7 +90,7 @@ class _LatestSalesState extends State<MerchantLatestSales> {
                 ],
               ),
               Text(
-                '240 SAR',
+                '240 ${S.of(context).sar}',
                 style: TextStyle(
                     color: MyTheme.accent_color,
                     fontSize: 15,

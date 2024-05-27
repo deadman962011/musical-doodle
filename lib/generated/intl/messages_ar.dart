@@ -126,7 +126,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "main_screen_bottom_navigation_wallet":
             MessageLookupByLibrary.simpleMessage("محفظتي"),
         "maybe_later": MessageLookupByLibrary.simpleMessage("ربما لاحقا"),
-        "me": MessageLookupByLibrary.simpleMessage("me"),
+        "me": MessageLookupByLibrary.simpleMessage("انا"),
         "menu": MessageLookupByLibrary.simpleMessage("المنيو"),
         "merchant_login": MessageLookupByLibrary.simpleMessage("دخول التاجر"),
         "merchant_registration_completed":
@@ -154,6 +154,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "notifications": MessageLookupByLibrary.simpleMessage("الاشعارات"),
         "of_bill_amount":
             MessageLookupByLibrary.simpleMessage("من قيمة الفاتورة"),
+        "offer_added_to_favorite": MessageLookupByLibrary.simpleMessage(
+            "تم اضافة العرض للمفضلة بنجاح"),
         "offer_duration": MessageLookupByLibrary.simpleMessage("مدة العرض"),
         "offer_name": MessageLookupByLibrary.simpleMessage("اسم العرض"),
         "offer_name_in_ar":
@@ -179,6 +181,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "pending_balance":
             MessageLookupByLibrary.simpleMessage("الرصيد المعلق"),
         "pending_invoice": MessageLookupByLibrary.simpleMessage("فاتورة معلقة"),
+        "phone_number": MessageLookupByLibrary.simpleMessage("رقم الهاتف"),
         "please_check_your_email_inbox": MessageLookupByLibrary.simpleMessage(
             "الرجاء تفقد بريدك الالكتروني "),
         "please_enter_your_informations_to_continue":
@@ -202,7 +205,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "resend_email": MessageLookupByLibrary.simpleMessage("اعادة ارسال"),
         "sar": MessageLookupByLibrary.simpleMessage("ر.س"),
         "save": MessageLookupByLibrary.simpleMessage("حفظ"),
-        "scan": MessageLookupByLibrary.simpleMessage("تصوير"),
+        "scan_title":
+            MessageLookupByLibrary.simpleMessage("قارئ الفاتورة الالكترونية"),
         "search": MessageLookupByLibrary.simpleMessage("بحث"),
         "select_category":
             MessageLookupByLibrary.simpleMessage("حدد نوع متجرك"),

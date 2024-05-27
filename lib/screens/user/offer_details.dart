@@ -56,11 +56,11 @@ class _OfferDetailsState extends State<OfferDetails> {
       if (value.runtimeType.toString() == 'bool' && value) {
         if (_offer!.isFavorite) {
           ToastComponent.showDialog(
-              'offer removed from favorite successfully', context,
+              S.of(context).offer_removed_from_favorite, context,
               gravity: Toast.bottom, duration: Toast.lengthLong);
         } else {
           ToastComponent.showDialog(
-              'offer added to favorite successfully', context,
+              S.of(context).offer_added_to_favorite, context,
               gravity: Toast.bottom, duration: Toast.lengthLong);
         }
 
@@ -111,17 +111,17 @@ class _OfferDetailsState extends State<OfferDetails> {
                                       'assets/menu.png',
                                       color: MyTheme.accent_color,
                                     ),
-                                    const Padding(
+                                    Padding(
                                         padding: EdgeInsets.symmetric(
                                             horizontal: 18),
                                         child: Text(
-                                          'Menu',
+                                          S.of(context).menu,
                                           style: TextStyle(fontSize: 16),
                                         ))
                                   ],
                                 )),
                             ExpansionTile(
-                              title: const Text('Working hours'),
+                              title: Text(S.of(context).working_hours),
                               controlAffinity: ListTileControlAffinity.leading,
                               leading: Image.asset(
                                 'assets/clock.png',
@@ -185,7 +185,7 @@ class _OfferDetailsState extends State<OfferDetails> {
                                   : [Text('')],
                             ),
                             ExpansionTile(
-                                title: const Text('Contact Informations'),
+                                title: Text(S.of(context).contact_informations),
                                 controlAffinity:
                                     ListTileControlAffinity.leading,
                                 leading: Image.asset(
@@ -216,7 +216,9 @@ class _OfferDetailsState extends State<OfferDetails> {
                                                         color: MyTheme
                                                             .accent_color,
                                                       )),
-                                                  Text('phone number')
+                                                  Text(S
+                                                      .of(context)
+                                                      .phone_number)
                                                 ],
                                               ),
                                               Text(
@@ -246,7 +248,7 @@ class _OfferDetailsState extends State<OfferDetails> {
                                                         color: MyTheme
                                                             .accent_color,
                                                       )),
-                                                  Text('Email')
+                                                  Text(S.of(context).email)
                                                 ],
                                               ),
                                               Text(
@@ -259,7 +261,7 @@ class _OfferDetailsState extends State<OfferDetails> {
                                   ),
                                 ]),
                             ExpansionTile(
-                              title: const Text('Ratings'),
+                              title: Text(S.of(context).rating),
                               controlAffinity: ListTileControlAffinity.leading,
                               leading: Image.asset(
                                 'assets/star.png',

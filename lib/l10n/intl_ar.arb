@@ -118,7 +118,7 @@
   "add_bank_account": "اضافة حساب بنكي جديد",
   "no_bank_accounts": "لا يوجد حسابات بنكية",
   "offer_removed_from_favorite": "تم ازالة العرض من المفضلة بنجاح",
-  "offer-added_to_favorite": "تم اضافة العرض للمفضلة بنجاح",
+  "offer_added_to_favorite": "تم اضافة العرض للمفضلة بنجاح",
   "shop_contact_successfully_updated": "تم تحديث معلومات التواصل للمتجر بنجاح",
   "shop_contact_email": "معلومات تواصل الايميل",
   "shop_contact_phone": "معلومات تواصل رقم الهاتف",
@@ -152,7 +152,7 @@
   "choose_your_gift_from_our_partners": "اختر هديتك من شركائنا",
   "all": "الكل",
   "no_coupons": "لا يوجود كوبونات",
-  "scan": "تصوير",
+  "scan_title": "قارئ الفاتورة الالكترونية",
   "available_balance": "الرصيد المتاح",
   "pending_balance": "الرصيد المعلق",
   "total_balance": "اجمالي الرصيد",
@@ -163,5 +163,6 @@
   "rejected_invoice": "مرفوضة",
   "points": "النقاط",
   "no_offers": "لا يوجد عروض",
-  "me": "me"
+  "me": "انا",
+  "phone_number": "رقم الهاتف"
 }

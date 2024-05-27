@@ -101,7 +101,7 @@ class _ProfileEditState extends State<ProfileEdit> {
         .then((value) {
       if (value.runtimeType.toString() == 'UserProfileUpdateResponse' &&
           value.success) {
-        ToastComponent.showDialog('profile updated', context,
+        ToastComponent.showDialog(S.of(context).profile_updated, context,
             gravity: Toast.bottom, duration: Toast.lengthLong);
       }
 
@@ -121,7 +121,7 @@ class _ProfileEditState extends State<ProfileEdit> {
     );
     if (response.runtimeType.toString() == 'UserProfileUploadImageResponse' &&
         response.success) {
-      ToastComponent.showDialog('profile image updated', context,
+      ToastComponent.showDialog(S.of(context).profile_image_updated, context,
           gravity: Toast.bottom, duration: Toast.lengthLong);
     }
     user_avatar.$ = response.path;
@@ -359,7 +359,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                                             .transparent, // Customize the background color if needed
                                       ))
                                   : Text(
-                                      'Save',
+                                      S.of(context).save,
                                       style: TextStyle(
                                         color: MyTheme.white,
                                         fontSize: 16,

@@ -110,7 +110,8 @@ class _UserWalletState extends State<UserWallet> {
     return Scaffold(
       // key: _scaffoldKey,
       backgroundColor: Colors.transparent,
-      appBar: UserAppBar.buildUserAppBar(context, 'wallet', 'wallet', {}),
+      appBar: UserAppBar.buildUserAppBar(
+          context, 'wallet', S.of(context).wallet, {}),
       drawer: MerchantDrawer.buildDrawer(context),
       body: Column(
         children: [
@@ -127,26 +128,26 @@ class _UserWalletState extends State<UserWallet> {
       decoration: BoxDecorations.buildBoxDecoration_1(),
       child: Column(
         children: [
-          const Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [Text('Available Balance'), Text('0.00')],
+                children: [Text(S.of(context).available_balance), Text('0.00')],
               ),
               Text('SAR')
             ],
           ),
-          const Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [Text('Pending Balance'), Text('0.00')],
+                children: [Text(S.of(context).pending_balance), Text('0.00')],
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [Text('Total Balance'), Text('0.00')],
+                children: [Text(S.of(context).total_balance), Text('0.00')],
               )
             ],
           ),
@@ -163,7 +164,7 @@ class _UserWalletState extends State<UserWallet> {
                       backgroundColor: MyTheme.accent_color,
                     ),
                     onPressed: () {},
-                    child: const Row(
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Padding(
@@ -175,7 +176,7 @@ class _UserWalletState extends State<UserWallet> {
                               size: 20,
                             )),
                         Text(
-                          'My History',
+                          S.of(context).my_history,
                           style: TextStyle(color: Colors.white),
                         )
                       ],
@@ -210,8 +211,8 @@ class _UserWalletState extends State<UserWallet> {
                 Image.asset(
                   'assets/wallet_2.png',
                 ),
-                const Text(
-                  'الرصيد المعلق',
+                Text(
+                  S.of(context).pending_balance,
                   style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500),
                 )
               ],
@@ -233,8 +234,8 @@ class _UserWalletState extends State<UserWallet> {
                   Image.asset(
                     'assets/wallet_1.png',
                   ),
-                  const Text(
-                    'استبدال الرصيد',
+                  Text(
+                    S.of(context).redeem_points,
                     style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500),
                   )
                 ],
@@ -251,8 +252,8 @@ class _UserWalletState extends State<UserWallet> {
                 Image.asset(
                   'assets/wallet_3.png',
                 ),
-                const Text(
-                  'سحب الرصيد',
+                Text(
+                  S.of(context).withdraw_balance,
                   style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500),
                 )
               ],
@@ -271,7 +272,7 @@ class _UserWalletState extends State<UserWallet> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            const Text('Previous Offers',
+            Text(S.of(context).previous_offers,
                 style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14)),
             _buildWalletPreviousOffersList()
           ],
@@ -280,6 +281,59 @@ class _UserWalletState extends State<UserWallet> {
   }
 
   Widget _buildWalletPreviousOffersItem(OfferInvoice offerInvoice) {
+    Widget side = Container();
+    String? state = '';
+
+    if (offerInvoice.state == 'paid') {
+      state = '${S.of(context).approved_at} at 1/1/2023';
+      side = Column(
+        children: [
+          Row(
+            children: [
+              Container(
+                  padding: EdgeInsets.all(6),
+                  decoration: BoxDecoration(
+                      color: MyTheme.accent_color,
+                      borderRadius: BorderRadius.all(Radius.circular(10))),
+                  child: Text(
+                    '${offerInvoice.points} ${S.of(context).points}',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, color: Colors.white),
+                  )),
+              Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 6),
+                  child: ImageIcon(
+                    color: MyTheme.accent_color,
+                    AssetImage('assets/bill.png'),
+                    size: 50,
+                  ))
+            ],
+          ),
+          Padding(
+              padding: EdgeInsets.symmetric(vertical: 10),
+              child: offerInvoice.isRewardDivided
+                  ? _buildFriendsList()
+                  : SizedBox())
+        ],
+      );
+    }
+    if (offerInvoice.state == 'pending') {
+      state = 'Pending';
+      side = Icon(
+        Icons.timer,
+        color: MyTheme.accent_color,
+        size: 36,
+      );
+    }
+    if (offerInvoice.state == 'canceled') {
+      state = S.of(context).rejected_invoice;
+      side = Icon(
+        Icons.priority_high,
+        color: MyTheme.accent_color,
+        size: 36,
+      );
+    }
+
     return GestureDetector(
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 10),
@@ -298,67 +352,14 @@ class _UserWalletState extends State<UserWallet> {
                   offerInvoice.shopName,
                   style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
                 ),
-                Text(
-                    offerInvoice.state == 'paid'
-                        ? 'Approved at 1/1/2023'
-                        : offerInvoice.state == 'pending'
-                            ? 'Pending'
-                            : offerInvoice.state == 'canceled'
-                                ? 'Rejected invoice'
-                                : '',
+                Text(state,
                     style: TextStyle(
                         color: MyTheme.accent_color,
                         fontSize: 14,
                         fontWeight: FontWeight.w500))
-                // : offerInvoice.state == 'pending' ? Text() :SizedBox()
               ],
             ),
-            offerInvoice.state == 'paid'
-                ? Column(
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                              padding: EdgeInsets.all(6),
-                              decoration: BoxDecoration(
-                                  color: MyTheme.accent_color,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(10))),
-                              child: Text(
-                                '${offerInvoice.points} points',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white),
-                              )),
-                          Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 6),
-                              child: ImageIcon(
-                                color: MyTheme.accent_color,
-                                AssetImage('assets/bill.png'),
-                                size: 50,
-                              ))
-                        ],
-                      ),
-                      Padding(
-                          padding: EdgeInsets.symmetric(vertical: 10),
-                          child: offerInvoice.isRewardDivided
-                              ? _buildFriendsList()
-                              : SizedBox())
-                    ],
-                  )
-                : offerInvoice.state == 'canceled'
-                    ? Icon(
-                        Icons.priority_high,
-                        color: MyTheme.accent_color,
-                        size: 36,
-                      )
-                    : offerInvoice.state == 'pending'
-                        ? Icon(
-                            Icons.timer,
-                            color: MyTheme.accent_color,
-                            size: 36,
-                          )
-                        : SizedBox()
+            side
           ],
         ),
       ),
@@ -391,8 +392,8 @@ class _UserWalletState extends State<UserWallet> {
         return Container(
           height: 260,
           alignment: Alignment.center,
-          child: const Text(
-            'no Offers',
+          child: Text(
+            S.of(context).no_offers,
           ),
         );
       } else {
@@ -418,7 +419,7 @@ class _UserWalletState extends State<UserWallet> {
               child: Text('12', style: TextStyle(color: Colors.white)),
             ),
             Text(
-              'انا',
+              S.of(context).me,
               style: TextStyle(fontWeight: FontWeight.bold),
             )
           ],
@@ -433,7 +434,7 @@ class _UserWalletState extends State<UserWallet> {
               child: Text('12', style: TextStyle(color: Colors.white)),
             ),
             Text(
-              'انا',
+              S.of(context).me,
               style: TextStyle(fontWeight: FontWeight.bold),
             )
           ],

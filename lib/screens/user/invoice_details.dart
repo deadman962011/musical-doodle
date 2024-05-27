@@ -56,8 +56,8 @@ class _UserInvoiceDetailsState extends State<UserInvoiceDetails> {
       textDirection: app_language_rtl.$ ? TextDirection.rtl : TextDirection.ltr,
       child: Scaffold(
           key: _scaffoldKey,
-          appBar:
-              UserAppBar.buildUserAppBar(context, 'invoice_details', '', {}),
+          appBar: UserAppBar.buildUserAppBar(
+              context, 'invoice_details', S.of(context).invoice_details, {}),
           body: Container(
               width: MediaQuery.of(context).size.width,
               padding: const EdgeInsets.symmetric(horizontal: 14),
@@ -82,7 +82,7 @@ class _UserInvoiceDetailsState extends State<UserInvoiceDetails> {
                               children: [_buildInvoiceDetailsHeading()],
                             ),
                             Container(
-                              height: 300,
+                              // height: 300,
                               margin: EdgeInsets.symmetric(vertical: 30),
                               padding: EdgeInsets.symmetric(
                                   horizontal: 20, vertical: 16),
@@ -105,7 +105,7 @@ class _UserInvoiceDetailsState extends State<UserInvoiceDetails> {
                                             Column(
                                               children: [
                                                 Text(
-                                                  'shop name',
+                                                  S.of(context).shop_name,
                                                   style: TextStyle(
                                                       fontWeight:
                                                           FontWeight.w700,
@@ -144,7 +144,7 @@ class _UserInvoiceDetailsState extends State<UserInvoiceDetails> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            'tax number',
+                                            S.of(context).tax_number,
                                             style: TextStyle(
                                                 fontWeight: FontWeight.w500,
                                                 fontSize: 15,
@@ -162,7 +162,7 @@ class _UserInvoiceDetailsState extends State<UserInvoiceDetails> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            'Invoice Date',
+                                            S.of(context).invoice_date,
                                             style: TextStyle(
                                                 fontWeight: FontWeight.w500,
                                                 fontSize: 15,
@@ -191,7 +191,7 @@ class _UserInvoiceDetailsState extends State<UserInvoiceDetails> {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
-                                              Text('Total with VAT',
+                                              Text(S.of(context).total_with_vat,
                                                   style: TextStyle(
                                                       fontWeight:
                                                           FontWeight.w500,
@@ -216,7 +216,7 @@ class _UserInvoiceDetailsState extends State<UserInvoiceDetails> {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                'VAT ',
+                                                S.of(context).vat,
                                                 style: TextStyle(
                                                     fontWeight: FontWeight.w500,
                                                     fontSize: 15,
@@ -245,7 +245,7 @@ class _UserInvoiceDetailsState extends State<UserInvoiceDetails> {
                                 Navigator.pop(context);
                               },
                               child: Text(
-                                'ok',
+                                S.of(context).ok,
                                 style: TextStyle(color: Colors.white),
                               ),
                               style: TextButton.styleFrom(
@@ -278,7 +278,7 @@ class _UserInvoiceDetailsState extends State<UserInvoiceDetails> {
           Padding(
               padding: EdgeInsets.symmetric(vertical: 12),
               child: Text(
-                'Valid Invoice',
+                S.of(context).valid_invoice,
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
               ))
         ],
@@ -301,7 +301,7 @@ class _UserInvoiceDetailsState extends State<UserInvoiceDetails> {
           Padding(
               padding: EdgeInsets.symmetric(vertical: 12),
               child: Text(
-                'Pending Invoice',
+                S.of(context).pending_invoice,
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
               ))
         ],
@@ -324,7 +324,7 @@ class _UserInvoiceDetailsState extends State<UserInvoiceDetails> {
           Padding(
               padding: EdgeInsets.symmetric(vertical: 12),
               child: Text(
-                'Canceled Invoice',
+                S.of(context).canceled_invoice,
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
               ))
         ],

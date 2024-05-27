@@ -128,7 +128,7 @@
   "add_bank_account": "Add new bank account",
   "no_bank_accounts": "No bank accounts",
   "offer_removed_from_favorite": "Offer successfully removed from favorite",
-  "offer-added_to_favorite": "offer successfully added to favorite",
+  "offer_added_to_favorite": "offer successfully added to favorite",
   "shop_contact_successfully_updated": "Shop contact informations successfully updated",
   "shop_contact_email": "Shop contact email",
   "shop_contact_phone": "Shop contact phone",
@@ -162,7 +162,7 @@
   "choose_your_gift_from_our_partners": "Choose your gift from our partners",
   "all": "All",
   "no_coupons": "No coupons",
-  "scan": "Scan",
+  "scan_title": "Scan",
   "available_balance": "Available balance",
   "pending_balance": "Pending balance",
   "total_balance": "Total balance",
@@ -173,5 +173,6 @@
   "rejected_invoice": "Rejected invoice",
   "points": "points",
   "no_offers": "No offers",
-  "me": "me"
+  "me": "me",
+  "phone_number": "Phone number"
 }
