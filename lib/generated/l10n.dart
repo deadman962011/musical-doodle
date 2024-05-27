@@ -1259,6 +1259,538 @@ class S {
       args: [],
     );
   }
+
+  /// `Bank name`
+  String get bank_name {
+    return Intl.message(
+      'Bank name',
+      name: 'bank_name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Full name`
+  String get full_name {
+    return Intl.message(
+      'Full name',
+      name: 'full_name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Account number`
+  String get account_number {
+    return Intl.message(
+      'Account number',
+      name: 'account_number',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `IBAN `
+  String get iban {
+    return Intl.message(
+      'IBAN ',
+      name: 'iban',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Save`
+  String get save {
+    return Intl.message(
+      'Save',
+      name: 'save',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add new bank account`
+  String get add_bank_account {
+    return Intl.message(
+      'Add new bank account',
+      name: 'add_bank_account',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No bank accounts`
+  String get no_bank_accounts {
+    return Intl.message(
+      'No bank accounts',
+      name: 'no_bank_accounts',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Offer successfully removed from favorite`
+  String get offer_removed_from_favorite {
+    return Intl.message(
+      'Offer successfully removed from favorite',
+      name: 'offer_removed_from_favorite',
+      desc: '',
+      args: [],
+    );
+  }
+
+  // skipped getter for the 'offer-added_to_favorite' key
+
+  /// `Shop contact informations successfully updated`
+  String get shop_contact_successfully_updated {
+    return Intl.message(
+      'Shop contact informations successfully updated',
+      name: 'shop_contact_successfully_updated',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Shop contact email`
+  String get shop_contact_email {
+    return Intl.message(
+      'Shop contact email',
+      name: 'shop_contact_email',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Shop contact phone`
+  String get shop_contact_phone {
+    return Intl.message(
+      'Shop contact phone',
+      name: 'shop_contact_phone',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Update`
+  String get update {
+    return Intl.message(
+      'Update',
+      name: 'update',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Shop informations successfully updated`
+  String get shop_information_updated {
+    return Intl.message(
+      'Shop informations successfully updated',
+      name: 'shop_information_updated',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Shop name in arabic`
+  String get shop_name_in_arabic {
+    return Intl.message(
+      'Shop name in arabic',
+      name: 'shop_name_in_arabic',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Shop name in english`
+  String get shop_name_in_english {
+    return Intl.message(
+      'Shop name in english',
+      name: 'shop_name_in_english',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add new slot`
+  String get add_new_slot {
+    return Intl.message(
+      'Add new slot',
+      name: 'add_new_slot',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Latest sales`
+  String get latest_sales {
+    return Intl.message(
+      'Latest sales',
+      name: 'latest_sales',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Bill ID`
+  String get bill_id {
+    return Intl.message(
+      'Bill ID',
+      name: 'bill_id',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Customer name`
+  String get customre_name {
+    return Intl.message(
+      'Customer name',
+      name: 'customre_name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Status`
+  String get status {
+    return Intl.message(
+      'Status',
+      name: 'status',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Edit bank account`
+  String get bank_account_edit {
+    return Intl.message(
+      'Edit bank account',
+      name: 'bank_account_edit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Invoice details`
+  String get invoice_details {
+    return Intl.message(
+      'Invoice details',
+      name: 'invoice_details',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tax number`
+  String get tax_number {
+    return Intl.message(
+      'Tax number',
+      name: 'tax_number',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Invoice date`
+  String get invoice_date {
+    return Intl.message(
+      'Invoice date',
+      name: 'invoice_date',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Total with vat`
+  String get total_with_vat {
+    return Intl.message(
+      'Total with vat',
+      name: 'total_with_vat',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `vat`
+  String get vat {
+    return Intl.message(
+      'vat',
+      name: 'vat',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `valid_invoice`
+  String get valid_invoice {
+    return Intl.message(
+      'valid_invoice',
+      name: 'valid_invoice',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pending invoice`
+  String get pending_invoice {
+    return Intl.message(
+      'Pending invoice',
+      name: 'pending_invoice',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Canceled invoice`
+  String get canceled_invoice {
+    return Intl.message(
+      'Canceled invoice',
+      name: 'canceled_invoice',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Approved`
+  String get approved {
+    return Intl.message(
+      'Approved',
+      name: 'approved',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pending`
+  String get pending {
+    return Intl.message(
+      'Pending',
+      name: 'pending',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Profile successfully updated`
+  String get profile_updated {
+    return Intl.message(
+      'Profile successfully updated',
+      name: 'profile_updated',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Profile Image successfully Updated`
+  String get profile_image_updated {
+    return Intl.message(
+      'Profile Image successfully Updated',
+      name: 'profile_image_updated',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Redeem points`
+  String get redeem_points {
+    return Intl.message(
+      'Redeem points',
+      name: 'redeem_points',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Next`
+  String get next {
+    return Intl.message(
+      'Next',
+      name: 'next',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Available points`
+  String get available_points {
+    return Intl.message(
+      'Available points',
+      name: 'available_points',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter point amounts you want to redeem`
+  String get enter_points_amount_you_want_to_redeem {
+    return Intl.message(
+      'Enter point amounts you want to redeem',
+      name: 'enter_points_amount_you_want_to_redeem',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Notice 1 point eqauls 1 SAR`
+  String get notice_1_point_equal_1_sar {
+    return Intl.message(
+      'Notice 1 point eqauls 1 SAR',
+      name: 'notice_1_point_equal_1_sar',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Choose your gift from our partners`
+  String get choose_your_gift_from_our_partners {
+    return Intl.message(
+      'Choose your gift from our partners',
+      name: 'choose_your_gift_from_our_partners',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `All`
+  String get all {
+    return Intl.message(
+      'All',
+      name: 'all',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No coupons`
+  String get no_coupons {
+    return Intl.message(
+      'No coupons',
+      name: 'no_coupons',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Scan`
+  String get scan {
+    return Intl.message(
+      'Scan',
+      name: 'scan',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Available balance`
+  String get available_balance {
+    return Intl.message(
+      'Available balance',
+      name: 'available_balance',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pending balance`
+  String get pending_balance {
+    return Intl.message(
+      'Pending balance',
+      name: 'pending_balance',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Total balance`
+  String get total_balance {
+    return Intl.message(
+      'Total balance',
+      name: 'total_balance',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `My history`
+  String get my_history {
+    return Intl.message(
+      'My history',
+      name: 'my_history',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Withdraw balance`
+  String get withdraw_balance {
+    return Intl.message(
+      'Withdraw balance',
+      name: 'withdraw_balance',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Previous Offers`
+  String get previous_offers {
+    return Intl.message(
+      'Previous Offers',
+      name: 'previous_offers',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Approved at`
+  String get approved_at {
+    return Intl.message(
+      'Approved at',
+      name: 'approved_at',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Rejected invoice`
+  String get rejected_invoice {
+    return Intl.message(
+      'Rejected invoice',
+      name: 'rejected_invoice',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `points`
+  String get points {
+    return Intl.message(
+      'points',
+      name: 'points',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No offers`
+  String get no_offers {
+    return Intl.message(
+      'No offers',
+      name: 'no_offers',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `me`
+  String get me {
+    return Intl.message(
+      'me',
+      name: 'me',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

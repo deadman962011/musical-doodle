@@ -1,7 +1,7 @@
 import 'package:com.mybill.app/custom/input_decorations.dart';
 import 'package:com.mybill.app/custom/toast_component.dart';
 import 'package:com.mybill.app/helpers/shared_value_helper.dart';
-import 'package:com.mybill.app/models/responses/merchant_response.dart';
+import 'package:com.mybill.app/models/responses/merchant/merchant_response.dart';
 import 'package:com.mybill.app/my_theme.dart';
 import 'package:com.mybill.app/repositories/merchant/merchant_repository.dart';
 import 'package:com.mybill.app/ui_elements/merchant_appbar.dart';
@@ -9,13 +9,13 @@ import 'package:com.mybill.app/ui_elements/merchant_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:com.mybill.app/generated/l10n.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:toast/toast.dart';
 
 class ContactInformations extends StatefulWidget {
-  const ContactInformations({Key? key}) : super(key: key);
+  const ContactInformations({super.key});
 
   @override
   _ContactInformationsState createState() => _ContactInformationsState();
@@ -98,8 +98,8 @@ class _ContactInformationsState extends State<ContactInformations> {
             app_language_rtl.$ ? TextDirection.rtl : TextDirection.ltr,
         child: Scaffold(
             key: _scaffoldKey,
-            appBar: MerchantAppBar.buildMerchantAppBar(context, 'add_offer',
-                _scaffoldKey, AppLocalizations.of(context)!.add_offer),
+            appBar: MerchantAppBar.buildMerchantAppBar(
+                context, 'add_offer', _scaffoldKey, S.of(context).add_offer),
             drawer: MerchantDrawer.buildDrawer(context),
             body: Padding(
                 padding: const EdgeInsets.only(right: 14, left: 14, bottom: 20),
@@ -122,9 +122,9 @@ class _ContactInformationsState extends State<ContactInformations> {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 12, bottom: 3),
+                                  const Padding(
+                                    padding:
+                                        EdgeInsets.only(top: 12, bottom: 3),
                                     child: Text('shop contact email'),
                                   ),
                                   FormBuilderTextField(
@@ -132,9 +132,9 @@ class _ContactInformationsState extends State<ContactInformations> {
                                     controller: _contactEmailController,
                                     decoration:
                                         InputDecorations.buildInputDecoration_1(
-                                            hint_text:
-                                                AppLocalizations.of(context)!
-                                                    .offer_name_placeholder),
+                                            hint_text: S
+                                                .of(context)!
+                                                .offer_name_placeholder),
                                     validator: FormBuilderValidators.compose([
                                       FormBuilderValidators.required(),
                                       FormBuilderValidators.minLength(3),
@@ -146,19 +146,16 @@ class _ContactInformationsState extends State<ContactInformations> {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 12, bottom: 3),
+                                  const Padding(
+                                    padding:
+                                        EdgeInsets.only(top: 12, bottom: 3),
                                     child: Text('shop contact phone'),
                                   ),
                                   FormBuilderTextField(
                                     name: 'shop_contact_phone',
                                     controller: _contactPhoneController,
-                                    decoration:
-                                        InputDecorations.buildInputDecoration_1(
-                                            hint_text:
-                                                AppLocalizations.of(context)!
-                                                    .offer_name_placeholder),
+                                    decoration: InputDecorations
+                                        .buildInputDecoration_1(),
                                     validator: FormBuilderValidators.compose([
                                       FormBuilderValidators.required(),
                                       FormBuilderValidators.minLength(10),

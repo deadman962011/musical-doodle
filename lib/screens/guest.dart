@@ -1,30 +1,29 @@
 import 'package:com.mybill.app/custom/common_functions.dart';
-import 'package:com.mybill.app/custom/device_info.dart';
 import 'package:com.mybill.app/my_theme.dart';
 import 'package:com.mybill.app/screens/login.dart';
-// import 'package:com.mybill.app/ui_sections/drawer.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:com.mybill.app/screens/user/scan.dart';
 import 'package:flutter/material.dart';
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:com.mybill.app/app_config.dart';
 
 // import 'package:com.mybill.app/dummy_data/dummy_subscription_steps.dart';
 // import 'package:com.mybill.app/screens/profile.dart';
 // import 'package:com.mybill.app/repositories/layout_repository.dart';
 // import 'package:com.mybill.app/dummy_data/dummy_entities.dart';
 // import 'package:com.mybill.app/dummy_data/dummey_services.dart';
+// import 'package:com.mybill.app/ui_sections/drawer.dart';
 import 'package:com.mybill.app/helpers/shared_value_helper.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import 'package:com.mybill.app/generated/l10n.dart';
 
 class Guest extends StatefulWidget {
   late bool go_back;
   late bool show_back_button;
 
   Guest({
+    super.key,
     this.show_back_button = false,
     go_back = true,
-  }) : super();
+  });
 
   @override
   _GuestState createState() => _GuestState();
@@ -32,9 +31,9 @@ class Guest extends StatefulWidget {
 
 class _GuestState extends State<Guest> with TickerProviderStateMixin {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  int _current_slider = 0;
+  final int _current_slider = 0;
   final ScrollController _mainScrollController = ScrollController();
-  bool _isCarouselInitial = true;
+  final bool _isCarouselInitial = true;
   bool _isGusetLayoutInitial = true;
 
 // _isCarouselInitial && _carouselImageList.length == 0
@@ -87,16 +86,11 @@ class _GuestState extends State<Guest> with TickerProviderStateMixin {
   }
 
   @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final double statusBarHeight = MediaQuery.of(context).padding.top;
 
     SystemChrome.setSystemUIOverlayStyle(
-        SystemUiOverlayStyle(statusBarColor: Colors.transparent));
+        const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
 
     return WillPopScope(
       onWillPop: () async {
@@ -114,24 +108,25 @@ class _GuestState extends State<Guest> with TickerProviderStateMixin {
             //drawer: MainDrawer(),
             body: Stack(
               children: [
-                Container(
+                SizedBox(
                   width: double.infinity,
                   child: Image.asset('assets/auth_bg.png'),
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Container(
                         child: Column(
                           children: [
+                            // Text(
+                            //   S.of(context).cruise_through,
+                            //   style: const TextStyle(fontSize: 32),
+                            // ),
                             Text(
-                              AppLocalizations.of(context)!.cruise_through,
-                              style: TextStyle(fontSize: 32),
-                            ),
-                            Text(
-                              AppLocalizations.of(context)!.mybill,
+                              S.of(context).mybill,
                               style: TextStyle(
                                   fontSize: 42,
                                   fontWeight: FontWeight.bold,
@@ -142,7 +137,7 @@ class _GuestState extends State<Guest> with TickerProviderStateMixin {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 30.0),
-                        child: Container(
+                        child: SizedBox(
                             width: double.infinity,
                             child: TextButton(
                                 style: TextButton.styleFrom(
@@ -155,7 +150,7 @@ class _GuestState extends State<Guest> with TickerProviderStateMixin {
                                       const EdgeInsets.symmetric(vertical: 14),
                                 ),
                                 child: Text(
-                                  AppLocalizations.of(context)!.client_login,
+                                  S.of(context).client_login,
                                   style: TextStyle(
                                     color: MyTheme.white,
                                     fontSize: 18,
@@ -165,7 +160,7 @@ class _GuestState extends State<Guest> with TickerProviderStateMixin {
                                 onPressed: () {
                                   Navigator.push(context,
                                       MaterialPageRoute(builder: (context) {
-                                    return Login(
+                                    return const Login(
                                       model: 'user',
                                     );
                                   }));
@@ -173,7 +168,7 @@ class _GuestState extends State<Guest> with TickerProviderStateMixin {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 10.0),
-                        child: Container(
+                        child: SizedBox(
                             width: double.infinity,
                             child: TextButton(
                                 style: TextButton.styleFrom(
@@ -186,7 +181,7 @@ class _GuestState extends State<Guest> with TickerProviderStateMixin {
                                       const EdgeInsets.symmetric(vertical: 14),
                                 ),
                                 child: Text(
-                                  AppLocalizations.of(context)!.merchant_login,
+                                  S.of(context).merchant_login,
                                   style: TextStyle(
                                     color: MyTheme.white,
                                     fontSize: 18,
@@ -196,12 +191,12 @@ class _GuestState extends State<Guest> with TickerProviderStateMixin {
                                 onPressed: () {
                                   Navigator.push(context,
                                       MaterialPageRoute(builder: (context) {
-                                    return Login(
+                                    return const Login(
                                       model: 'merchant',
                                     );
                                   }));
                                 })),
-                      )
+                      ),
                     ],
                   ),
                 ),

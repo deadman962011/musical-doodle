@@ -22,6 +22,7 @@ class MerchantOfferRepository {
       },
     );
     debugPrint(response.body.toString());
+    AppConfig.alice.onHttpResponse(response, body: null);
     // response.body
     if (response.statusCode == 200) {
       return merchantOffersResponseFromJson(response.body);
@@ -40,18 +41,18 @@ class MerchantOfferRepository {
 
   Future<dynamic> saveMerchantOfferResponse(
       @required String name,
-      @required String name_en,
-      @required String start_date,
-      @required String end_date,
-      @required String cashback_amount,
-      @required int thumbnail_id) async {
-    var post_body = jsonEncode({
+      @required String nameEn,
+      @required String startDate,
+      @required String endDate,
+      @required String cashbackAmount,
+      @required int thumbnailId) async {
+    var postBody = jsonEncode({
       "name_ar": name,
-      "name_en": name_en,
-      "start_date": start_date,
-      "end_date": end_date,
-      "cashback_amount": cashback_amount,
-      'offer_thumbnail': thumbnail_id
+      "name_en": nameEn,
+      "start_date": startDate,
+      "end_date": endDate,
+      "cashback_amount": cashbackAmount,
+      'offer_thumbnail': thumbnailId
     });
 
     Uri url = Uri.parse("${AppConfig.BASE_URL}/shop/offer");
@@ -62,9 +63,10 @@ class MerchantOfferRepository {
           "Accept-Language": app_language.$,
           "Authorization": "Bearer ${access_token.$}",
         },
-        body: post_body);
+        body: postBody);
+    AppConfig.alice.onHttpResponse(response, body: postBody);
     debugPrint(response.body);
-    debugPrint(cashback_amount);
+    debugPrint(cashbackAmount);
     if (response.statusCode == 201) {
       return merchantSaveOfferResponseFromJson(response.body);
     } else if (response.statusCode == 422) {

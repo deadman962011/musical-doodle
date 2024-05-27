@@ -14,6 +14,7 @@ class SliderRepository {
         "Accept-Language": app_language.$,
       },
     );
+    AppConfig.alice.onHttpResponse(response, body: null);
     if (response.statusCode == 200) {
       return homeSliderResponseFromJson(response.body);
     } else {

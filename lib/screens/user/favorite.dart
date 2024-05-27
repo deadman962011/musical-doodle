@@ -6,10 +6,11 @@ import 'package:com.mybill.app/repositories/user/user_favorite_offers_repository
 import 'package:com.mybill.app/ui_elements/user_appbar.dart';
 import 'package:com.mybill.app/widgets/OfferWidget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import 'package:com.mybill.app/generated/l10n.dart';
 
 class Favorite extends StatefulWidget {
-  const Favorite({Key? key}) : super(key: key);
+  const Favorite({super.key});
 
   @override
   _FavoriteState createState() => _FavoriteState();
@@ -84,12 +85,12 @@ class _FavoriteState extends State<Favorite> {
             app_language_rtl.$ ? TextDirection.rtl : TextDirection.ltr,
         child: Scaffold(
             key: _scaffoldKey,
-            appBar: UserAppBar.buildUserAppBar(context, 'favorite',
-                AppLocalizations.of(context)!.favorite, {}),
+            appBar: UserAppBar.buildUserAppBar(
+                context, 'favorite', S.of(context).favorite, {}),
             body: Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
-              padding: EdgeInsets.symmetric(horizontal: 14),
+              padding: const EdgeInsets.symmetric(horizontal: 14),
               child: RefreshIndicator(
                   color: MyTheme.accent_color,
                   backgroundColor: Colors.white,
@@ -113,7 +114,7 @@ class _FavoriteState extends State<Favorite> {
 
   Widget _buildFavoriteTabs() {
     return Padding(
-        padding: EdgeInsets.symmetric(vertical: 6),
+        padding: const EdgeInsets.symmetric(vertical: 6),
         child: Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -122,7 +123,7 @@ class _FavoriteState extends State<Favorite> {
               flex: 1,
               child: TextButton(
                   style: TextButton.styleFrom(
-                      shape: RoundedRectangleBorder(
+                      shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadiusDirectional.horizontal(
                               start: Radius.circular(20))),
                       backgroundColor: activeTab == 'codes'
@@ -132,7 +133,7 @@ class _FavoriteState extends State<Favorite> {
                     onTabClicked('codes');
                   },
                   child: Text(
-                    AppLocalizations.of(context)!.my_codes,
+                    S.of(context).my_codes,
                     style: TextStyle(
                         color: activeTab == 'codes'
                             ? Colors.white
@@ -143,7 +144,7 @@ class _FavoriteState extends State<Favorite> {
                 flex: 1,
                 child: TextButton(
                     style: TextButton.styleFrom(
-                        shape: RoundedRectangleBorder(
+                        shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadiusDirectional.horizontal(
                                 end: Radius.circular(20))),
                         backgroundColor: activeTab == 'offers'
@@ -152,7 +153,7 @@ class _FavoriteState extends State<Favorite> {
                     onPressed: () {
                       onTabClicked('offers');
                     },
-                    child: Text(AppLocalizations.of(context)!.offers,
+                    child: Text(S.of(context).offers,
                         style: TextStyle(
                             color: activeTab == 'offers'
                                 ? Colors.white
@@ -179,7 +180,7 @@ class _FavoriteState extends State<Favorite> {
       } else {
         return Expanded(
             child: SingleChildScrollView(
-                physics: AlwaysScrollableScrollPhysics(),
+                physics: const AlwaysScrollableScrollPhysics(),
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: _offersList.map((offer) {
@@ -191,8 +192,6 @@ class _FavoriteState extends State<Favorite> {
                     }).toList())));
       }
     }
-
-    ;
   }
 
   Widget _buildFavoriteCodes() {
@@ -216,8 +215,8 @@ class _FavoriteState extends State<Favorite> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 8),
             child: Text(
-              AppLocalizations.of(context)!.no_favorites,
-              style: TextStyle(fontWeight: FontWeight.bold),
+              S.of(context).no_favorites,
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
           )
         ],

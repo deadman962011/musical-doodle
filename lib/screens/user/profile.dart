@@ -1,8 +1,7 @@
-import 'package:com.mybill.app/custom/device_info.dart';
 import 'package:com.mybill.app/helpers/auth_helper.dart';
 import 'package:com.mybill.app/helpers/shared_value_helper.dart';
 import 'package:com.mybill.app/my_theme.dart';
-import 'package:com.mybill.app/screens/user/banks.dart';
+import 'package:com.mybill.app/screens/user/bank_accounts.dart';
 import 'package:com.mybill.app/screens/user/profile_edit.dart';
 import 'package:com.mybill.app/screens/user/favorite.dart';
 import 'package:com.mybill.app/screens/user/main.dart';
@@ -10,18 +9,19 @@ import 'package:com.mybill.app/screens/user/my_codes.dart';
 import 'package:com.mybill.app/screens/user/notifications.dart';
 import 'package:com.mybill.app/ui_elements/user_appbar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import 'package:com.mybill.app/generated/l10n.dart';
 
 class UserProfile extends StatefulWidget {
-  const UserProfile({Key? key}) : super(key: key);
+  const UserProfile({super.key});
 
   @override
   _ProfileState createState() => _ProfileState();
 }
 
 class _ProfileState extends State<UserProfile> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  ScrollController _mainScrollController = ScrollController();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final ScrollController _mainScrollController = ScrollController();
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -34,49 +34,49 @@ class _ProfileState extends State<UserProfile> {
     final Map<String, dynamic> mainProfilesData = {
       'tabs': [
         {
-          'title': AppLocalizations.of(context)!.profile,
+          'title': S.of(context).profile,
           'image': 'assets/profile.png',
           'redirect_to': 'profile',
           'items': []
         },
         {
-          'title': AppLocalizations.of(context)!.favorite,
+          'title': S.of(context).favorite,
           'image': 'assets/favorite.png',
           'redirect_to': 'favorite',
           'items': []
         },
         {
-          'title': AppLocalizations.of(context)!.notifications,
+          'title': S.of(context).notifications,
           'image': 'assets/bell.png',
           'redirect_to': 'notifications',
           'items': []
         },
         {
-          'title': AppLocalizations.of(context)!.my_codes,
+          'title': S.of(context).my_codes,
           'image': 'assets/offers.png',
           'redirect_to': 'my_codes',
           'items': []
         },
         {
-          'title': AppLocalizations.of(context)!.theme,
+          'title': S.of(context).bank_accounts,
           'image': 'assets/bank.png',
           'redirect_to': 'banks',
           'items': []
         },
         {
-          'title': AppLocalizations.of(context)!.invite_friends,
+          'title': S.of(context).invite_friends,
           'image': 'assets/share_2.png',
           'redirect_to': 'change_theme',
           'items': []
         },
         {
-          'title': AppLocalizations.of(context)!.logout,
+          'title': S.of(context).logout,
           'image': 'assets/logout.png',
           'redirect_to': 'logout',
           'items': []
         },
         {
-          'title': AppLocalizations.of(context)!.delete_my_acc,
+          'title': S.of(context).delete_my_acc,
           'image': 'assets/trash.png',
           'redirect_to': 'change_theme',
           'items': []
@@ -114,10 +114,10 @@ class _ProfileState extends State<UserProfile> {
                     height: 24,
                   ),
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: Text(
                       tab['title'],
-                      style: TextStyle(fontSize: 14),
+                      style: const TextStyle(fontSize: 14),
                     ),
                   )
                 ],
@@ -153,7 +153,7 @@ class _ProfileState extends State<UserProfile> {
             );
           } else {
             return Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: TextButton(
                     style: ButtonStyle(
                       overlayColor:
@@ -187,7 +187,7 @@ class _ProfileState extends State<UserProfile> {
                       if (tab['redirect_to'] == 'banks') {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) {
-                          return const Banks();
+                          return const BankAccounts();
                         }));
                       }
 
@@ -218,7 +218,7 @@ class _ProfileState extends State<UserProfile> {
                         ),
                         Text(
                           tab['title'],
-                          style: TextStyle(color: Colors.black),
+                          style: const TextStyle(color: Colors.black),
                         )
                       ],
                     )));

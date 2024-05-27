@@ -9,7 +9,7 @@ import 'package:http/http.dart' as http;
 class FileRepository {
   Future<dynamic> getFileUploadResponse(
       @required String image, @required String filename) async {
-    var post_body = jsonEncode({"image": "${image}", "filename": "$filename"});
+    var postBody = jsonEncode({"image": image, "filename": filename});
     Uri url = Uri.parse("${AppConfig.BASE_URL}/file");
     final response = await http.post(url,
         headers: {
@@ -17,7 +17,8 @@ class FileRepository {
           "Content-Type": "application/json",
           "Authorization": "Bearer ${access_token.$}",
         },
-        body: post_body);
+        body: postBody);
+    AppConfig.alice.onHttpResponse(response, body: postBody);
     if (response.statusCode == 200) {
       return fileUploadResponseFromJson(response.body);
     } else {

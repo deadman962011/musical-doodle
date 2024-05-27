@@ -1,11 +1,10 @@
-import 'package:com.mybill.app/custom/input_shadow_border_decoration.dart';
 import 'package:flutter/material.dart';
 import 'package:com.mybill.app/my_theme.dart';
 
 class InputDecorations {
   static InputDecoration buildInputDecoration_1(
       {hint_text = "",
-      error_text = null,
+      error_text,
       horizontalPadding = 16.00,
       verticalPadding = 0.00}) {
     return InputDecoration(
@@ -17,25 +16,25 @@ class InputDecorations {
         hintStyle: TextStyle(fontSize: 12.0, color: MyTheme.textfield_grey),
         errorBorder: OutlineInputBorder(
           borderSide: BorderSide(color: MyTheme.red, width: 0.6),
-          borderRadius: const BorderRadius.all(const Radius.circular(6.0)),
+          borderRadius: const BorderRadius.all(Radius.circular(6.0)),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderSide: BorderSide(color: MyTheme.red, width: 0.6),
-          borderRadius: const BorderRadius.all(const Radius.circular(6.0)),
+          borderRadius: const BorderRadius.all(Radius.circular(6.0)),
         ),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(color: MyTheme.medium_grey_50, width: 0.6),
           borderRadius: const BorderRadius.all(
-            const Radius.circular(6.0),
+            Radius.circular(6.0),
           ),
         ),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(color: MyTheme.accent_color, width: 0.8),
           borderRadius: const BorderRadius.all(
-            const Radius.circular(6.0),
+            Radius.circular(6.0),
           ),
         ),
-        contentPadding: EdgeInsets.symmetric(
+        contentPadding: const EdgeInsets.symmetric(
           horizontal: 16.00,
         ));
   }
@@ -49,25 +48,25 @@ class InputDecorations {
         hintStyle: TextStyle(fontSize: 12.0, color: MyTheme.textfield_grey),
         errorBorder: OutlineInputBorder(
           borderSide: BorderSide(color: MyTheme.red, width: 0.6),
-          borderRadius: const BorderRadius.all(const Radius.circular(6.0)),
+          borderRadius: const BorderRadius.all(Radius.circular(6.0)),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderSide: BorderSide(color: MyTheme.red, width: 0.6),
-          borderRadius: const BorderRadius.all(const Radius.circular(6.0)),
+          borderRadius: const BorderRadius.all(Radius.circular(6.0)),
         ),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(color: MyTheme.medium_grey_50, width: 0.6),
           borderRadius: const BorderRadius.all(
-            const Radius.circular(6.0),
+            Radius.circular(6.0),
           ),
         ),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(color: MyTheme.accent_color, width: 0.8),
           borderRadius: const BorderRadius.all(
-            const Radius.circular(6.0),
+            Radius.circular(6.0),
           ),
         ),
-        contentPadding: EdgeInsets.symmetric(
+        contentPadding: const EdgeInsets.symmetric(
           horizontal: 16.00,
         ));
   }
@@ -78,16 +77,16 @@ class InputDecorations {
         hintStyle: TextStyle(fontSize: 12.0, color: MyTheme.textfield_grey),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(color: MyTheme.textfield_grey, width: 0.5),
-          borderRadius: BorderRadius.only(
+          borderRadius: const BorderRadius.only(
               topRight: Radius.circular(6.0),
               bottomRight: Radius.circular(6.0)),
         ),
         focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(color: MyTheme.accent_color, width: 0.5),
-            borderRadius: BorderRadius.only(
+            borderRadius: const BorderRadius.only(
                 topRight: Radius.circular(6.0),
                 bottomRight: Radius.circular(6.0))),
-        contentPadding: EdgeInsets.symmetric(horizontal: 16.0));
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16.0));
   }
 
   static InputDecoration buildInputDecorationMobile(
@@ -96,13 +95,13 @@ class InputDecorations {
       isDense: true,
       hintText: hint_text,
       filled: true,
-      border: OutlineInputBorder(),
+      border: const OutlineInputBorder(),
       fillColor: MyTheme.white,
       hintStyle: TextStyle(fontSize: 12.0, color: MyTheme.textfield_grey),
       enabledBorder: OutlineInputBorder(
         borderSide: BorderSide(color: MyTheme.noColor, width: 0.2),
         borderRadius: const BorderRadius.all(
-          const Radius.circular(6.0),
+          Radius.circular(6.0),
         ),
       ),
       errorBorder: OutlineInputBorder(
@@ -111,10 +110,10 @@ class InputDecorations {
       ),
       focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(color: MyTheme.accent_color, width: 0.5),
-          borderRadius: BorderRadius.only(
+          borderRadius: const BorderRadius.only(
               topRight: Radius.circular(6.0),
               bottomRight: Radius.circular(6.0))),
-      contentPadding: EdgeInsets.symmetric(vertical: 5),
+      contentPadding: const EdgeInsets.symmetric(vertical: 5),
     );
   }
 }

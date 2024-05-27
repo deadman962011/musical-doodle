@@ -1,13 +1,12 @@
 import 'package:com.mybill.app/my_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:flutter_map_cancellable_tile_provider/flutter_map_cancellable_tile_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class LocationSelector extends StatefulWidget {
-  const LocationSelector({Key? key}) : super(key: key);
+  const LocationSelector({super.key});
 
   @override
   _LocationSelectorState createState() => _LocationSelectorState();
@@ -16,7 +15,7 @@ class LocationSelector extends StatefulWidget {
 class _LocationSelectorState extends State<LocationSelector> {
   bool counterRotate = false;
   late MapController _mapController;
-  LatLng _userLocation = LatLng(51.509364, -0.128928); // Initial center
+  final LatLng _userLocation = const LatLng(51.509364, -0.128928); // Initial center
   Marker? _selectedMarker;
   late LatLng _selectedLocation;
   late final customMarkers = <Marker>[
@@ -128,9 +127,8 @@ class _LocationSelectorState extends State<LocationSelector> {
         SizedBox(
             width: 150,
             child: Padding(
-              padding: EdgeInsets.only(bottom: 12),
+              padding: const EdgeInsets.only(bottom: 12),
               child: FloatingActionButton(
-                  child: Text('Select Position'),
                   backgroundColor: customMarkers.isNotEmpty
                       ? MyTheme.accent_color
                       : MyTheme.dark_grey,
@@ -138,7 +136,8 @@ class _LocationSelectorState extends State<LocationSelector> {
                       ? () {
                           Navigator.pop(context, _selectedLocation);
                         }
-                      : null),
+                      : null,
+                  child: const Text('Select Position')),
             )),
       ],
     );

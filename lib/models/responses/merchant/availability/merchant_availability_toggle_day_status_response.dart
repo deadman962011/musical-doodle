@@ -2,7 +2,6 @@
 //
 //     final merchantAvailabilityToggleDayStatusResponse = merchantAvailabilityToggleDayStatusResponseFromMap(jsonString);
 
-import 'package:meta/meta.dart';
 import 'dart:convert';
 
 MerchantAvailabilityToggleDayStatusResponse merchantAvailabilityToggleDayStatusResponseFromMap(String str) => MerchantAvailabilityToggleDayStatusResponse.fromMap(json.decode(str));

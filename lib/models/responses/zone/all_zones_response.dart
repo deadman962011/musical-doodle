@@ -3,11 +3,8 @@
 // //     final loginResponse = loginResponseFromJson(jsonString);
 
 import 'dart:convert';
-import 'dart:ffi';
 
-import 'package:com.mybill.app/models/items/Category.dart';
 import 'package:com.mybill.app/models/items/Zone.dart';
-import 'package:flutter/foundation.dart';
 
 AllZonesResponse allZonesResponseFromJson(String str) =>
     AllZonesResponse.fromJson(json.decode(str));

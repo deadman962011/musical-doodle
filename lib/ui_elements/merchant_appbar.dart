@@ -144,6 +144,6 @@ class MerchantAppBar {
   static void _showModalPopup(BuildContext context) {
     showDialog(
         context: context,
-        builder: (BuildContext context) => AddOfferErrorDialog());
+        builder: (BuildContext context) => const AddOfferErrorDialog());
   }
 }

@@ -1,10 +1,9 @@
 import 'package:com.mybill.app/my_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class HomeSearch extends StatefulWidget {
   final Function onToggle;
-  const HomeSearch({required this.onToggle, Key? key}) : super(key: key);
+  const HomeSearch({required this.onToggle, super.key});
 
   @override
   _HomeSearchState createState() => _HomeSearchState();
@@ -22,7 +21,7 @@ class _HomeSearchState extends State<HomeSearch> {
   @override
   Widget build(BuildContext context) {
     // return Text('am hereeerere');
-    return Container(
+    return SizedBox(
         width: MediaQuery.of(context).size.width,
         child: Stack(
           children: [
@@ -35,14 +34,14 @@ class _HomeSearchState extends State<HomeSearch> {
                       color: Colors.grey.withOpacity(0.5), // Shadow color
                       spreadRadius: 0, // Spread radius
                       blurRadius: 3, // Blur radius
-                      offset: Offset(-1, 0), // Shadow offset
+                      offset: const Offset(-1, 0), // Shadow offset
                     ),
                   ],
                 ),
                 child: TextField(
                   decoration: InputDecoration(
                     isDense: true,
-                    contentPadding: EdgeInsets.all(8),
+                    contentPadding: const EdgeInsets.all(8),
                     prefixIcon: Icon(
                       Icons.search,
                       color: MyTheme.accent_color,
@@ -69,11 +68,11 @@ class _HomeSearchState extends State<HomeSearch> {
               end: 0,
               child: Container(
                   alignment: AlignmentDirectional.centerEnd,
-                  padding: EdgeInsets.symmetric(horizontal: 0),
+                  padding: const EdgeInsets.symmetric(horizontal: 0),
                   child: IconButton(
                     style: IconButton.styleFrom(
-                        padding: EdgeInsets.symmetric(horizontal: 0),
-                        shape: CircleBorder(),
+                        padding: const EdgeInsets.symmetric(horizontal: 0),
+                        shape: const CircleBorder(),
                         backgroundColor: MyTheme.accent_color),
                     onPressed: _toggleWidgets,
                     icon: Icon(_showMapWidget ? Icons.home : Icons.place),

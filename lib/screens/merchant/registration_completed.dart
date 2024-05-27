@@ -2,13 +2,14 @@ import 'package:com.mybill.app/custom/box_decorations.dart';
 import 'package:com.mybill.app/custom/device_info.dart';
 import 'package:com.mybill.app/my_theme.dart';
 import 'package:com.mybill.app/screens/guest.dart';
-import 'package:com.mybill.app/screens/merchant/main.dart';
 import 'package:com.mybill.app/ui_elements/auth_ui.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import 'package:com.mybill.app/generated/l10n.dart';
 
 class RegistartionCompleted extends StatefulWidget {
+  const RegistartionCompleted({super.key});
+
   @override
   _RegistrationCompletedState createState() => _RegistrationCompletedState();
 }
@@ -33,8 +34,8 @@ class _RegistrationCompletedState extends State<RegistartionCompleted> {
 
   @override
   Widget build(BuildContext context) {
-    final _screen_height = MediaQuery.of(context).size.height;
-    final _screen_width = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
 
     final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
     return AuthScreen.buildScreen(context, 'Merchant Registration Completed',
@@ -56,18 +57,19 @@ class _RegistrationCompletedState extends State<RegistartionCompleted> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.symmetric(vertical: 16),
+            padding: const EdgeInsets.symmetric(vertical: 16),
             child: Column(
               children: [
                 Text(
-                  AppLocalizations.of(context)!.merchant_registration_completed,
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  S.of(context).merchant_registration_completed,
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 16),
                 )
               ],
             ),
           ),
           Padding(
-            padding: EdgeInsets.symmetric(vertical: 20),
+            padding: const EdgeInsets.symmetric(vertical: 20),
             child: TextButton(
               style: TextButton.styleFrom(
                 backgroundColor: MyTheme.accent_color,
@@ -80,7 +82,7 @@ class _RegistrationCompletedState extends State<RegistartionCompleted> {
                 }));
               },
               child: Text(
-                AppLocalizations.of(context)!.back_to_main,
+                S.of(context).back_to_main,
                 style: TextStyle(
                   color: MyTheme.white,
                   fontSize: 16,

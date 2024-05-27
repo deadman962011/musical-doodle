@@ -1,27 +1,23 @@
 import 'package:com.mybill.app/custom/box_decorations.dart';
-import 'package:com.mybill.app/custom/device_info.dart';
 import 'package:com.mybill.app/helpers/shared_value_helper.dart';
 import 'package:com.mybill.app/models/items/Offer.dart';
-import 'package:com.mybill.app/models/responses/merchant/offer/merchant_offers_response.dart';
 import 'package:com.mybill.app/my_theme.dart';
 import 'package:com.mybill.app/ui_elements/merchant_appbar.dart';
 import 'package:com.mybill.app/ui_elements/merchant_drawer.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:com.mybill.app/generated/l10n.dart';
 
 class OfferDetails extends StatefulWidget {
   final offer;
-  const OfferDetails({Key? key, required this.offer}) : super(key: key);
+  const OfferDetails({super.key, required this.offer});
 
   @override
   _OfferDetailsState createState() => _OfferDetailsState();
 }
 
 class _OfferDetailsState extends State<OfferDetails> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   bool _isOfferLoading = true;
   late Offer? offer;
@@ -58,7 +54,7 @@ class _OfferDetailsState extends State<OfferDetails> {
               context, 'offer_details', _scaffoldKey, widget.offer.name),
           drawer: MerchantDrawer.buildDrawer(context),
           body: Container(
-            padding: EdgeInsets.symmetric(horizontal: 26, vertical: 12),
+            padding: const EdgeInsets.symmetric(horizontal: 26, vertical: 12),
             child: Column(
               // mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -66,7 +62,7 @@ class _OfferDetailsState extends State<OfferDetails> {
                 Center(
                     child: Container(
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(6)),
+                    borderRadius: const BorderRadius.all(Radius.circular(6)),
                     color: widget.offer.state == 'pendig'
                         ? MyTheme.warning_color
                         : widget.offer.state == 'active'
@@ -74,12 +70,13 @@ class _OfferDetailsState extends State<OfferDetails> {
                             : MyTheme.accent_color,
                   ),
                   child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
                     child: Text(
                       widget.offer.state == 'pendig'
-                          ? '${AppLocalizations.of(context)!.done} / ${AppLocalizations.of(context)!.unpaid}'
+                          ? '${S.of(context).done} / ${S.of(context).unpaid}'
                           : widget.offer.state == 'active'
-                              ? '${AppLocalizations.of(context)!.active}'
+                              ? S.of(context).active
                               : '',
                       style: TextStyle(
                         fontSize: 14,
@@ -90,18 +87,18 @@ class _OfferDetailsState extends State<OfferDetails> {
                   ),
                 )),
                 Padding(
-                  padding: EdgeInsets.symmetric(vertical: 14),
+                  padding: const EdgeInsets.symmetric(vertical: 14),
                   child: Column(
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            ' ${AppLocalizations.of(context)!.cashback} :',
-                            style: TextStyle(
+                            ' ${S.of(context).cashback} :',
+                            style: const TextStyle(
                                 fontSize: 13, fontWeight: FontWeight.w900),
                           ),
-                          Text('5 %',
+                          const Text('5 %',
                               style: TextStyle(
                                   fontSize: 13, fontWeight: FontWeight.w900)),
                         ],
@@ -109,25 +106,23 @@ class _OfferDetailsState extends State<OfferDetails> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                              ' ${AppLocalizations.of(context)!.offer_num_of_beneficiaries} :',
-                              style: TextStyle(
+                          Text(' ${S.of(context).offer_num_of_beneficiaries} :',
+                              style: const TextStyle(
                                   fontSize: 13, fontWeight: FontWeight.w700)),
                           widget.offer.state == 'pending'
-                              ? Text('-')
-                              : Text('0'),
+                              ? const Text('-')
+                              : const Text('0'),
                         ],
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                              ' ${AppLocalizations.of(context)!.total_sales} :',
-                              style: TextStyle(
+                          Text(' ${S.of(context).total_sales} :',
+                              style: const TextStyle(
                                   fontSize: 13, fontWeight: FontWeight.w700)),
                           widget.offer.state == 'pending'
-                              ? Text('-')
-                              : Text('0'),
+                              ? const Text('-')
+                              : const Text('0'),
                         ],
                       )
                     ],
@@ -136,32 +131,33 @@ class _OfferDetailsState extends State<OfferDetails> {
                 Expanded(
                   child: Container(
                     width: MediaQuery.of(context).size.width,
-                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 10),
                     decoration: BoxDecorations.buildBoxDecoration2(radius: 10),
                     child: _buildSalesList(),
                   ),
                 ),
-                Container(
+                SizedBox(
                   width: MediaQuery.of(context).size.width,
                   child: _buildOfferTicket(),
                 ),
                 Container(
-                  margin: EdgeInsets.symmetric(vertical: 16),
+                  margin: const EdgeInsets.symmetric(vertical: 16),
                   width: double.infinity,
                   height: 50,
                   child: TextButton(
-                    child: Text(
-                      AppLocalizations.of(context)!.pay,
-                      style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w700),
-                    ),
                     style: TextButton.styleFrom(
                         backgroundColor: MyTheme.warning_color,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8.0))),
                     onPressed: () {},
+                    child: Text(
+                      S.of(context).pay,
+                      style: const TextStyle(
+                          fontSize: 20,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w700),
+                    ),
                   ),
                 )
               ],
@@ -180,25 +176,23 @@ class _OfferDetailsState extends State<OfferDetails> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  '${AppLocalizations.of(context)!.bill_number}',
-                  style: TextStyle(fontSize: 10),
+                  S.of(context).bill_number,
+                  style: const TextStyle(fontSize: 10),
                 ),
-                Text(AppLocalizations.of(context)!.client_name,
-                    style: TextStyle(fontSize: 10)),
-                Text(AppLocalizations.of(context)!.date,
-                    style: TextStyle(fontSize: 10)),
-                Text(AppLocalizations.of(context)!.amount,
-                    style: TextStyle(fontSize: 10)),
-                Text(AppLocalizations.of(context)!.bill,
-                    style: TextStyle(fontSize: 10)),
+                Text(S.of(context).client_name,
+                    style: const TextStyle(fontSize: 10)),
+                Text(S.of(context).date, style: const TextStyle(fontSize: 10)),
+                Text(S.of(context).amount,
+                    style: const TextStyle(fontSize: 10)),
+                Text(S.of(context).bill, style: const TextStyle(fontSize: 10)),
               ],
             ),
             Expanded(
               child: Center(
-                child: Text(AppLocalizations.of(context)!.no_data),
+                child: Text(S.of(context).no_data),
               ),
             ),
-            Column(
+            const Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -244,8 +238,8 @@ class _OfferDetailsState extends State<OfferDetails> {
       alignment: Alignment.center,
       children: [
         Container(
-          margin: EdgeInsets.only(top: 20),
-          padding: EdgeInsets.symmetric(horizontal: 26, vertical: 18),
+          margin: const EdgeInsets.only(top: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 26, vertical: 18),
           height: 140,
           decoration: BoxDecorations.buildBoxDecoration2(radius: 10),
           child: Column(
@@ -258,28 +252,28 @@ class _OfferDetailsState extends State<OfferDetails> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        '${AppLocalizations.of(context)!.cashback} :',
-                        style: TextStyle(
+                        '${S.of(context).cashback} :',
+                        style: const TextStyle(
                             fontWeight: FontWeight.w200, fontSize: 16),
                       ),
                       widget.offer.state == 'pending'
-                          ? Text('-')
-                          : Text(' 0 ${AppLocalizations.of(context)!.sar}',
-                              style: TextStyle(
+                          ? const Text('-')
+                          : Text(' 0 ${S.of(context).sar}',
+                              style: const TextStyle(
                                   fontWeight: FontWeight.w200, fontSize: 16)),
                     ],
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('${AppLocalizations.of(context)!.commission} : ',
-                          style: TextStyle(
+                      Text('${S.of(context).commission} : ',
+                          style: const TextStyle(
                               fontWeight: FontWeight.w200, fontSize: 16)),
                       widget.offer.state == 'pending'
-                          ? Text('-')
+                          ? const Text('-')
                           : Text(
-                              '0 ${AppLocalizations.of(context)!.sar}',
-                              style: TextStyle(
+                              '0 ${S.of(context).sar}',
+                              style: const TextStyle(
                                   fontWeight: FontWeight.w200, fontSize: 16),
                             ),
                     ],
@@ -289,14 +283,14 @@ class _OfferDetailsState extends State<OfferDetails> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(AppLocalizations.of(context)!.payment,
+                  Text(S.of(context).payment,
                       style: TextStyle(
                           fontWeight: FontWeight.w200,
                           fontSize: 16,
                           color: MyTheme.accent_color)),
                   widget.offer.state == 'pending'
-                      ? Text('-')
-                      : Text('0 ${AppLocalizations.of(context)!.sar}',
+                      ? const Text('-')
+                      : Text('0 ${S.of(context).sar}',
                           style: TextStyle(
                               fontWeight: FontWeight.w200,
                               fontSize: 16,

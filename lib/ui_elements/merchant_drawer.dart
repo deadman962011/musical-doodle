@@ -1,25 +1,23 @@
 import 'package:com.mybill.app/my_theme.dart';
-import 'package:com.mybill.app/screens/merchant/home.dart';
-import 'package:com.mybill.app/screens/merchant/main.dart';
 import 'package:com.mybill.app/screens/merchant/offers/offers.dart';
 import 'package:com.mybill.app/screens/merchant/profile_edit.dart';
-import 'package:com.mybill.app/screens/merchant/reports.dart';
 import 'package:com.mybill.app/screens/merchant/statistics/latest_sales.dart';
 import 'package:com.mybill.app/screens/merchant/statistics/statistics.dart';
 import 'package:com.mybill.app/screens/merchant/wallet.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import 'package:com.mybill.app/generated/l10n.dart';
 
 class MerchantDrawer {
   static Drawer buildDrawer(context) {
     final List<Map<String, dynamic>> drawerItems = [
       {
-        'title': AppLocalizations.of(context)!.statistics,
+        'title': S.of(context).statistics,
         'image': 'assets/pie.png',
         'action': null,
         'sub': [
           {
-            'title': AppLocalizations.of(context)!.statistics,
+            'title': S.of(context).statistics,
             'action': () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
                 return const MerchantStatistics();
@@ -27,7 +25,7 @@ class MerchantDrawer {
             }
           },
           {
-            'title': AppLocalizations.of(context)!.statistics,
+            'title': S.of(context).statistics,
             'action': () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
                 return const MerchantLatestSales();
@@ -37,59 +35,59 @@ class MerchantDrawer {
         ]
       },
       {
-        'title': AppLocalizations.of(context)!.wallet,
+        'title': S.of(context).wallet,
         'image': 'assets/wallet.png',
         'action': () {
           Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return MerchantWallet();
+            return const MerchantWallet();
           }));
         },
         'sub': []
       },
       {
-        'title': AppLocalizations.of(context)!.offers,
+        'title': S.of(context).offers,
         'image': 'assets/offers.png',
         'action': () {
           Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return MerchantOffers();
+            return const MerchantOffers();
           }));
         },
         'sub': []
       },
       {
-        'title': AppLocalizations.of(context)!.pay_commissions,
+        'title': S.of(context).pay_commissions,
         'image': 'assets/suitcase.png',
         'sub': []
       },
       {
-        'title': AppLocalizations.of(context)!.loyalty_program,
+        'title': S.of(context).loyalty_program,
         'image': 'assets/gift.png',
         'action': () {},
         'sub': []
       },
       {
-        'title': AppLocalizations.of(context)!.notifications,
+        'title': S.of(context).notifications,
         'image': 'assets/menu.png',
         'sub': []
       },
       {
-        'title': AppLocalizations.of(context)!.profile,
+        'title': S.of(context).profile,
         'image': 'assets/profile.png',
         'action': () {
           Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return MerchantProfileEdit();
+            return const MerchantProfileEdit();
           }));
         },
         'sub': []
       },
       {
-        'title': AppLocalizations.of(context)!.upgrade_profile,
+        'title': S.of(context).upgrade_profile,
         'image': 'assets/upgrade_account.png',
         'action': () {},
         'sub': []
       },
       {
-        'title': AppLocalizations.of(context)!.settings,
+        'title': S.of(context).settings,
         'image': 'assets/settings.png',
         'action': () {},
         'sub': []
@@ -98,7 +96,7 @@ class MerchantDrawer {
 
     return Drawer(
       width: 230,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
       backgroundColor: MyTheme.accent_color,
       child: ListView(
         padding: EdgeInsets.zero,
@@ -144,7 +142,7 @@ class MerchantDrawer {
                           onTap: child['action'],
                         );
                       }).toList(),
-                      shape: Border(),
+                      shape: const Border(),
                     )
                   : ListTile(
                       title: Row(

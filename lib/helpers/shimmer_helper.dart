@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:com.mybill.app/my_theme.dart';
 import 'package:com.mybill.app/custom/box_decorations.dart';
@@ -9,7 +10,7 @@ class ShimmerHelper {
       double width = double.infinity,
       double radius = 6}) {
     return Padding(
-        padding: EdgeInsets.symmetric(vertical: 6),
+        padding: const EdgeInsets.symmetric(vertical: 6),
         child: Shimmer.fromColors(
           baseColor: MyTheme.shimmer_base,
           highlightColor: MyTheme.shimmer_highlighted,
@@ -44,7 +45,7 @@ class ShimmerHelper {
     return ListView.builder(
       itemCount: item_count,
       scrollDirection: Axis.vertical,
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       itemBuilder: (context, index) {
         return Padding(
@@ -56,51 +57,48 @@ class ShimmerHelper {
     );
   }
 
-  // buildProductGridShimmer({scontroller, item_count = 10}) {
+  buildProductGridShimmer({scontroller, item_count = 10}) {
+    return MasonryGridView.count(
+        crossAxisCount: 2,
+        mainAxisSpacing: 14,
+        crossAxisSpacing: 14,
+        itemCount: item_count,
+        shrinkWrap: true,
+        padding: EdgeInsets.only(top: 20.0, bottom: 10, left: 18, right: 18),
+        physics: NeverScrollableScrollPhysics(),
+        itemBuilder: (context, index) {
+          return Shimmer.fromColors(
+            baseColor: MyTheme.shimmer_base,
+            highlightColor: MyTheme.shimmer_highlighted,
+            child: Container(
+              height: (index + 1) % 2 != 0 ? 250 : 300,
+              width: double.infinity,
+              decoration: BoxDecorations.buildBoxDecoration_1(),
+            ),
+          );
+        });
+  }
 
-  //   return MasonryGridView.count(
-  //       crossAxisCount: 2,
-  //       mainAxisSpacing: 14,
-  //       crossAxisSpacing: 14,
-  //       itemCount: item_count,
-  //       shrinkWrap: true,
-  //       padding: EdgeInsets.only(top:20.0,bottom: 10,left: 18,right:18),
-  //       physics: NeverScrollableScrollPhysics(),
-  //       itemBuilder: (context, index) {
-  //         return Shimmer.fromColors(
-  //           baseColor: MyTheme.shimmer_base,
-  //           highlightColor: MyTheme.shimmer_highlighted,
-  //           child: Container(
-  //             height: (index +1) % 2 != 0 ? 250 : 300,
-  //             width: double.infinity,
-  //             decoration: BoxDecorations.buildBoxDecoration_1(),
-  //           ),
-  //         );
-  //       }
-  //   );
-
-  // }
-
-  buildSquareGridShimmer({scontroller, item_count = 10}) {
+  buildSquareGridShimmerCoupons({scontroller, item_count = 10}) {
     return GridView.builder(
       itemCount: item_count,
       controller: scontroller,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           crossAxisSpacing: 10,
           mainAxisSpacing: 10,
-          childAspectRatio: 1),
-      padding: EdgeInsets.all(8),
-      physics: NeverScrollableScrollPhysics(),
+          childAspectRatio: 1.3),
+      padding: const EdgeInsets.all(8),
+      physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       itemBuilder: (context, index) {
         return Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(2.0),
           child: Shimmer.fromColors(
             baseColor: MyTheme.shimmer_base,
             highlightColor: MyTheme.shimmer_highlighted,
             child: Container(
-              height: 120,
+              height: 50,
               width: double.infinity,
               decoration: BoxDecorations.buildBoxDecoration_1(),
             ),

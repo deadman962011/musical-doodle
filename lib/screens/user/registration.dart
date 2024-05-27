@@ -9,11 +9,10 @@ import 'package:flutter/services.dart';
 import 'package:com.mybill.app/custom/input_decorations.dart';
 import 'package:com.mybill.app/screens/user/main.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import 'package:com.mybill.app/generated/l10n.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:intl/intl.dart';
 import 'package:loading_indicator/loading_indicator.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class UserRegistration extends StatefulWidget {
   final String email;
@@ -59,17 +58,17 @@ class _UserRegistrationState extends State<UserRegistration> {
   }
 
   onPressSignUp() async {
-    String first_name = _firstNameController.text.toString();
-    String last_name = _lastNameController.text.toString();
-    String birth_date = _birthDateController.text.toString();
-    String referral_code = _referralCodeController.text.toString();
+    String firstName = _firstNameController.text.toString();
+    String lastName = _lastNameController.text.toString();
+    String birthDate = _birthDateController.text.toString();
+    String referralCode = _referralCodeController.text.toString();
     setState(() {
       _isLoading = true;
     });
     debugPrint(_gender);
     await UserAuthRepository()
-        .getUserCompleteRegisterResponse(widget.email, first_name, last_name,
-            _gender, birth_date, referral_code)
+        .getUserCompleteRegisterResponse(
+            widget.email, firstName, lastName, _gender, birthDate, referralCode)
         .then((value) {
       debugPrint(value.runtimeType.toString());
       if (value.runtimeType.toString() == 'UserCompleteRegisterResponse') {
@@ -99,8 +98,8 @@ class _UserRegistrationState extends State<UserRegistration> {
 
   @override
   Widget build(BuildContext context) {
-    final _screen_height = MediaQuery.of(context).size.height;
-    final _screen_width = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
 
     final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
     return AuthScreen.buildScreen(
@@ -123,13 +122,13 @@ class _UserRegistrationState extends State<UserRegistration> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(vertical: 16),
+              padding: const EdgeInsets.symmetric(vertical: 16),
               child: Column(
                 children: [
                   Text(
-                    AppLocalizations.of(context)!
-                        .please_enter_your_informations_to_continue,
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    S.of(context).please_enter_your_informations_to_continue,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 16),
                   )
                 ],
               ),
@@ -144,7 +143,7 @@ class _UserRegistrationState extends State<UserRegistration> {
               autovalidateMode: AutovalidateMode.disabled,
               child: Column(children: [
                 Padding(
-                  padding: EdgeInsets.only(bottom: 8),
+                  padding: const EdgeInsets.only(bottom: 8),
                   child: FormBuilderTextField(
                     // autofocus: false,
                     // autovalidateMode: AutovalidateMode.always,
@@ -152,7 +151,7 @@ class _UserRegistrationState extends State<UserRegistration> {
                     controller: _firstNameController,
                     autovalidateMode: AutovalidateMode.disabled,
                     decoration: InputDecorations.buildInputDecoration_1(
-                        hint_text: AppLocalizations.of(context)!.firstname),
+                        hint_text: S.of(context).firstname),
                     validator: FormBuilderValidators.compose([
                       FormBuilderValidators.required(),
                       FormBuilderValidators.minLength(3),
@@ -161,7 +160,7 @@ class _UserRegistrationState extends State<UserRegistration> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(bottom: 8),
+                  padding: const EdgeInsets.only(bottom: 8),
                   child: FormBuilderTextField(
                     // autofocus: false,
                     // autovalidateMode: AutovalidateMode.always,
@@ -169,7 +168,7 @@ class _UserRegistrationState extends State<UserRegistration> {
                     controller: _lastNameController,
                     autovalidateMode: AutovalidateMode.disabled,
                     decoration: InputDecorations.buildInputDecoration_1(
-                        hint_text: AppLocalizations.of(context)!.lastname),
+                        hint_text: S.of(context).lastname),
                     validator: FormBuilderValidators.compose([
                       FormBuilderValidators.required(),
                       FormBuilderValidators.minLength(3),
@@ -178,14 +177,14 @@ class _UserRegistrationState extends State<UserRegistration> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(bottom: 8),
+                  padding: const EdgeInsets.only(bottom: 8),
                   child: FormBuilderDateTimePicker(
                     lastDate: DateTime.now(),
                     name: 'birth_date',
                     controller: _birthDateController,
                     autovalidateMode: AutovalidateMode.disabled,
                     decoration: InputDecorations.buildInputDecoration_1(
-                        hint_text: AppLocalizations.of(context)!.birthDate),
+                        hint_text: S.of(context).birthDate),
                     validator: FormBuilderValidators.compose([
                       FormBuilderValidators.required(),
                     ]),
@@ -194,10 +193,10 @@ class _UserRegistrationState extends State<UserRegistration> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(bottom: 8),
+                  padding: const EdgeInsets.only(bottom: 8),
                   child: FormBuilderDropdown(
                       name: 'gender',
-                      items: [
+                      items: const [
                         DropdownMenuItem(value: 'male', child: Text('male')),
                         DropdownMenuItem(value: 'female', child: Text('female'))
                       ],
@@ -209,7 +208,7 @@ class _UserRegistrationState extends State<UserRegistration> {
                       }),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(bottom: 8),
+                  padding: const EdgeInsets.only(bottom: 8),
                   child: FormBuilderTextField(
                     // autofocus: false,
                     // autovalidateMode: AutovalidateMode.always,
@@ -217,7 +216,7 @@ class _UserRegistrationState extends State<UserRegistration> {
                     name: 'referral_code',
                     autovalidateMode: AutovalidateMode.disabled,
                     decoration: InputDecorations.buildInputDecoration_1(
-                        hint_text: AppLocalizations.of(context)!.referral_code),
+                        hint_text: S.of(context).referral_code),
                     textInputAction: TextInputAction.done,
                   ),
                 ),
@@ -256,7 +255,7 @@ class _UserRegistrationState extends State<UserRegistration> {
                                     .transparent, // Customize the background color if needed
                               ))
                           : Text(
-                              AppLocalizations.of(context)!.continue_b,
+                              S.of(context).continue_b,
                               style: TextStyle(
                                 color: MyTheme.white,
                                 fontSize: 16,
@@ -272,8 +271,7 @@ class _UserRegistrationState extends State<UserRegistration> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          AppLocalizations.of(context)!
-                              .by_clicking_continue_you_are,
+                          S.of(context).by_clicking_continue_you_are,
                           style: TextStyle(
                               color: MyTheme.grey_153,
                               fontSize: 8,
@@ -284,8 +282,7 @@ class _UserRegistrationState extends State<UserRegistration> {
                                 minimumSize: Size.zero,
                                 padding: EdgeInsets.zero),
                             onPressed: () {},
-                            child: Text(
-                                AppLocalizations.of(context)!.terms_conditions,
+                            child: Text(S.of(context).terms_conditions,
                                 style: TextStyle(
                                     decoration: TextDecoration.underline,
                                     color: MyTheme.accent_color,

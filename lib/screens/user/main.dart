@@ -7,17 +7,17 @@ import 'package:com.mybill.app/screens/user/menu.dart';
 import 'package:com.mybill.app/screens/user/profile.dart';
 import 'package:com.mybill.app/screens/user/scan.dart';
 import 'package:com.mybill.app/screens/user/wallet.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui';
-import 'package:flutter/services.dart';
+import 'package:alice/alice.dart';
 import 'package:com.mybill.app/helpers/shared_value_helper.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import 'package:com.mybill.app/generated/l10n.dart';
 
 class UserMain extends StatefulWidget {
   late bool go_back;
   // ignore: non_constant_identifier_names
-  UserMain({bool go_back = true}) : super();
+  UserMain({super.key, bool go_back = true});
 
   @override
   _UserMainState createState() => _UserMainState();
@@ -26,7 +26,9 @@ class UserMain extends StatefulWidget {
 class _UserMainState extends State<UserMain> {
   int _currentIndex = 0;
   var _children = [];
-  late bool _showBottomNavigationBar = false;
+  late final bool _showBottomNavigationBar = false;
+  late Alice _alice;
+
   //int _cartCount = 0;
 
   BottomAppbarIndex bottomAppbarIndex = BottomAppbarIndex();
@@ -35,7 +37,6 @@ class _UserMainState extends State<UserMain> {
 
   void onTapped(int i) {
     fetchAll();
-    debugPrint(' ${is_logged_in.$} ${access_token.$} ');
     if (i == 1 && !is_logged_in.$) {
       // Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
       return;
@@ -54,7 +55,7 @@ class _UserMainState extends State<UserMain> {
 
     if (is_logged_in.$) {
       _children = [
-        UserHome(),
+        const UserHome(),
         const UserWallet(),
         const UserScan(),
         const UserProfile(),
@@ -98,124 +99,146 @@ class _UserMainState extends State<UserMain> {
                         color: Colors.grey.withOpacity(0.5),
                         spreadRadius: 3,
                         blurRadius: 5,
-                        offset: Offset(0, 3), // changes position of shadow
+                        offset:
+                            const Offset(0, 3), // changes position of shadow
                       ),
                     ],
                   ),
-                  child: BottomAppBar(
-                    padding: EdgeInsets.zero,
-                    color: Colors.transparent,
-                    clipBehavior: Clip.antiAlias,
-                    child: BackdropFilter(
-                      filter: ImageFilter.blur(sigmaX: 1.0, sigmaY: 1.0),
-                      child: Container(
-                        decoration: BoxDecoration(boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(
-                                0.5), // Change the color and opacity as needed
-                            spreadRadius: 2,
-                            blurRadius: 7,
-                            offset: const Offset(0,
-                                -3), // Positive y-offset for shadow above the bar
+                  child: _currentIndex != 2
+                      ? BottomAppBar(
+                          padding: EdgeInsets.zero,
+                          color: Colors.transparent,
+                          clipBehavior: Clip.antiAlias,
+                          child: BackdropFilter(
+                            filter: ImageFilter.blur(sigmaX: 1.0, sigmaY: 1.0),
+                            child: Container(
+                              decoration: BoxDecoration(boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(
+                                      0.5), // Change the color and opacity as needed
+                                  spreadRadius: 2,
+                                  blurRadius: 7,
+                                  offset: const Offset(0,
+                                      -3), // Positive y-offset for shadow above the bar
+                                ),
+                              ]),
+                              height: 72,
+                              child: BottomNavigationBar(
+                                type: BottomNavigationBarType.fixed,
+                                onTap: onTapped,
+                                currentIndex: _currentIndex,
+                                backgroundColor: Colors.white.withOpacity(0.95),
+                                unselectedItemColor:
+                                    const Color.fromRGBO(168, 175, 179, 1),
+                                selectedItemColor: MyTheme.accent_color,
+                                selectedLabelStyle: TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    color: MyTheme.accent_color,
+                                    fontSize: 12),
+                                unselectedLabelStyle: const TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    color: Color.fromRGBO(168, 175, 179, 1),
+                                    fontSize: 12),
+                                items: [
+                                  BottomNavigationBarItem(
+                                      icon: Padding(
+                                        padding:
+                                            const EdgeInsets.only(bottom: 2.0),
+                                        child: Image.asset(
+                                          "assets/home.png",
+                                          color: _currentIndex == 0
+                                              ? Theme.of(context)
+                                                  .colorScheme
+                                                  .secondary
+                                              : const Color.fromRGBO(
+                                                  153, 153, 153, 1),
+                                          height: 24,
+                                        ),
+                                      ),
+                                      label: S
+                                          .of(context)
+                                          ?.main_screen_bottom_navigation_home),
+                                  BottomNavigationBarItem(
+                                      icon: Padding(
+                                        padding:
+                                            const EdgeInsets.only(bottom: 2.0),
+                                        child: Image.asset(
+                                          "assets/wallet.png",
+                                          color: _currentIndex == 1
+                                              ? Theme.of(context)
+                                                  .colorScheme
+                                                  .secondary
+                                              : const Color.fromRGBO(
+                                                  153, 153, 153, 1),
+                                          height: 24,
+                                        ),
+                                      ),
+                                      label: S
+                                          .of(context)
+                                          ?.main_screen_bottom_navigation_wallet),
+                                  BottomNavigationBarItem(
+                                    icon: Padding(
+                                      padding:
+                                          const EdgeInsets.only(bottom: 2.0),
+                                      child: Image.asset(
+                                        "assets/scan.png",
+                                        color: _currentIndex == 2
+                                            ? Theme.of(context)
+                                                .colorScheme
+                                                .secondary
+                                            : const Color.fromRGBO(
+                                                153, 153, 153, 1),
+                                        height: 24,
+                                      ),
+                                    ),
+                                    label: S
+                                        .of(context)
+                                        ?.main_screen_bottom_navigation_scan,
+                                  ),
+                                  BottomNavigationBarItem(
+                                    icon: Padding(
+                                      padding:
+                                          const EdgeInsets.only(bottom: 2.0),
+                                      child: Image.asset(
+                                        "assets/profile.png",
+                                        color: _currentIndex == 3
+                                            ? Theme.of(context)
+                                                .colorScheme
+                                                .secondary
+                                            : const Color.fromRGBO(
+                                                153, 153, 153, 1),
+                                        height: 24,
+                                      ),
+                                    ),
+                                    label: S
+                                        .of(context)
+                                        ?.main_screen_bottom_navigation_profile,
+                                  ),
+                                  BottomNavigationBarItem(
+                                    icon: Padding(
+                                      padding:
+                                          const EdgeInsets.only(bottom: 2.0),
+                                      child: Image.asset(
+                                        "assets/menu.png",
+                                        color: _currentIndex == 4
+                                            ? Theme.of(context)
+                                                .colorScheme
+                                                .secondary
+                                            : const Color.fromRGBO(
+                                                153, 153, 153, 1),
+                                        height: 24,
+                                      ),
+                                    ),
+                                    label: S
+                                        .of(context)
+                                        ?.main_screen_bottom_navigation_more,
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
-                        ]),
-                        height: 72,
-                        child: BottomNavigationBar(
-                          type: BottomNavigationBarType.fixed,
-                          onTap: onTapped,
-                          currentIndex: _currentIndex,
-                          backgroundColor: Colors.white.withOpacity(0.95),
-                          unselectedItemColor:
-                              const Color.fromRGBO(168, 175, 179, 1),
-                          selectedItemColor: MyTheme.accent_color,
-                          selectedLabelStyle: TextStyle(
-                              fontWeight: FontWeight.w700,
-                              color: MyTheme.accent_color,
-                              fontSize: 12),
-                          unselectedLabelStyle: const TextStyle(
-                              fontWeight: FontWeight.w400,
-                              color: Color.fromRGBO(168, 175, 179, 1),
-                              fontSize: 12),
-                          items: [
-                            BottomNavigationBarItem(
-                                icon: Padding(
-                                  padding: const EdgeInsets.only(bottom: 2.0),
-                                  child: Image.asset(
-                                    "assets/home.png",
-                                    color: _currentIndex == 0
-                                        ? Theme.of(context)
-                                            .colorScheme
-                                            .secondary
-                                        : const Color.fromRGBO(
-                                            153, 153, 153, 1),
-                                    height: 24,
-                                  ),
-                                ),
-                                label: AppLocalizations.of(context)
-                                    ?.main_screen_bottom_navigation_home),
-                            BottomNavigationBarItem(
-                                icon: Padding(
-                                  padding: const EdgeInsets.only(bottom: 2.0),
-                                  child: Image.asset(
-                                    "assets/wallet.png",
-                                    color: _currentIndex == 1
-                                        ? Theme.of(context)
-                                            .colorScheme
-                                            .secondary
-                                        : const Color.fromRGBO(
-                                            153, 153, 153, 1),
-                                    height: 24,
-                                  ),
-                                ),
-                                label: AppLocalizations.of(context)
-                                    ?.main_screen_bottom_navigation_wallet),
-                            BottomNavigationBarItem(
-                              icon: Padding(
-                                padding: const EdgeInsets.only(bottom: 2.0),
-                                child: Image.asset(
-                                  "assets/scan.png",
-                                  color: _currentIndex == 2
-                                      ? Theme.of(context).colorScheme.secondary
-                                      : const Color.fromRGBO(153, 153, 153, 1),
-                                  height: 24,
-                                ),
-                              ),
-                              label: AppLocalizations.of(context)
-                                  ?.main_screen_bottom_navigation_scan,
-                            ),
-                            BottomNavigationBarItem(
-                              icon: Padding(
-                                padding: const EdgeInsets.only(bottom: 2.0),
-                                child: Image.asset(
-                                  "assets/profile.png",
-                                  color: _currentIndex == 3
-                                      ? Theme.of(context).colorScheme.secondary
-                                      : const Color.fromRGBO(153, 153, 153, 1),
-                                  height: 24,
-                                ),
-                              ),
-                              label: AppLocalizations.of(context)
-                                  ?.main_screen_bottom_navigation_profile,
-                            ),
-                            BottomNavigationBarItem(
-                              icon: Padding(
-                                padding: const EdgeInsets.only(bottom: 2.0),
-                                child: Image.asset(
-                                  "assets/menu.png",
-                                  color: _currentIndex == 4
-                                      ? Theme.of(context).colorScheme.secondary
-                                      : const Color.fromRGBO(153, 153, 153, 1),
-                                  height: 24,
-                                ),
-                              ),
-                              label: AppLocalizations.of(context)
-                                  ?.main_screen_bottom_navigation_more,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ))
+                        )
+                      : SizedBox())
               : null,
         ),
       ),

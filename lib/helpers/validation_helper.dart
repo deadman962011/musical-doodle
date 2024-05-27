@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 
 class ValidationHelper {
   static String? dynamicValidator(String? value, List<String> validationRules, Map<String, dynamic>? options) {
@@ -70,13 +69,13 @@ class ValidationHelper {
     }
     // Check length
     if(operation=='equal' && value.length != length){
-      return 'length must be equal to ${length}';
+      return 'length must be equal to $length';
     }
     if(operation=='min' && value.length < length ){
-      return 'Length must be lower that ${length}';
+      return 'Length must be lower that $length';
     }
     if(operation=='max' && value.length > length){
-      return 'Length must be greater than ${length}';
+      return 'Length must be greater than $length';
     }
   
     return null;

@@ -5,18 +5,18 @@ import 'package:flutter/material.dart';
 import 'package:com.mybill.app/helpers/shared_value_helper.dart';
 import 'package:com.mybill.app/ui_elements/merchant_appbar.dart';
 import 'package:com.mybill.app/ui_elements/merchant_drawer.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import 'package:com.mybill.app/generated/l10n.dart';
 
 class MerchantStatistics extends StatefulWidget {
-  const MerchantStatistics({Key? key}) : super(key: key);
+  const MerchantStatistics({super.key});
 
   @override
   _StatisticsState createState() => _StatisticsState();
 }
 
 class _StatisticsState extends State<MerchantStatistics> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -41,8 +41,8 @@ class _StatisticsState extends State<MerchantStatistics> {
             app_language_rtl.$ ? TextDirection.rtl : TextDirection.ltr,
         child: Scaffold(
             key: _scaffoldKey,
-            appBar: MerchantAppBar.buildMerchantAppBar(context, 'statistics',
-                _scaffoldKey, AppLocalizations.of(context)!.add_offer),
+            appBar: MerchantAppBar.buildMerchantAppBar(
+                context, 'statistics', _scaffoldKey, S.of(context).add_offer),
             drawer: MerchantDrawer.buildDrawer(context),
             backgroundColor: Colors.transparent,
             body: RefreshIndicator(
@@ -51,7 +51,7 @@ class _StatisticsState extends State<MerchantStatistics> {
               displacement: 0,
               onRefresh: _onRefresh,
               child: SingleChildScrollView(
-                  child: Container(
+                  child: SizedBox(
                 // color: Colors.red,
                 width: MediaQuery.of(context).size.width,
                 child: Column(
@@ -112,7 +112,7 @@ class _StatisticsState extends State<MerchantStatistics> {
         },
       ),
       Padding(
-          padding: EdgeInsets.symmetric(vertical: 16),
+          padding: const EdgeInsets.symmetric(vertical: 16),
           child: GestureDetector(
               child: Stack(
             alignment: AlignmentDirectional.centerStart,
@@ -202,20 +202,20 @@ class _StatisticsState extends State<MerchantStatistics> {
 
   Widget _buildOfferSalesBody() {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+      margin: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
       child: Column(
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Offers shh'),
+              const Text('Offers shh'),
               TextButton(
                   style: TextButton.styleFrom(
                       backgroundColor: MyTheme.accent_color,
-                      shape: RoundedRectangleBorder(
+                      shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(Radius.circular(8)))),
                   onPressed: () {},
-                  child: Text(
+                  child: const Text(
                     '11/10/2023',
                     style: TextStyle(color: Colors.white),
                   ))
@@ -232,12 +232,12 @@ class _StatisticsState extends State<MerchantStatistics> {
 
   Widget _buildOfferSalesItem() {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 10),
-      padding: EdgeInsets.all(12),
+      margin: const EdgeInsets.symmetric(vertical: 10),
+      padding: const EdgeInsets.all(12),
       decoration: BoxDecorations.buildBoxDecoration_1(),
       child: Column(
         children: [
-          Row(
+          const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text('Offer 10# bills'),
@@ -309,19 +309,22 @@ class _StatisticsState extends State<MerchantStatistics> {
             rows: <DataRow>[
               DataRow(
                 cells: <DataCell>[
-                  DataCell(Text('#150', style: TextStyle(fontSize: 12))),
-                  DataCell(
+                  const DataCell(Text('#150', style: TextStyle(fontSize: 12))),
+                  const DataCell(
                       Text('Ahmad Mouhamad', style: TextStyle(fontSize: 12))),
-                  DataCell(Text('1/12/2024', style: TextStyle(fontSize: 12))),
-                  DataCell(Text('Canceled', style: TextStyle(fontSize: 12))),
-                  DataCell(Text('150 SAR', style: TextStyle(fontSize: 12))),
+                  const DataCell(
+                      Text('1/12/2024', style: TextStyle(fontSize: 12))),
+                  const DataCell(
+                      Text('Canceled', style: TextStyle(fontSize: 12))),
+                  const DataCell(
+                      Text('150 SAR', style: TextStyle(fontSize: 12))),
                   DataCell(GestureDetector(
-                    child: ImageIcon(
+                    child: const ImageIcon(
                       AssetImage('assets/bill.png'),
                       size: 28,
                     ),
                   )),
-                  DataCell(Text('X')),
+                  const DataCell(Text('X')),
                 ],
               ),
             ],

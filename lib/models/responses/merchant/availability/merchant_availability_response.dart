@@ -2,7 +2,6 @@
 //
 //     final merchantAvailabilityResponse = merchantAvailabilityResponseFromMap(jsonString);
 
-import 'package:meta/meta.dart';
 import 'dart:convert';
 
 MerchantAvailabilityResponse merchantAvailabilityResponseFromMap(String str) =>
@@ -85,6 +84,8 @@ class AvailabilitySlot {
   int shopAvailabilityId;
   DateTime createdAt;
   DateTime updatedAt;
+  String? startFormatted;
+  String? endFormatted;
 
   AvailabilitySlot({
     required this.id,
@@ -93,6 +94,8 @@ class AvailabilitySlot {
     required this.shopAvailabilityId,
     required this.createdAt,
     required this.updatedAt,
+    required this.startFormatted,
+    required this.endFormatted,
   });
 
   factory AvailabilitySlot.fromMap(Map<String, dynamic> json) =>
@@ -100,6 +103,8 @@ class AvailabilitySlot {
         id: json["id"],
         start: json["start"],
         end: json["end"],
+        startFormatted: json["start_formatted"],
+        endFormatted: json['end_formatted'],
         shopAvailabilityId: json["shop_availability_id"],
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),

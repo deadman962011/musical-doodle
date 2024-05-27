@@ -1,10 +1,7 @@
 import 'package:com.mybill.app/custom/box_decorations.dart';
-import 'package:com.mybill.app/custom/device_info.dart';
 import 'package:com.mybill.app/helpers/shared_value_helper.dart';
 import 'package:com.mybill.app/helpers/shimmer_helper.dart';
 import 'package:com.mybill.app/models/items/MerchantIOffer.dart';
-import 'package:com.mybill.app/models/items/Offer.dart';
-import 'package:com.mybill.app/models/responses/merchant/offer/merchant_offers_response.dart';
 import 'package:com.mybill.app/my_theme.dart';
 import 'package:com.mybill.app/providers/offer_provider.dart';
 import 'package:com.mybill.app/repositories/merchant/merchant_offer_repository.dart';
@@ -12,12 +9,12 @@ import 'package:com.mybill.app/screens/merchant/offers/offer_details.dart';
 import 'package:com.mybill.app/ui_elements/merchant_drawer.dart';
 import 'package:com.mybill.app/ui_elements/merchant_appbar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import 'package:com.mybill.app/generated/l10n.dart';
 
 class MerchantOffers extends StatefulWidget {
-  MerchantOffers() : super();
+  const MerchantOffers({super.key});
 
   @override
   _MerchantOffersState createState() => _MerchantOffersState();
@@ -25,8 +22,8 @@ class MerchantOffers extends StatefulWidget {
 
 class _MerchantOffersState extends State<MerchantOffers>
     with TickerProviderStateMixin {
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  ScrollController _mainScrollController = ScrollController();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final ScrollController _mainScrollController = ScrollController();
   bool _isOffersLoading = true;
   late List<MerchantOffer> _offersList = [];
   int _page = 1;
@@ -51,11 +48,6 @@ class _MerchantOffersState extends State<MerchantOffers>
     });
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
   fetchOffers() async {
     final offerProvider = Provider.of<OfferProvider>(context, listen: false);
     offerProvider.clearFirstOffer();
@@ -64,7 +56,7 @@ class _MerchantOffersState extends State<MerchantOffers>
         .then((value) {
       if (value.runtimeType.toString() == 'MerchantOffersResponse') {
         _offersList = value.offers;
-        if (_offersList.length > 0) {
+        if (_offersList.isNotEmpty) {
           offerProvider.setFirstOffer(_offersList.first);
         }
       } else {}
@@ -94,8 +86,8 @@ class _MerchantOffersState extends State<MerchantOffers>
       textDirection: app_language_rtl.$ ? TextDirection.rtl : TextDirection.ltr,
       child: Scaffold(
           key: _scaffoldKey,
-          appBar: MerchantAppBar.buildMerchantAppBar(context, 'list_offers',
-              _scaffoldKey, AppLocalizations.of(context)!.offers),
+          appBar: MerchantAppBar.buildMerchantAppBar(
+              context, 'list_offers', _scaffoldKey, S.of(context).offers),
           drawer: MerchantDrawer.buildDrawer(context),
           extendBody: true,
           body: RefreshIndicator(
@@ -105,7 +97,8 @@ class _MerchantOffersState extends State<MerchantOffers>
               onRefresh: _onRefresh,
               child: Container(
                   height: MediaQuery.of(context).size.height,
-                  padding: EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
                   child: SingleChildScrollView(
                       controller: _mainScrollController,
                       physics: const AlwaysScrollableScrollPhysics(),
@@ -129,7 +122,7 @@ class _MerchantOffersState extends State<MerchantOffers>
 
   Widget _buildOffersList() {
     return Column(
-      children: _offersList.length > 0
+      children: _offersList.isNotEmpty
           ? _offersList.map((offer) {
               TextSpan getOfferStateText(MerchantOffer offer) {
                 // Provide default values for state and end_date if they are null
@@ -178,12 +171,12 @@ class _MerchantOffersState extends State<MerchantOffers>
 
               return GestureDetector(
                 child: Padding(
-                    padding: EdgeInsets.only(bottom: 12),
+                    padding: const EdgeInsets.only(bottom: 12),
                     child: Container(
                         height: 80,
                         decoration: BoxDecorations.buildBoxDecoration_2(),
                         child: Padding(
-                          padding: EdgeInsets.symmetric(
+                          padding: const EdgeInsets.symmetric(
                               horizontal: 12, vertical: 16),
                           child: Row(
                             children: [
@@ -197,7 +190,7 @@ class _MerchantOffersState extends State<MerchantOffers>
                                     children: [
                                       Text(
                                         'Offer Num #${offer.id}',
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             fontWeight: FontWeight.w300),
                                       ),
                                       Wrap(
@@ -216,7 +209,7 @@ class _MerchantOffersState extends State<MerchantOffers>
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     children: [
-                                      Text('sales'),
+                                      const Text('sales'),
                                       Text(offer.sales.toString())
                                     ],
                                   )),
@@ -228,7 +221,7 @@ class _MerchantOffersState extends State<MerchantOffers>
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     children: [
-                                      Text('Commissions'),
+                                      const Text('Commissions'),
                                       Text(offer.commission.toString())
                                     ],
                                   )),
@@ -246,14 +239,12 @@ class _MerchantOffersState extends State<MerchantOffers>
               );
             }).toList()
           : [
-              Container(
+              SizedBox(
                 width: MediaQuery.of(context).size.width,
                 height: 30,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(AppLocalizations.of(context)!.no_offers_found)
-                  ],
+                  children: [Text(S.of(context).no_offers_found)],
                 ),
               )
             ],

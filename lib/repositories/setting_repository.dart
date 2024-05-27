@@ -14,6 +14,7 @@ class SettingRepository {
         "Accept-Language": app_language.$,
       },
     );
+    AppConfig.alice.onHttpResponse(response, body: null);
     if (response.statusCode == 200) {
       return settingResponseFromJson(response.body);
     } else {

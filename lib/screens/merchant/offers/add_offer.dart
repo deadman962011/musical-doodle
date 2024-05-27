@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:com.mybill.app/custom/input_decorations.dart';
 import 'package:com.mybill.app/custom/toast_component.dart';
 import 'package:com.mybill.app/helpers/file_helper.dart';
@@ -15,14 +13,14 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import 'package:com.mybill.app/generated/l10n.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:loading_indicator/loading_indicator.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:toast/toast.dart';
 
 class AddOffer extends StatefulWidget {
-  const AddOffer({Key? key}) : super(key: key);
+  const AddOffer({super.key});
 
   @override
   _AddOfferState createState() => _AddOfferState();
@@ -46,12 +44,12 @@ class _AddOfferState extends State<AddOffer> {
   DateTime? _endDateLastDate;
   DateTime? _endDateInitalDate;
   bool _isLoading = false;
-  late List<DropdownMenuItem> _checkout_amounts = [];
+  late final List<DropdownMenuItem> _checkout_amounts = [];
 
   final ImagePicker _picker = ImagePicker();
   late XFile _file;
-  late String? _uploaded_file = '';
-  late int? _uploaded_file_id = null;
+  String? _uploaded_file = '';
+  late int? _uploaded_file_id = 0;
   @override
   void initState() {
     //on Splash Screen hide statusbar
@@ -65,7 +63,7 @@ class _AddOfferState extends State<AddOffer> {
     // setState(() {
     //   _checkout_amounts.add(DropdownMenuItem(
     //     value: '',
-    //     child: Text(AppLocalizations.of(context)!.cashback_amount_placeholder),
+    //     child: Text(S.of(context).cashback_amount_placeholder),
     //   ));
     // });
 
@@ -74,14 +72,14 @@ class _AddOfferState extends State<AddOffer> {
 
     if (response.runtimeType.toString() == 'SettingResponse') {
       List amounts = response.value.split(',');
-      amounts.forEach((element) {
+      for (var element in amounts) {
         setState(() {
           _checkout_amounts.add(DropdownMenuItem(
             value: element.toString(),
             child: Text(element.toString()),
           ));
         });
-      });
+      }
     }
   }
 
@@ -122,7 +120,7 @@ class _AddOfferState extends State<AddOffer> {
   onChangeStartDate(DateTime date) {
     DateTime startDateVal = date;
     DateTime startDateInpEndDate = startDateVal;
-    DateTime endDateInpEndDate = startDateVal.add(Duration(days: 13));
+    DateTime endDateInpEndDate = startDateVal.add(const Duration(days: 13));
     if (_offerEndDateController.value.text.isNotEmpty) {
       var endDateInpval = parseDateString(_offerEndDateController.value.text);
       if (endDateInpval.isAfter(startDateInpEndDate) ||
@@ -167,7 +165,7 @@ class _AddOfferState extends State<AddOffer> {
       ToastComponent.showDialog('offer successfully saved', context,
           gravity: Toast.center, duration: Toast.lengthLong);
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-        return MerchantOffers();
+        return const MerchantOffers();
       }));
     } else {
       ToastComponent.showDialog('unable to save offer', context,
@@ -181,24 +179,18 @@ class _AddOfferState extends State<AddOffer> {
 
   chooseAndUploadImage(context) async {
     _file = (await _picker.pickImage(source: ImageSource.gallery))!;
-    if (_file == null) {
-      ToastComponent.showDialog('no file chosen', context,
-          gravity: Toast.center, duration: Toast.lengthLong);
-      return;
-    } else {
-      String base64Image = FileHelper.getBase64FormateFile(_file.path);
-      String fileName = _file.path.split("/").last;
-      var response = await FileRepository().getFileUploadResponse(
-        base64Image,
-        fileName,
-      );
-      if (response.runtimeType.toString() == 'FileUploadResponse' &&
-          response.success) {
-        setState(() {
-          _uploaded_file_id = response.id;
-          _uploaded_file = response.path;
-        });
-      }
+    String base64Image = FileHelper.getBase64FormateFile(_file.path);
+    String fileName = _file.path.split("/").last;
+    var response = await FileRepository().getFileUploadResponse(
+      base64Image,
+      fileName,
+    );
+    if (response.runtimeType.toString() == 'FileUploadResponse' &&
+        response.success) {
+      setState(() {
+        _uploaded_file_id = response.id;
+        _uploaded_file = response.path;
+      });
     }
   }
 
@@ -209,8 +201,8 @@ class _AddOfferState extends State<AddOffer> {
             app_language_rtl.$ ? TextDirection.rtl : TextDirection.ltr,
         child: Scaffold(
             key: _scaffoldKey,
-            appBar: MerchantAppBar.buildMerchantAppBar(context, 'add_offer',
-                _scaffoldKey, AppLocalizations.of(context)!.add_offer),
+            appBar: MerchantAppBar.buildMerchantAppBar(
+                context, 'add_offer', _scaffoldKey, S.of(context).add_offer),
             drawer: MerchantDrawer.buildDrawer(context),
             body: Padding(
                 padding: const EdgeInsets.only(right: 14, left: 14, bottom: 20),
@@ -234,8 +226,7 @@ class _AddOfferState extends State<AddOffer> {
                                   children: [
                                     Row(
                                       children: [
-                                        Text(AppLocalizations.of(context)!
-                                            .offer_duration),
+                                        Text(S.of(context).offer_duration),
                                         IconButton(
                                           onPressed: () {},
                                           icon: const Icon(Icons.info),
@@ -253,9 +244,8 @@ class _AddOfferState extends State<AddOffer> {
                                               Padding(
                                                 padding: const EdgeInsets.only(
                                                     bottom: 4),
-                                                child: Text(AppLocalizations.of(
-                                                        context)!
-                                                    .start),
+                                                child:
+                                                    Text(S.of(context).start),
                                               ),
                                               FormBuilderDateTimePicker(
                                                 name: 'start_date',
@@ -263,8 +253,8 @@ class _AddOfferState extends State<AddOffer> {
                                                     _offerStartDateController,
                                                 decoration: InputDecorations
                                                     .buildInputDecoration_1(
-                                                        hint_text: AppLocalizations
-                                                                .of(context)!
+                                                        hint_text: S
+                                                            .of(context)
                                                             .start_date_placeholder),
                                                 validator: FormBuilderValidators
                                                     .compose([
@@ -295,9 +285,7 @@ class _AddOfferState extends State<AddOffer> {
                                               Padding(
                                                 padding: const EdgeInsets.only(
                                                     bottom: 4),
-                                                child: Text(AppLocalizations.of(
-                                                        context)!
-                                                    .end),
+                                                child: Text(S.of(context).end),
                                               ),
                                               FormBuilderDateTimePicker(
                                                 name: 'end_date',
@@ -305,8 +293,8 @@ class _AddOfferState extends State<AddOffer> {
                                                     _offerEndDateController,
                                                 decoration: InputDecorations
                                                     .buildInputDecoration_1(
-                                                        hint_text: AppLocalizations
-                                                                .of(context)!
+                                                        hint_text: S
+                                                            .of(context)
                                                             .end_date_placeholder),
                                                 validator: FormBuilderValidators
                                                     .compose([
@@ -332,17 +320,16 @@ class _AddOfferState extends State<AddOffer> {
                                 Padding(
                                   padding:
                                       const EdgeInsets.only(top: 12, bottom: 3),
-                                  child: Text(AppLocalizations.of(context)!
-                                      .offer_name_in_en),
+                                  child: Text(S.of(context).offer_name_in_en),
                                 ),
                                 FormBuilderTextField(
                                   name: 'offerNameEn',
                                   controller: _offerNameEnController,
                                   decoration:
                                       InputDecorations.buildInputDecoration_1(
-                                          hint_text:
-                                              AppLocalizations.of(context)!
-                                                  .offer_name_placeholder),
+                                          hint_text: S
+                                              .of(context)!
+                                              .offer_name_placeholder),
                                   validator: FormBuilderValidators.compose([
                                     FormBuilderValidators.required(),
                                     FormBuilderValidators.minLength(3),
@@ -357,17 +344,16 @@ class _AddOfferState extends State<AddOffer> {
                                 Padding(
                                   padding:
                                       const EdgeInsets.only(top: 12, bottom: 3),
-                                  child: Text(AppLocalizations.of(context)!
-                                      .offer_name_in_ar),
+                                  child: Text(S.of(context).offer_name_in_ar),
                                 ),
                                 FormBuilderTextField(
                                   name: 'offerNameAr',
                                   controller: _offerNameArController,
                                   decoration:
                                       InputDecorations.buildInputDecoration_1(
-                                          hint_text:
-                                              AppLocalizations.of(context)!
-                                                  .offer_name_placeholder),
+                                          hint_text: S
+                                              .of(context)!
+                                              .offer_name_placeholder),
                                   validator: FormBuilderValidators.compose([
                                     FormBuilderValidators.required(),
                                     FormBuilderValidators.minLength(3),
@@ -382,8 +368,7 @@ class _AddOfferState extends State<AddOffer> {
                                 Padding(
                                   padding:
                                       const EdgeInsets.only(top: 12, bottom: 3),
-                                  child: Text(AppLocalizations.of(context)!
-                                      .cashback_amount),
+                                  child: Text(S.of(context).cashback_amount),
                                 ),
                                 FormBuilderDropdown(
                                   name: 'offerCashback',
@@ -398,9 +383,9 @@ class _AddOfferState extends State<AddOffer> {
                                   items: _checkout_amounts,
                                   decoration: InputDecorations
                                       .buildDropdownInputDecoration_1(
-                                          hint_text:
-                                              AppLocalizations.of(context)!
-                                                  .cashback_amount_placeholder),
+                                          hint_text: S
+                                              .of(context)!
+                                              .cashback_amount_placeholder),
                                   validator: FormBuilderValidators.compose([
                                     FormBuilderValidators.required(),
                                   ]),
@@ -421,30 +406,32 @@ class _AddOfferState extends State<AddOffer> {
                                   Padding(
                                     padding: const EdgeInsets.only(
                                         top: 12, bottom: 3),
-                                    child: Text(AppLocalizations.of(context)!
-                                        .application_commission),
+                                    child: Text(
+                                        S.of(context).application_commission),
                                   ),
                                   GestureDetector(
                                       child: DottedBorder(
                                           color: Colors.grey,
                                           borderType: BorderType.RRect,
-                                          radius: Radius.circular(20),
-                                          dashPattern: [10, 10],
+                                          radius: const Radius.circular(20),
+                                          dashPattern: const [10, 10],
                                           child: Container(
                                               width: double.infinity,
                                               height: 120,
-                                              padding: EdgeInsets.all(7.0),
+                                              padding:
+                                                  const EdgeInsets.all(7.0),
                                               decoration: BoxDecoration(
                                                 color: Colors.white,
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(20)),
+                                                borderRadius:
+                                                    const BorderRadius.all(
+                                                        Radius.circular(20)),
                                                 boxShadow: [
                                                   BoxShadow(
                                                     color: Colors.black
                                                         .withOpacity(0.12),
                                                     blurRadius: 6,
                                                     spreadRadius: 0.0,
-                                                    offset: Offset(0.0,
+                                                    offset: const Offset(0.0,
                                                         0.0), // shadow direction: bottom right
                                                   )
                                                 ],
@@ -470,16 +457,17 @@ class _AddOfferState extends State<AddOffer> {
                                                                 child:
                                                                     Container(
                                                                   padding:
-                                                                      EdgeInsets
+                                                                      const EdgeInsets
                                                                           .all(
-                                                                              3),
-                                                                  decoration: BoxDecoration(
+                                                                          3),
+                                                                  decoration: const BoxDecoration(
                                                                       color: Colors
                                                                           .red,
                                                                       borderRadius:
                                                                           BorderRadius.all(
                                                                               Radius.circular(50))),
-                                                                  child: Icon(
+                                                                  child:
+                                                                      const Icon(
                                                                     Icons.close,
                                                                     size: 18,
                                                                     color: Colors
@@ -498,7 +486,7 @@ class _AddOfferState extends State<AddOffer> {
                                                             ],
                                                           ),
                                                         )
-                                                      : Icon(Icons
+                                                      : const Icon(Icons
                                                           .file_upload_outlined)
                                                   // user_avatar.$ != ''
                                                   //     ? FadeInImage.assetNetwork(
@@ -528,13 +516,13 @@ class _AddOfferState extends State<AddOffer> {
                                 Padding(
                                   padding:
                                       const EdgeInsets.only(top: 12, bottom: 3),
-                                  child: Text(AppLocalizations.of(context)!
-                                      .application_commission),
+                                  child: Text(
+                                      S.of(context).application_commission),
                                 ),
                                 TextFormField(
                                   controller: _offerComissionAmountController
                                     ..text =
-                                        '5% ${AppLocalizations.of(context)!.of_bill_amount}',
+                                        '5% ${S.of(context).of_bill_amount}',
                                   readOnly: true,
                                   style: TextStyle(color: MyTheme.accent_color),
                                   decoration:
@@ -560,7 +548,8 @@ class _AddOfferState extends State<AddOffer> {
                                   text: TextSpan(
                                     children: [
                                       TextSpan(
-                                        text: AppLocalizations.of(context)!
+                                        text: S
+                                            .of(context)!
                                             .i_acknowledge_that_i_will_pay,
                                         style: const TextStyle(
                                             color: Colors.black),
@@ -604,7 +593,7 @@ class _AddOfferState extends State<AddOffer> {
                                       Navigator.pop(context);
                                     },
                                     child: Text(
-                                      AppLocalizations.of(context)!.cancel,
+                                      S.of(context).cancel,
                                       style: TextStyle(
                                         color: MyTheme.accent_color,
                                         fontSize: 16,
@@ -615,9 +604,9 @@ class _AddOfferState extends State<AddOffer> {
                                 )),
                             Padding(
                                 padding: const EdgeInsets.only(
-                                    top: 8.0, left: 12, right: 12),
+                                    top: 8.0, left: 6, right: 6),
                                 child: SizedBox(
-                                  width: 160,
+                                  width: double.infinity,
                                   height: 46,
                                   child: TextButton(
                                     style: TextButton.styleFrom(
@@ -652,8 +641,7 @@ class _AddOfferState extends State<AddOffer> {
                                                   .transparent, // Customize the background color if needed
                                             ))
                                         : Text(
-                                            AppLocalizations.of(context)!
-                                                .add_offer_btn,
+                                            S.of(context).add_offer_btn,
                                             style: TextStyle(
                                               color: MyTheme.white,
                                               fontSize: 16,

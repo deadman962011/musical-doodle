@@ -1,20 +1,20 @@
 import 'package:com.mybill.app/custom/useful_elements.dart';
+import 'package:com.mybill.app/generated/l10n.dart';
 import 'package:com.mybill.app/helpers/shared_value_helper.dart';
 import 'package:com.mybill.app/my_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ChangeTheme extends StatefulWidget {
-  const ChangeTheme({Key? key}) : super(key: key);
+  const ChangeTheme({super.key});
 
   @override
   _ChangeThemeState createState() => _ChangeThemeState();
 }
 
 class _ChangeThemeState extends State<ChangeTheme> {
-  var _selected_index = 0;
-  ScrollController _mainScrollController = ScrollController();
-  var _list = [];
+  final _selected_index = 0;
+  final ScrollController _mainScrollController = ScrollController();
+  final _list = [];
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -28,7 +28,7 @@ class _ChangeThemeState extends State<ChangeTheme> {
                 controller: _mainScrollController,
                 physics: const BouncingScrollPhysics(
                     parent: AlwaysScrollableScrollPhysics()),
-                slivers: [
+                slivers: const [
                   // SliverList(
                   //   delegate: SliverChildListDelegate([
                   //     Padding(
@@ -56,7 +56,7 @@ class _ChangeThemeState extends State<ChangeTheme> {
         ),
       ),
       title: Text(
-        "${AppLocalizations.of(context)!.change_language} (${app_language.$}) - (${app_mobile_language.$})",
+        "${S.of(context).change_language} (${app_language.$}) - (${app_mobile_language.$})",
         style: TextStyle(
             fontSize: 16,
             color: MyTheme.dark_font_grey,

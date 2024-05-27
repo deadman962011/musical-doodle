@@ -1,17 +1,15 @@
-import 'dart:async';
-
 import 'package:com.mybill.app/custom/box_decorations.dart';
 import 'package:com.mybill.app/custom/device_info.dart';
 import 'package:com.mybill.app/helpers/auth_helper.dart';
 import 'package:com.mybill.app/repositories/merchant/merchant_auth_repository.dart';
 import 'package:com.mybill.app/repositories/user/user_auth_repository.dart';
 import 'package:com.mybill.app/screens/merchant/main.dart';
+import 'package:com.mybill.app/screens/merchant/statistics/statistics.dart';
 import 'package:com.mybill.app/screens/user/main.dart';
 import 'package:com.mybill.app/screens/merchant/registration.dart';
 import 'package:com.mybill.app/screens/user/registration.dart';
 import 'package:com.mybill.app/ui_elements/auth_ui.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 //  navigatorKey.currentState?.push(MaterialPageRoute(builder: (context) {
 //           return VerifyLink(url: initialLink);
@@ -20,7 +18,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class VerifyLink extends StatefulWidget {
   final Uri url;
 
-  const VerifyLink({Key? key, required this.url});
+  const VerifyLink({super.key, required this.url});
 
   @override
   _VerifyLinkState createState() => _VerifyLinkState();
@@ -62,7 +60,7 @@ class _VerifyLinkState extends State<VerifyLink> {
           AuthHelper().setMerchantAdminData(value.payload);
           Navigator.pushReplacement(context,
               MaterialPageRoute(builder: (context) {
-            return MerchantMain();
+            return MerchantStatistics();
           }));
         } else {
           debugPrint(value.toString());
@@ -83,10 +81,10 @@ class _VerifyLinkState extends State<VerifyLink> {
         } else if (value.runtimeType.toString() ==
             'UserValidateLoginResponse') {
           AuthHelper().setUserData(value.payload);
-          Navigator.pushReplacement(context,
+          Navigator.pushAndRemoveUntil(context,
               MaterialPageRoute(builder: (context) {
             return UserMain();
-          }));
+          }), (route) => false);
         }
       });
     }

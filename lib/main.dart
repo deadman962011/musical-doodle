@@ -1,16 +1,15 @@
 import 'dart:async';
+import 'package:alice/alice.dart';
 import 'package:com.mybill.app/firebase_options.dart';
 import 'package:com.mybill.app/helpers/notification_helper.dart';
 import 'package:com.mybill.app/helpers/shared_value_helper.dart';
-import 'package:com.mybill.app/models/items/notification_body.dart';
 import 'package:com.mybill.app/providers/offer_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:com.mybill.app/screens/verifyLink.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
@@ -25,7 +24,7 @@ import 'package:com.mybill.app/providers/locale_provider.dart';
 import 'app_config.dart';
 import 'lang_config.dart';
 import 'dart:io';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:com.mybill.app/generated/l10n.dart';
 
 class MyHttpOverrides extends HttpOverrides {
   @override
@@ -64,20 +63,20 @@ main() async {
   //   AuthHelper().fetch_and_set();
   // });
 
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
     systemNavigationBarDividerColor: Colors.transparent,
   ));
 
   runApp(
     SharedValue.wrapApp(
-      MyApp(),
+      const MyApp(),
     ),
   );
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   // This widget is the root of your application.
 
@@ -86,16 +85,24 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String _deepLink = 'No link yet';
+  final String _deepLink = 'No link yet';
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+  late Alice _alice;
 
   @override
   void initState() {
+    // _alice = Alice(
+    //   navigatorKey: navigatorKey,
+    //   showNotification: true,
+    //   showInspectorOnShake: true,
+    //   maxCallsCount: 1000,
+    // );
     super.initState();
     initUniLinks();
     getLocation();
     initFirebase();
+    super.initState();
   }
 
   Future<void> initUniLinks() async {
@@ -121,7 +128,10 @@ class _MyAppState extends State<MyApp> {
     // if (!mounted) return;
     debugPrint('am at hander deeep link');
 
-    navigatorKey.currentState?.push(MaterialPageRoute(builder: (context) {
+    AppConfig.alice
+        .getNavigatorKey()!
+        .currentState!
+        .push(MaterialPageRoute(builder: (context) {
       return VerifyLink(
         url: uri,
       );
@@ -187,7 +197,7 @@ class _MyAppState extends State<MyApp> {
               builder: (context, offerProvider, snapshot) {
             return MaterialApp(
               builder: OneContext().builder,
-              navigatorKey: navigatorKey,
+              navigatorKey: AppConfig.alice.getNavigatorKey(),
               title: AppConfig.app_name,
               debugShowCheckedModeBanner: false,
               theme: ThemeData(
@@ -195,13 +205,21 @@ class _MyAppState extends State<MyApp> {
                 scaffoldBackgroundColor: Colors.white,
                 visualDensity: VisualDensity.adaptivePlatformDensity,
                 dialogBackgroundColor: Colors.white,
-                // the below code is getting fonts from http
-                textTheme: GoogleFonts.interTightTextTheme(textTheme).copyWith(
-                  bodyText1:
-                      GoogleFonts.interTight(textStyle: textTheme.bodyText1),
-                  bodyText2: GoogleFonts.interTight(
-                      textStyle: textTheme.bodyText2, fontSize: 12),
-                ),
+                textTheme: GoogleFonts.interTightTextTheme(),
+
+                //  .interTightTextTheme(textTheme).copyWith(
+                //   titleMedium: TextStyle(color: MyTheme.accent_color),
+                //   titleSmall: TextStyle(color: MyTheme.accent_color),
+                //   titleLarge: TextStyle(color: MyTheme.accent_color),
+                // bodyLarge: TextStyle(color: MyTheme.accent_color),
+                // bodyMedium: TextStyle(color: MyTheme.accent_color),
+                // bodySmall: TextStyle(color: MyTheme.accent_color),
+
+                // bodyLarge:
+                //     GoogleFonts.interTight(textStyle: textTheme.bodyLarge),
+                // bodyMedium: GoogleFonts.interTight(
+                //     textStyle: textTheme.bodyMedium, fontSize: 12),
+                // ),
                 colorScheme: ColorScheme.fromSwatch()
                     .copyWith(secondary: MyTheme.accent_color),
               ),
@@ -209,11 +227,11 @@ class _MyAppState extends State<MyApp> {
                 GlobalMaterialLocalizations.delegate,
                 GlobalWidgetsLocalizations.delegate,
                 GlobalCupertinoLocalizations.delegate,
-                AppLocalizations.delegate,
+                S.delegate,
               ],
               locale: localeProvider.locale,
               supportedLocales: LangConfig().supportedLocales(),
-              home: SplashScreen(),
+              home: const SplashScreen(),
               // home: Splash(),
             );
           });

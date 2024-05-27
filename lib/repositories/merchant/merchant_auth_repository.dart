@@ -4,7 +4,6 @@ import 'package:com.mybill.app/models/responses/merchant/merchant_login_response
 import 'package:com.mybill.app/models/responses/merchant/merchant_validate_login_response.dart';
 // import 'package:com.mybill.app/models/merchant/merchant_validate_login_response.dart';
 import 'package:com.mybill.app/models/responses/merchant/merchant_validate_register_response.dart';
-import 'package:com.mybill.app/models/responses/merchant/validation/merchant_login_validatiom_response.dart';
 import 'package:com.mybill.app/models/responses/validation_response.dart';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
@@ -15,7 +14,7 @@ import 'package:flutter/material.dart';
 class MerchantAuthRepository {
   Future<dynamic> getMerchantAuthenticateResponse(
       @required String email) async {
-    var post_body = jsonEncode({"email": "${email}"});
+    var postBody = jsonEncode({"email": email});
 
     Uri url = Uri.parse("${AppConfig.BASE_URL}/shop/auth");
     final response = await http.post(url,
@@ -24,9 +23,9 @@ class MerchantAuthRepository {
           "Content-Type": "application/json",
           "Accept-Language": app_language.$,
         },
-        body: post_body);
+        body: postBody);
     debugPrint(response.body.toString());
-
+    AppConfig.alice.onHttpResponse(response, body: postBody);
     if (response.statusCode == 200) {
       return merchantloginResponseFromJson(response.body);
     } else if (response.statusCode == 422) {
@@ -38,7 +37,7 @@ class MerchantAuthRepository {
 
   Future<dynamic> getMerchantValidateMagicLinkResponse(
       @required String token, @required String action) async {
-    var post_body = jsonEncode({"token": token, "action": action});
+    var postBody = jsonEncode({"token": token, "action": action});
     debugPrint(
         '${user_latitude.$}, ${user_longitude.$} -----------------------------------------an at auth repo');
     Uri url = Uri.parse("${AppConfig.BASE_URL}/shop/auth/validate");
@@ -50,7 +49,8 @@ class MerchantAuthRepository {
           "latitude": user_latitude.$,
           "longitude": user_longitude.$
         },
-        body: post_body);
+        body: postBody);
+    AppConfig.alice.onHttpResponse(response, body: postBody);
     if (response.statusCode == 200) {
       debugPrint(response.body);
       if (action == 'verifyShopLogin') {
@@ -66,32 +66,32 @@ class MerchantAuthRepository {
   }
 
   Future<dynamic> getMerchantCompleteRegisterResponse(
-    @required String shop_name,
-    @required String shop_address,
-    @required String categories_ids,
-    @required String tax_register,
-    @required String shop_admin_name,
-    @required String shop_admin_phone,
-    @required String shop_admin_email,
+    @required String shopName,
+    @required String shopAddress,
+    @required String categoriesIds,
+    @required String taxRegister,
+    @required String shopAdminName,
+    @required String shopAdminPhone,
+    @required String shopAdminEmail,
     @required String longitude,
     @required String latitude,
     @required int zoneId,
-    String referral_code,
+    String referralCode,
   ) async {
-    var post_body = jsonEncode({
-      "shop_name": shop_name,
-      'shop_address': shop_address,
-      "categories_ids": categories_ids,
-      "tax_register": tax_register,
-      "shop_admin_name": shop_admin_name,
-      "shop_admin_phone": shop_admin_phone,
-      "shop_admin_email": shop_admin_email,
+    var postBody = jsonEncode({
+      "shop_name": shopName,
+      'shop_address': shopAddress,
+      "categories_ids": categoriesIds,
+      "tax_register": taxRegister,
+      "shop_admin_name": shopAdminName,
+      "shop_admin_phone": shopAdminPhone,
+      "shop_admin_email": shopAdminEmail,
       "longitude": longitude,
       "latitude": latitude,
       "zone_id": zoneId,
-      "referral_code": referral_code
+      "referral_code": referralCode
     });
-    debugPrint(post_body.toString());
+    debugPrint(postBody.toString());
 
     Uri url = Uri.parse("${AppConfig.BASE_URL}/shop/auth/register/complete");
     final response = await http.post(url,
@@ -102,8 +102,8 @@ class MerchantAuthRepository {
           "latitude": user_latitude.$,
           "longitude": user_longitude.$
         },
-        body: post_body);
-
+        body: postBody);
+    AppConfig.alice.onHttpResponse(response, body: postBody);
     debugPrint(response.body);
     if (response.statusCode == 201) {
       return merchantCompleteRegisterResponseFromJson(response.body);

@@ -1,19 +1,17 @@
 import 'package:com.mybill.app/custom/box_decorations.dart';
 import 'package:com.mybill.app/custom/useful_elements.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:com.mybill.app/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:com.mybill.app/my_theme.dart';
 // import 'package:com.mybill.app/repositories/language_repository.dart';
-import 'package:com.mybill.app/helpers/shimmer_helper.dart';
 import 'package:com.mybill.app/helpers/shared_value_helper.dart';
 import 'package:com.mybill.app/screens/user/main.dart';
 import 'package:com.mybill.app/providers/locale_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:com.mybill.app/dummy_data/dummy_languages.dart';
 
 class ChangeLanguage extends StatefulWidget {
-  ChangeLanguage() : super();
+  const ChangeLanguage({super.key});
 
   @override
   _ChangeLanguageState createState() => _ChangeLanguageState();
@@ -21,8 +19,8 @@ class ChangeLanguage extends StatefulWidget {
 
 class _ChangeLanguageState extends State<ChangeLanguage> {
   var _selected_index = 0;
-  ScrollController _mainScrollController = ScrollController();
-  var _list = [];
+  final ScrollController _mainScrollController = ScrollController();
+  final _list = [];
   bool _isInitial = true;
 
   @override
@@ -45,15 +43,15 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
     _list.addAll(dummy_languaes_list);
 
     var idx = 0;
-    if (_list.length > 0) {
-      _list.forEach((lang) {
+    if (_list.isNotEmpty) {
+      for (var lang in _list) {
         if (lang.code == app_language.$) {
           setState(() {
             _selected_index = idx;
           });
         }
         idx++;
-      });
+      }
     }
     _isInitial = false;
     setState(() {});
@@ -149,7 +147,7 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
         ),
       ),
       title: Text(
-        "${AppLocalizations.of(context)!.change_language} (${app_language.$}) - (${app_mobile_language.$})",
+        "${S.of(context).change_language} (${app_language.$}) - (${app_mobile_language.$})",
         style: TextStyle(
             fontSize: 16,
             color: MyTheme.dark_font_grey,
@@ -161,28 +159,28 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
   }
 
   buildLanguageMethodList() {
-    if (_isInitial && _list.length == 0) {
+    if (_isInitial && _list.isEmpty) {
       return Container();
       // return SingleChildScrollView(child: ShimmerHelper().buildListShimmer(item_count: 5, item_height: 100.0));
-    } else if (_list.length > 0) {
+    } else if (_list.isNotEmpty) {
       return SingleChildScrollView(
         child: ListView.separated(
           separatorBuilder: (context, index) {
-            return SizedBox(
+            return const SizedBox(
               height: 14,
             );
           },
           itemCount: _list.length,
           scrollDirection: Axis.vertical,
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           itemBuilder: (context, index) {
             return buildPaymentMethodItemCard(index);
           },
         ),
       );
-    } else if (!_isInitial && _list.length == 0) {
-      return Container(
+    } else if (!_isInitial && _list.isEmpty) {
+      return SizedBox(
           height: 100,
           child: Center(
               child: Text(
@@ -200,7 +198,7 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
       child: Stack(
         children: [
           AnimatedContainer(
-            duration: Duration(milliseconds: 400),
+            duration: const Duration(milliseconds: 400),
             decoration: BoxDecorations.buildBoxDecoration_1().copyWith(
                 border: Border.all(
                     color: _selected_index == index
@@ -210,7 +208,7 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                  Container(
+                  SizedBox(
                       width: 50,
                       height: 50,
                       child: Padding(
@@ -225,13 +223,13 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
                             image: _list[index].image,
                             fit: BoxFit.fitWidth,
                           ))),
-                  Container(
+                  SizedBox(
                     width: 150,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(left: 8.0),
+                          padding: const EdgeInsets.only(left: 8.0),
                           child: Text(
                             "${_list[index].name} - ${_list[index].code} - ${_list[index].mobile_app_code}",
                             textAlign: TextAlign.left,

@@ -1,24 +1,21 @@
 import 'package:com.mybill.app/custom/box_decorations.dart';
-import 'package:com.mybill.app/helpers/auth_helper.dart';
 import 'package:com.mybill.app/helpers/shared_value_helper.dart';
 import 'package:com.mybill.app/my_theme.dart';
-import 'package:com.mybill.app/screens/guest.dart';
 import 'package:com.mybill.app/ui_elements/merchant_appbar.dart';
 import 'package:com.mybill.app/ui_elements/merchant_drawer.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import 'package:com.mybill.app/generated/l10n.dart';
 
 class MerchantWallet extends StatefulWidget {
-  MerchantWallet() : super();
+  const MerchantWallet({super.key});
 
   @override
   _MerchantWalletState createState() => _MerchantWalletState();
 }
 
 class _MerchantWalletState extends State<MerchantWallet> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -50,12 +47,12 @@ class _MerchantWalletState extends State<MerchantWallet> {
             Scaffold(
                 key: _scaffoldKey,
                 appBar: MerchantAppBar.buildMerchantAppBar(context, 'add_offer',
-                    _scaffoldKey, AppLocalizations.of(context)!.add_offer),
+                    _scaffoldKey, S.of(context).add_offer),
                 drawer: MerchantDrawer.buildDrawer(context),
                 backgroundColor: Colors.transparent,
                 body: Container(
                   width: MediaQuery.of(context).size.width,
-                  padding: EdgeInsets.symmetric(horizontal: 14),
+                  padding: const EdgeInsets.symmetric(horizontal: 14),
                   child: Column(
                     children: [
                       _buildWalletMainBox(),
@@ -70,12 +67,12 @@ class _MerchantWalletState extends State<MerchantWallet> {
 
   Widget _buildWalletMainBox() {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-      padding: EdgeInsets.symmetric(horizontal: 18, vertical: 14),
+      margin: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
       decoration: BoxDecorations.buildBoxDecoration_1(),
       child: Column(
         children: [
-          Row(
+          const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Column(
@@ -85,7 +82,7 @@ class _MerchantWalletState extends State<MerchantWallet> {
               Text('SAR')
             ],
           ),
-          Row(
+          const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Column(
@@ -103,7 +100,7 @@ class _MerchantWalletState extends State<MerchantWallet> {
             children: [
               Expanded(
                   child: Padding(
-                padding: EdgeInsets.only(top: 12),
+                padding: const EdgeInsets.only(top: 12),
                 child: TextButton(
                     style: TextButton.styleFrom(
                       shape: RoundedRectangleBorder(
@@ -111,7 +108,7 @@ class _MerchantWalletState extends State<MerchantWallet> {
                       backgroundColor: MyTheme.accent_color,
                     ),
                     onPressed: () {},
-                    child: Row(
+                    child: const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Padding(
@@ -138,7 +135,7 @@ class _MerchantWalletState extends State<MerchantWallet> {
 
   Widget _buildWalletBoxes() {
     return Container(
-      margin: EdgeInsets.only(
+      margin: const EdgeInsets.only(
         right: 14,
         left: 14,
         top: 6,
@@ -158,7 +155,7 @@ class _MerchantWalletState extends State<MerchantWallet> {
                 Image.asset(
                   'assets/wallet_2.png',
                 ),
-                Text(
+                const Text(
                   'اجمالي العملاء',
                   style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500),
                 )
@@ -175,7 +172,7 @@ class _MerchantWalletState extends State<MerchantWallet> {
                 Image.asset(
                   'assets/wallet_1.png',
                 ),
-                Text(
+                const Text(
                   'دفع عمولة التطبيق',
                   style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500),
                 )
@@ -192,7 +189,7 @@ class _MerchantWalletState extends State<MerchantWallet> {
                 Image.asset(
                   'assets/wallet_3.png',
                 ),
-                Text(
+                const Text(
                   'سحب الرصيد',
                   style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500),
                 )
@@ -214,16 +211,16 @@ class _MerchantWalletState extends State<MerchantWallet> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Text('Commission amout for offer 9',
+            const Text('Commission amout for offer 9',
                 style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14)),
             Container(
-              margin: EdgeInsets.symmetric(vertical: 10),
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+              margin: const EdgeInsets.symmetric(vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
               decoration: BoxDecorations.buildBoxDecoration_2(),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  const Text(
                     'Offer sales:',
                     style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14),
                   ),
@@ -247,8 +244,8 @@ class _MerchantWalletState extends State<MerchantWallet> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 8),
+                          const Padding(
+                            padding: EdgeInsets.only(bottom: 8),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -275,7 +272,7 @@ class _MerchantWalletState extends State<MerchantWallet> {
                         ],
                       ),
                     )),
-                SizedBox(
+                const SizedBox(
                   width: 16,
                 ),
                 Expanded(
@@ -287,8 +284,8 @@ class _MerchantWalletState extends State<MerchantWallet> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 8),
+                          const Padding(
+                            padding: EdgeInsets.only(bottom: 8),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -323,14 +320,14 @@ class _MerchantWalletState extends State<MerchantWallet> {
             Expanded(
                 child: TextButton(
               onPressed: () {},
-              child: Text(
-                'Pay',
-                style: TextStyle(color: Colors.white),
-              ),
               style: TextButton.styleFrom(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(4)),
                 backgroundColor: MyTheme.accent_color,
+              ),
+              child: const Text(
+                'Pay',
+                style: TextStyle(color: Colors.white),
               ),
             ))
           ],

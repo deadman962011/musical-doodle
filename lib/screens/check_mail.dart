@@ -5,15 +5,15 @@ import 'package:com.mybill.app/repositories/merchant/merchant_auth_repository.da
 import 'package:com.mybill.app/repositories/user/user_auth_repository.dart';
 import 'package:com.mybill.app/ui_elements/auth_ui.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import 'package:com.mybill.app/generated/l10n.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class CheckMail extends StatefulWidget {
   final String email;
   final String model;
 
-  const CheckMail({Key? key, required this.email, required this.model})
-      : super(key: key);
+  const CheckMail({super.key, required this.email, required this.model});
 
   @override
   _CheckMailState createState() => _CheckMailState();
@@ -112,9 +112,10 @@ class _CheckMailState extends State<CheckMail> with TickerProviderStateMixin {
     });
   }
 
+  @override
   Widget build(BuildContext context) {
-    final _screen_height = MediaQuery.of(context).size.height;
-    final _screen_width = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
     final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
     return AuthScreen.buildScreen(
         context, 'Chcek Your Email', checkMail(), false, scaffoldKey);
@@ -136,12 +137,13 @@ class _CheckMailState extends State<CheckMail> with TickerProviderStateMixin {
             ),
           ),
           Padding(
-            padding: EdgeInsets.symmetric(vertical: 16),
+            padding: const EdgeInsets.symmetric(vertical: 16),
             child: Column(
               children: [
                 Text(
-                  AppLocalizations.of(context)!.check_your_email,
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  S.of(context).check_your_email,
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 16),
                 )
               ],
             ),
@@ -152,7 +154,7 @@ class _CheckMailState extends State<CheckMail> with TickerProviderStateMixin {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    AppLocalizations.of(context)!.we_sent_you_confirmatin_email,
+                    S.of(context).we_sent_you_confirmatin_email,
                     style: TextStyle(
                         color: MyTheme.font_grey,
                         fontSize: 10,
@@ -169,7 +171,7 @@ class _CheckMailState extends State<CheckMail> with TickerProviderStateMixin {
                             fontWeight: FontWeight.bold),
                       ),
                       IconButton(
-                        icon: Icon(Icons.edit),
+                        icon: const Icon(Icons.edit),
                         iconSize: 18,
                         onPressed: () {
                           Navigator.pop(context);
@@ -178,7 +180,7 @@ class _CheckMailState extends State<CheckMail> with TickerProviderStateMixin {
                     ],
                   ),
                   Padding(
-                    padding: EdgeInsets.symmetric(
+                    padding: const EdgeInsets.symmetric(
                       vertical: 30,
                     ),
                     child: showOpenEmailBtn
@@ -192,10 +194,10 @@ class _CheckMailState extends State<CheckMail> with TickerProviderStateMixin {
                               await _launchEmail();
                             },
                             child: Padding(
-                                padding: EdgeInsets.symmetric(
+                                padding: const EdgeInsets.symmetric(
                                     horizontal: 14, vertical: 2),
                                 child: Text(
-                                  AppLocalizations.of(context)!.open_email,
+                                  S.of(context).open_email,
                                   style: TextStyle(
                                     color: MyTheme.white,
                                     fontSize: 16,
@@ -203,9 +205,8 @@ class _CheckMailState extends State<CheckMail> with TickerProviderStateMixin {
                                   ),
                                 )))
                         : Text(
-                            AppLocalizations.of(context)!
-                                .please_check_your_email_inbox,
-                            style: TextStyle(
+                            S.of(context).please_check_your_email_inbox,
+                            style: const TextStyle(
                                 fontSize: 14, fontWeight: FontWeight.bold),
                           ),
                   ),
@@ -215,7 +216,7 @@ class _CheckMailState extends State<CheckMail> with TickerProviderStateMixin {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            AppLocalizations.of(context)!.didnt_recive_email,
+                            S.of(context).didnt_recive_email,
                             style: TextStyle(
                                 color: MyTheme.font_grey,
                                 fontSize: 12,
@@ -236,8 +237,7 @@ class _CheckMailState extends State<CheckMail> with TickerProviderStateMixin {
                                 : !_displayCounter
                                     ? TextButton(
                                         child: Text(
-                                          AppLocalizations.of(context)!
-                                              .resend_email,
+                                          S.of(context).resend_email,
                                           style: TextStyle(
                                               color: MyTheme.accent_color,
                                               fontSize: 12,
@@ -266,8 +266,8 @@ class _CheckMailState extends State<CheckMail> with TickerProviderStateMixin {
 }
 
 class Countdown extends AnimatedWidget {
-  Countdown({Key? key, required this.animation})
-      : super(key: key, listenable: animation);
+  Countdown({super.key, required this.animation})
+      : super(listenable: animation);
   Animation<int> animation;
   bool displayTimer = false;
   @override
@@ -279,9 +279,9 @@ class Countdown extends AnimatedWidget {
       print('animation.value  ${animation.value} ');
     }
     return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 6),
+        padding: const EdgeInsets.symmetric(horizontal: 6),
         child: Text(
-          "$timerText",
+          timerText,
           style: TextStyle(
             fontSize: 20,
             color: MyTheme.grey_153,

@@ -7,27 +7,24 @@ import 'package:com.mybill.app/models/responses/merchant/availability/merchant_a
 import 'package:com.mybill.app/my_theme.dart';
 import 'package:com.mybill.app/repositories/merchant/merchant_repository.dart';
 import 'package:com.mybill.app/ui_elements/merchant_appbar.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:com.mybill.app/ui_elements/merchant_appbar.dart';
 import 'package:com.mybill.app/ui_elements/merchant_drawer.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import 'package:com.mybill.app/generated/l10n.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:toast/toast.dart';
 
 class WorkingHours extends StatefulWidget {
-  const WorkingHours({Key? key}) : super(key: key);
+  const WorkingHours({super.key});
 
   @override
   _WorkingHoursState createState() => _WorkingHoursState();
 }
 
 class _WorkingHoursState extends State<WorkingHours> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   final _formKey = GlobalKey<FormBuilderState>();
 
@@ -99,14 +96,12 @@ class _WorkingHoursState extends State<WorkingHours> {
 
   updatSlot(int id) async {
     _formKey.currentState!.save();
-    debugPrint(
-        "update slot triggered ${_formKey.currentState!.value['start_date_${id}']}");
 
     var response = await MerchantRepository()
         .getMerchantAvailabilityUpdateSlotResponse(
             id,
-            _formKey.currentState!.value['start_date_${id}'].toString(),
-            _formKey.currentState!.value['end_date_${id}'].toString());
+            _formKey.currentState!.value['start_date_$id'].toString(),
+            _formKey.currentState!.value['end_date_$id'].toString());
     if (response.runtimeType.toString() ==
         'MerchantAvailabilityAddSlotResponse') {
       ToastComponent.showDialog('availability slot updated', context,
@@ -126,7 +121,7 @@ class _WorkingHoursState extends State<WorkingHours> {
         child: Scaffold(
             key: _scaffoldKey,
             appBar: MerchantAppBar.buildMerchantAppBar(context, 'working_hours',
-                _scaffoldKey, AppLocalizations.of(context)!.add_offer),
+                _scaffoldKey, S.of(context).add_offer),
             drawer: MerchantDrawer.buildDrawer(context),
             backgroundColor: Colors.transparent,
             body: RefreshIndicator(
@@ -135,7 +130,7 @@ class _WorkingHoursState extends State<WorkingHours> {
                 displacement: 0,
                 onRefresh: _onRefresh,
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 14),
+                  padding: const EdgeInsets.symmetric(horizontal: 14),
                   child: SingleChildScrollView(
                     child: isLoading
                         ? Column(
@@ -166,8 +161,8 @@ class _WorkingHoursState extends State<WorkingHours> {
 
   Widget _buildDaySlotDay(AvailabilityDay day) {
     return Container(
-        margin: EdgeInsets.symmetric(vertical: 10),
-        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+        margin: const EdgeInsets.symmetric(vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
         decoration: BoxDecorations.buildBoxDecoration_1(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -193,7 +188,7 @@ class _WorkingHoursState extends State<WorkingHours> {
               children: day.slots.map((slot) => _buildSlot(slot)).toList(),
             ),
             Padding(
-                padding: EdgeInsets.symmetric(vertical: 16),
+                padding: const EdgeInsets.symmetric(vertical: 16),
                 child: GestureDetector(
                   child: Text(
                     '+ Add New Slot',
@@ -210,6 +205,10 @@ class _WorkingHoursState extends State<WorkingHours> {
   }
 
   Widget _buildSlot(AvailabilitySlot slot) {
+    DateTime? startDate =
+        slot.start != null ? DateTime.parse(slot.start) : null;
+    DateTime? endDate = slot.start != null ? DateTime.parse(slot.start) : null;
+
     return Row(
       children: [
         Expanded(
@@ -218,26 +217,20 @@ class _WorkingHoursState extends State<WorkingHours> {
             children: [
               Padding(
                 padding: const EdgeInsets.only(bottom: 4),
-                child: Text(AppLocalizations.of(context)!.start),
+                child: Text(S.of(context).start),
               ),
               FormBuilderDateTimePicker(
                 name: 'start_date_${slot.id}',
                 format: intl.DateFormat('HH:mm'),
                 inputType: InputType.time,
+                initialValue: startDate,
                 decoration: InputDecorations.buildInputDecoration_1(
-                    hint_text:
-                        AppLocalizations.of(context)!.start_date_placeholder),
+                    hint_text: S.of(context).start_date_placeholder),
                 validator: FormBuilderValidators.compose([
                   FormBuilderValidators.required(),
                 ]),
                 textInputAction: TextInputAction.next,
                 firstDate: DateTime.now(),
-                // onEditingComplete: () {
-                //   updatSlot(slot.id);
-                // },
-                // onFieldSubmitted: (value) {
-                //   updatSlot(slot.id);
-                // },
                 onChanged: (DateTime? value) {
                   updatSlot(slot.id);
                   if (value != null) {}
@@ -253,16 +246,16 @@ class _WorkingHoursState extends State<WorkingHours> {
             children: [
               Padding(
                 padding: const EdgeInsets.only(bottom: 4),
-                child: Text(AppLocalizations.of(context)!.end),
+                child: Text(S.of(context).end),
               ),
               FormBuilderDateTimePicker(
                 name: 'end_date_${slot.id}',
                 format: intl.DateFormat('HH:mm'),
                 inputType: InputType.time,
+                initialValue: endDate,
                 // controller: _offerEndDateController,
                 decoration: InputDecorations.buildInputDecoration_1(
-                    hint_text:
-                        AppLocalizations.of(context)!.end_date_placeholder),
+                    hint_text: S.of(context).end_date_placeholder),
                 validator: FormBuilderValidators.compose([
                   FormBuilderValidators.required(),
                 ]),
@@ -276,7 +269,7 @@ class _WorkingHoursState extends State<WorkingHours> {
           ),
         ),
         IconButton(
-          icon: Icon(Icons.close),
+          icon: const Icon(Icons.close),
           onPressed: () {
             removeSlot(slot.id);
           },

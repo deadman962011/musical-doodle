@@ -1,38 +1,36 @@
-import 'package:com.mybill.app/custom/box_decorations.dart';
 import 'package:com.mybill.app/custom/input_decorations.dart';
 import 'package:com.mybill.app/custom/toast_component.dart';
 import 'package:com.mybill.app/helpers/shared_value_helper.dart';
 import 'package:com.mybill.app/my_theme.dart';
 import 'package:com.mybill.app/repositories/user/user_auth_repository.dart';
 import 'package:com.mybill.app/ui_elements/user_appbar.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import 'package:com.mybill.app/generated/l10n.dart';
 import 'package:image_picker/image_picker.dart';
 // import 'package:intl/intl.dart';
 import 'package:loading_indicator/loading_indicator.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:toast/toast.dart';
 import 'package:com.mybill.app/helpers/file_helper.dart';
 
 class ProfileEdit extends StatefulWidget {
-  const ProfileEdit({Key? key}) : super(key: key);
+  const ProfileEdit({super.key});
 
   @override
   _ProfileEditState createState() => _ProfileEditState();
 }
 
 class _ProfileEditState extends State<ProfileEdit> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final _formKey = GlobalKey<FormBuilderState>();
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _birthDateController = TextEditingController();
   String _gender = '';
-  DateTime _birthDate = DateTime.now();
+  final DateTime _birthDate = DateTime.now();
 
   final ImagePicker _picker = ImagePicker();
   late XFile _file;
@@ -91,16 +89,15 @@ class _ProfileEditState extends State<ProfileEdit> {
   }
 
   onPressedUpdateProfile() async {
-    String first_name = _firstNameController.text.toString();
-    String last_name = _lastNameController.text.toString();
-    String birth_date = _birthDateController.text.toString();
+    String firstName = _firstNameController.text.toString();
+    String lastName = _lastNameController.text.toString();
+    String birthDate = _birthDateController.text.toString();
     setState(() {
       _isLoading = true;
     });
 
     var response = await UserAuthRepository()
-        .getUserProfileUpdateResponse(
-            first_name, last_name, _gender, birth_date)
+        .getUserProfileUpdateResponse(firstName, lastName, _gender, birthDate)
         .then((value) {
       if (value.runtimeType.toString() == 'UserProfileUpdateResponse' &&
           value.success) {
@@ -116,27 +113,20 @@ class _ProfileEditState extends State<ProfileEdit> {
 
   chooseAndUploadImage(context) async {
     _file = (await _picker.pickImage(source: ImageSource.gallery))!;
-    if (_file == null) {
-      ToastComponent.showDialog('no file chosen', context,
-          gravity: Toast.center, duration: Toast.lengthLong);
-      return;
-    } else {
-      String base64Image = FileHelper.getBase64FormateFile(_file.path);
-      String fileName = _file.path.split("/").last;
-      var response =
-          await UserAuthRepository().getUserProfileUpdateImageResponse(
-        base64Image,
-        fileName,
-      );
-      if (response.runtimeType.toString() == 'UserProfileUploadImageResponse' &&
-          response.success) {
-        ToastComponent.showDialog('profile image updated', context,
-            gravity: Toast.bottom, duration: Toast.lengthLong);
-      }
-      user_avatar.$ = response.path;
-      user_avatar.save();
-      setState(() {});
+    String base64Image = FileHelper.getBase64FormateFile(_file.path);
+    String fileName = _file.path.split("/").last;
+    var response = await UserAuthRepository().getUserProfileUpdateImageResponse(
+      base64Image,
+      fileName,
+    );
+    if (response.runtimeType.toString() == 'UserProfileUploadImageResponse' &&
+        response.success) {
+      ToastComponent.showDialog('profile image updated', context,
+          gravity: Toast.bottom, duration: Toast.lengthLong);
     }
+    user_avatar.$ = response.path;
+    user_avatar.save();
+    setState(() {});
   }
 
   @override
@@ -146,10 +136,10 @@ class _ProfileEditState extends State<ProfileEdit> {
             app_language_rtl.$ ? TextDirection.rtl : TextDirection.ltr,
         child: Scaffold(
             key: _scaffoldKey,
-            appBar: UserAppBar.buildUserAppBar(context, 'edit_profile',
-                AppLocalizations.of(context)!.profile_edit, {}),
+            appBar: UserAppBar.buildUserAppBar(
+                context, 'edit_profile', S.of(context).profile_edit, {}),
             body: Container(
-              padding: EdgeInsets.only(left: 14, right: 14, bottom: 12),
+              padding: const EdgeInsets.only(left: 14, right: 14, bottom: 12),
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
               child: Column(
@@ -160,7 +150,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                     children: [
                       GestureDetector(
                           child: Container(
-                            padding: EdgeInsets.all(7.0),
+                            padding: const EdgeInsets.all(7.0),
                             decoration: BoxDecoration(
                                 color: Colors.white,
                                 boxShadow: [
@@ -168,12 +158,12 @@ class _ProfileEditState extends State<ProfileEdit> {
                                     color: Colors.black.withOpacity(0.12),
                                     blurRadius: 6,
                                     spreadRadius: 0.0,
-                                    offset: Offset(0.0,
+                                    offset: const Offset(0.0,
                                         0.0), // shadow direction: bottom right
                                   )
                                 ],
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(100))),
+                                borderRadius: const BorderRadius.all(
+                                    Radius.circular(100))),
                             child: Stack(
                               alignment: Alignment.bottomRight,
                               children: [
@@ -207,12 +197,13 @@ class _ProfileEditState extends State<ProfileEdit> {
                         child: Column(
                           children: [
                             Padding(
-                                padding: EdgeInsets.symmetric(vertical: 2),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 2),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(bottom: 8),
+                                    const Padding(
+                                      padding: EdgeInsets.only(bottom: 8),
                                       child: Text(
                                         'first name',
                                       ),
@@ -230,12 +221,13 @@ class _ProfileEditState extends State<ProfileEdit> {
                                   ],
                                 )),
                             Padding(
-                                padding: EdgeInsets.symmetric(vertical: 10),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 10),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(bottom: 8),
+                                    const Padding(
+                                      padding: EdgeInsets.only(bottom: 8),
                                       child: Text('last name'),
                                     ),
                                     FormBuilderTextField(
@@ -250,38 +242,20 @@ class _ProfileEditState extends State<ProfileEdit> {
                                     ),
                                   ],
                                 )),
-                            // Padding(
-                            //     padding: EdgeInsets.symmetric(vertical: 10),
-                            //     child: Column(
-                            //       crossAxisAlignment: CrossAxisAlignment.start,
-                            //       children: [
-                            //         Padding(
-                            //           padding:
-                            //               const EdgeInsets.only(bottom: 8.0),
-                            //           child: Text('email'),
-                            //         ),
-                            //         FormBuilderTextField(
-                            //           name: 'email',
-                            //           controller: _emailController,
-                            //           decoration: InputDecorations
-                            //               .buildDropdownInputDecoration_1(),
-                            //         ),
-                            //       ],
-                            //     )),
                             Row(
                               children: [
                                 Flexible(
                                     flex: 1,
                                     child: Padding(
-                                      padding:
-                                          EdgeInsets.symmetric(vertical: 10),
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 10),
                                       child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                bottom: 8.0),
+                                          const Padding(
+                                            padding:
+                                                EdgeInsets.only(bottom: 8.0),
                                             child: Text('birth date'),
                                           ),
                                           FormBuilderDateTimePicker(
@@ -303,19 +277,19 @@ class _ProfileEditState extends State<ProfileEdit> {
                                         ],
                                       ),
                                     )),
-                                SizedBox(
+                                const SizedBox(
                                   width: 12,
                                 ),
                                 Flexible(
                                     flex: 1,
                                     child: Padding(
-                                        padding:
-                                            EdgeInsets.symmetric(vertical: 10),
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 10),
                                         child: Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
-                                              Padding(
+                                              const Padding(
                                                 padding:
                                                     EdgeInsets.only(bottom: 8),
                                                 child: Text('gender'),
@@ -352,7 +326,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                   ),
                   Column(
                     children: [
-                      Container(
+                      SizedBox(
                           width: double.infinity,
                           child: TextButton(
                               style: TextButton.styleFrom(

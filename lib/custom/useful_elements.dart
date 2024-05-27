@@ -58,7 +58,7 @@ class UsefulElements {
         width: width,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(borderRadius),
-          child: url != null && url.isNotEmpty
+          child: url.isNotEmpty
               ? FadeInImage.assetNetwork(
                   placeholder: "assets/placeholder.png",
                   image: url,

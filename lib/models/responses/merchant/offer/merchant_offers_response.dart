@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:com.mybill.app/models/items/MerchantIOffer.dart';
-import 'package:com.mybill.app/models/items/Offer.dart';
 
 MerchantOffersResponse merchantOffersResponseFromJson(String str) =>
     MerchantOffersResponse.fromJson(json.decode(str));

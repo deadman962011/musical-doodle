@@ -1,12 +1,9 @@
-import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:com.mybill.app/custom/box_decorations.dart';
 import 'package:com.mybill.app/helpers/auth_helper.dart';
 import 'package:com.mybill.app/helpers/shimmer_helper.dart';
 import 'package:com.mybill.app/models/items/Category.dart';
 import 'package:com.mybill.app/models/items/Offer.dart';
-import 'package:com.mybill.app/models/responses/category/all_categories_response.dart';
-import 'package:com.mybill.app/models/responses/merchant/offer/merchant_offers_response.dart';
 import 'package:com.mybill.app/my_theme.dart';
 import 'package:com.mybill.app/repositories/category_repository.dart';
 import 'package:com.mybill.app/repositories/slider_repository.dart';
@@ -16,28 +13,27 @@ import 'package:com.mybill.app/ui_elements/home_map.dart';
 import 'package:com.mybill.app/ui_elements/home_search.dart';
 import 'package:com.mybill.app/ui_elements/user_appbar.dart';
 import 'package:com.mybill.app/widgets/OfferWidget.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:com.mybill.app/helpers/shared_value_helper.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:http/http.dart';
+
+import 'package:com.mybill.app/generated/l10n.dart';
 import 'package:latlong2/latlong.dart';
 
 class UserHome extends StatefulWidget {
-  UserHome() : super();
+  const UserHome({super.key});
 
   @override
   _UserHomeState createState() => _UserHomeState();
 }
 
 class _UserHomeState extends State<UserHome> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   int _current_slider = 0;
-
+  int _page = 0;
   bool _isCarouselLoading = true;
   bool _isCategoriesLoading = true;
   bool _isOffersLoading = true;
-  late int? selectedCategoryId = null;
+  int? selectedCategoryId;
   List<dynamic> _carouselImageList = [];
   List<CategoryItem> _categoriesList = [];
   List<Offer> _offersList = [];
@@ -107,27 +103,27 @@ class _UserHomeState extends State<UserHome> {
   fethOffers() async {
     setState(() {
       _isOffersLoading = true;
+
+      _offersList.clear();
     });
     var response = await UserOfferRepository()
         .getUserOffersResponse(
-            page: _current_slider, category: selectedCategoryId)
+            page: _page + 1, category: selectedCategoryId)
         .then((value) {
       if (value.runtimeType.toString() == 'UserOffersResponse') {
         List<Offer> offers = value.offers;
 
         if (offers.isNotEmpty) {
-          offers.forEach(
-            (offer) {
-              var pin = {
-                'coordinates': LatLng(double.parse(offer.shop['latitude']),
-                    double.parse(offer.shop['longitude'])),
-                "amount": offer.cashback_amount
-              };
-              setState(() {
-                _mapPinsLis.add(pin);
-              });
-            },
-          );
+          for (var offer in offers) {
+            var pin = {
+              'coordinates': LatLng(double.parse(offer.shop['latitude']),
+                  double.parse(offer.shop['longitude'])),
+              "amount": offer.cashback_amount
+            };
+            setState(() {
+              _mapPinsLis.add(pin);
+            });
+          }
           setState(() {
             _offersList = offers;
           });
@@ -188,7 +184,7 @@ class _UserHomeState extends State<UserHome> {
         key: _scaffoldKey,
         appBar: UserAppBar.buildUserAppBar(context, 'home', '', {}),
         body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 14),
+          padding: const EdgeInsets.symmetric(horizontal: 14),
           child: Column(
             children: [
               Expanded(
@@ -206,7 +202,7 @@ class _UserHomeState extends State<UserHome> {
                     children: [
                       Container(
                           width: MediaQuery.of(context).size.width,
-                          margin: EdgeInsets.symmetric(vertical: 4),
+                          margin: const EdgeInsets.symmetric(vertical: 4),
                           child: HomeSearch(onToggle: () => toggleMap())),
                       showMapWidget
                           ? HomeMap(
@@ -214,18 +210,18 @@ class _UserHomeState extends State<UserHome> {
                             )
                           : _buildHomeCarouselSlider(context),
                       Padding(
-                          padding: EdgeInsets.only(top: 16),
+                          padding: const EdgeInsets.only(top: 16),
                           child: Text(
-                            AppLocalizations.of(context)!.select_category_home,
-                            style: TextStyle(
+                            S.of(context).select_category_home,
+                            style: const TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 16),
                           )),
                       _buildCategoriesSlide(),
                       Padding(
-                          padding: EdgeInsets.only(top: 16, bottom: 10),
+                          padding: const EdgeInsets.only(top: 16, bottom: 10),
                           child: Text(
-                            AppLocalizations.of(context)!.best_offers,
-                            style: TextStyle(
+                            S.of(context).best_offers,
+                            style: const TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 16),
                           )),
                       _buildOfferList()
@@ -256,11 +252,11 @@ class _UserHomeState extends State<UserHome> {
           ));
     } else {
       if (_categoriesList.isEmpty) {
-        return Text('no categories');
+        return const Text('no categories');
       } else {
         return Container(
             width: MediaQuery.of(context).size.width,
-            margin: EdgeInsets.symmetric(vertical: 6),
+            margin: const EdgeInsets.symmetric(vertical: 6),
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
@@ -296,7 +292,7 @@ class _UserHomeState extends State<UserHome> {
                             ),
                             Text(
                               category.name,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
                             )
@@ -317,7 +313,7 @@ class _UserHomeState extends State<UserHome> {
     if (_isOffersLoading) {
       return Container(
           alignment: Alignment.center,
-          margin: EdgeInsets.only(bottom: 80),
+          margin: const EdgeInsets.only(bottom: 80),
           padding: const EdgeInsets.symmetric(vertical: 4),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -332,13 +328,13 @@ class _UserHomeState extends State<UserHome> {
         return Container(
           height: 260,
           alignment: Alignment.topCenter,
-          child: Text(
+          child: const Text(
             'no Offers',
           ),
         );
       } else {
         return Container(
-            margin: EdgeInsets.only(bottom: 80),
+            margin: const EdgeInsets.only(bottom: 80),
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: _offersList.map((offer) {
@@ -358,7 +354,7 @@ class _UserHomeState extends State<UserHome> {
           child: ShimmerHelper().buildBasicShimmer(height: 120));
     } else {
       if (_carouselImageList.isEmpty) {
-        return Container(
+        return SizedBox(
             height: 220,
             child: Center(
                 child: Text(

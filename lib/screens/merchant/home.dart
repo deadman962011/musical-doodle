@@ -1,19 +1,17 @@
 import 'package:com.mybill.app/helpers/auth_helper.dart';
 import 'package:com.mybill.app/helpers/shared_value_helper.dart';
 import 'package:com.mybill.app/screens/guest.dart';
-import 'package:com.mybill.app/screens/merchant/main.dart';
-import 'package:com.mybill.app/ui_elements/merchant_appbar.dart';
 import 'package:flutter/material.dart';
 
 class MerchantHome extends StatefulWidget {
-  MerchantHome() : super();
+  const MerchantHome({super.key});
 
   @override
   _MerchantHomeState createState() => _MerchantHomeState();
 }
 
 class _MerchantHomeState extends State<MerchantHome> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -48,12 +46,12 @@ class _MerchantHomeState extends State<MerchantHome> {
             child: Container(
           child: Column(
             children: [
-              Text('merchant home'),
+              const Text('merchant home'),
               TextButton(
                   onPressed: () {
                     logout();
                   },
-                  child: Text('logout'))
+                  child: const Text('logout'))
             ],
           ),
         )),

@@ -1,16 +1,11 @@
-
+import 'package:com.mybill.app/generated/l10n.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-
-class LangText{
-
+class LangText {
   BuildContext context;
-  late AppLocalizations local;
+  late S local;
 
-
-
-  LangText(this.context){
-   local= AppLocalizations.of(context)!;
+  LangText(this.context) {
+    local = S.of(context);
   }
 }

@@ -4,19 +4,19 @@ import 'package:com.mybill.app/my_theme.dart';
 import 'package:com.mybill.app/screens/change_language.dart';
 import 'package:com.mybill.app/screens/change_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import 'package:com.mybill.app/generated/l10n.dart';
 
 class UserMenu extends StatefulWidget {
-  const UserMenu({Key? key}) : super(key: key);
+  const UserMenu({super.key});
 
   @override
   _MenuState createState() => _MenuState();
 }
 
 class _MenuState extends State<UserMenu> {
-  ScrollController _mainScrollController = ScrollController();
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final ScrollController _mainScrollController = ScrollController();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class _MenuState extends State<UserMenu> {
     final Map<String, dynamic> themeSettingsData = {
       'tabs': [
         {
-          'title': AppLocalizations.of(context)!.theme,
+          'title': S.of(context).theme,
           'image': 'assets/theme.png',
           'redirect_to': 'change_theme',
           'items': []
@@ -40,7 +40,7 @@ class _MenuState extends State<UserMenu> {
     final Map<String, dynamic> languageSettingsData = {
       'tabs': [
         {
-          'title': AppLocalizations.of(context)!.language,
+          'title': S.of(context).language,
           'image': 'assets/language.png',
           'redirect_to': 'change_language',
           'items': []
@@ -49,7 +49,7 @@ class _MenuState extends State<UserMenu> {
     };
 
     return Container(
-        margin: EdgeInsets.only(top: 26),
+        margin: const EdgeInsets.only(top: 26),
         height: DeviceInfo(context).height,
         child: Stack(
           children: [
@@ -62,7 +62,7 @@ class _MenuState extends State<UserMenu> {
                   child: Column(
                     children: [
                       Container(
-                        margin: EdgeInsets.symmetric(vertical: 14),
+                        margin: const EdgeInsets.symmetric(vertical: 14),
                         alignment: Alignment.center,
                         width: 120,
                         child: Image.asset(
@@ -100,10 +100,10 @@ class _MenuState extends State<UserMenu> {
                     height: 24,
                   ),
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: Text(
                       tab['title'],
-                      style: TextStyle(fontSize: 14),
+                      style: const TextStyle(fontSize: 14),
                     ),
                   )
                 ],
@@ -139,7 +139,7 @@ class _MenuState extends State<UserMenu> {
             );
           } else {
             return Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: TextButton(
                     style: ButtonStyle(
                       overlayColor:
@@ -149,12 +149,12 @@ class _MenuState extends State<UserMenu> {
                       if (tab['redirect_to'] == 'change_language') {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) {
-                          return ChangeLanguage();
+                          return const ChangeLanguage();
                         }));
                       } else if (tab['redirect_to'] == 'change_theme') {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) {
-                          return ChangeTheme();
+                          return const ChangeTheme();
                         }));
                       }
                     },
@@ -170,7 +170,7 @@ class _MenuState extends State<UserMenu> {
                         ),
                         Text(
                           tab['title'],
-                          style: TextStyle(color: Colors.black),
+                          style: const TextStyle(color: Colors.black),
                         )
                       ],
                     )));

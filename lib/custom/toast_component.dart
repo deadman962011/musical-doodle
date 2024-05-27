@@ -1,7 +1,6 @@
 import 'package:com.mybill.app/my_theme.dart';
 import 'package:toast/toast.dart';
 import 'package:flutter/material.dart';
-import 'package:one_context/one_context.dart';
 
 class ToastComponent {
   static showDialog(String msg, BuildContext context,
@@ -10,9 +9,9 @@ class ToastComponent {
     Toast.show(msg,
         duration: duration != 0 ? duration : Toast.lengthShort,
         gravity: gravity != 0 ? gravity : Toast.bottom,
-        backgroundColor: Color.fromRGBO(239, 239, 239, .9),
+        backgroundColor: const Color.fromRGBO(239, 239, 239, .9),
         textStyle: TextStyle(color: MyTheme.font_grey),
-        border: Border(
+        border: const Border(
             top: BorderSide(
               color: Color.fromRGBO(203, 209, 209, 1),
             ),

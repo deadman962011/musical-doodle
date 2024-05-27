@@ -2,15 +2,14 @@ import 'package:com.mybill.app/custom/box_decorations.dart';
 import 'package:com.mybill.app/custom/device_info.dart';
 import 'package:com.mybill.app/custom/input_decorations.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import 'package:com.mybill.app/generated/l10n.dart';
 import 'package:com.mybill.app/my_theme.dart';
 import 'package:com.mybill.app/repositories/merchant/merchant_auth_repository.dart';
 import 'package:com.mybill.app/repositories/user/user_auth_repository.dart';
 import 'package:com.mybill.app/screens/check_mail.dart';
 import 'package:com.mybill.app/ui_elements/auth_ui.dart';
 import 'package:flutter/material.dart';
-import 'dart:io' show Platform;
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
 import 'package:loading_indicator/loading_indicator.dart';
@@ -18,15 +17,15 @@ import 'package:loading_indicator/loading_indicator.dart';
 class Login extends StatefulWidget {
   final String model;
 
-  Login({required this.model}) : super();
+  const Login({super.key, required this.model});
   @override
   _LoginState createState() => _LoginState();
 }
 
 class _LoginState extends State<Login> {
-  ScrollController _mainScrollController = ScrollController();
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  TextEditingController _emailController = TextEditingController();
+  final ScrollController _mainScrollController = ScrollController();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final TextEditingController _emailController = TextEditingController();
 
   final _formKey = GlobalKey<FormBuilderState>();
   bool _isLoading = false;
@@ -136,12 +135,13 @@ class _LoginState extends State<Login> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(vertical: 16),
+              padding: const EdgeInsets.symmetric(vertical: 16),
               child: Column(
                 children: [
                   Text(
-                    AppLocalizations.of(context)!.please_login_to_continue,
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    S.of(context).please_login_to_continue,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 16),
                   )
                 ],
               ),
@@ -162,20 +162,17 @@ class _LoginState extends State<Login> {
                       child: Column(
                         children: [
                           Padding(
-                              padding: EdgeInsets.only(bottom: 0),
+                              padding: const EdgeInsets.only(bottom: 0),
                               child: FormBuilderTextField(
                                 name: 'email',
                                 controller: _emailController,
                                 autovalidateMode: AutovalidateMode.disabled,
                                 decoration:
                                     InputDecorations.buildInputDecoration_1(
-                                        error_text:
-                                            _errors['email'] !=
-                                                    null
-                                                ? _errors['email']![0]
-                                                : null,
-                                        hint_text: AppLocalizations.of(context)!
-                                            .email),
+                                        error_text: _errors['email'] != null
+                                            ? _errors['email']![0]
+                                            : null,
+                                        hint_text: S.of(context).email),
                                 validator: FormBuilderValidators.compose([
                                   FormBuilderValidators.required(),
                                   FormBuilderValidators.email(),
@@ -188,12 +185,11 @@ class _LoginState extends State<Login> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(vertical: 16),
+              padding: const EdgeInsets.symmetric(vertical: 16),
               child: Column(
                 children: [
                   Text(
-                    AppLocalizations.of(context)!
-                        .no_need_to_remember_your_password,
+                    S.of(context).no_need_to_remember_your_password,
                     style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w300,
@@ -243,7 +239,7 @@ class _LoginState extends State<Login> {
                                 .transparent, // Customize the background color if needed
                           ))
                       : Text(
-                          AppLocalizations.of(context)!.continue_b,
+                          S.of(context).continue_b,
                           style: TextStyle(
                             color: MyTheme.white,
                             fontSize: 16,
@@ -259,8 +255,7 @@ class _LoginState extends State<Login> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      AppLocalizations.of(context)!
-                          .by_clicking_continue_you_are,
+                      S.of(context).by_clicking_continue_you_are,
                       style: TextStyle(
                           color: MyTheme.grey_153,
                           fontSize: 8,
@@ -270,8 +265,7 @@ class _LoginState extends State<Login> {
                         style: TextButton.styleFrom(
                             minimumSize: Size.zero, padding: EdgeInsets.zero),
                         onPressed: () {},
-                        child: Text(
-                            AppLocalizations.of(context)!.terms_conditions,
+                        child: Text(S.of(context).terms_conditions,
                             style: TextStyle(
                                 decoration: TextDecoration.underline,
                                 color: MyTheme.accent_color,

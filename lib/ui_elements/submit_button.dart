@@ -107,7 +107,7 @@ class _SubmitButtonState extends State<SubmitButton> {
 //     //                                         .transparent, // Customize the background color if needed
 //     //                                   ))
 //     //                               : Text(
-//     //                                   AppLocalizations.of(context)!.continue_b,
+//     //                                  S.of(context).continue_b,
 //     //                                   style: TextStyle(
 //     //                                     color: MyTheme.white,
 //     //                                     fontSize: 16,

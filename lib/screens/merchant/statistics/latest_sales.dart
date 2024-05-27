@@ -4,17 +4,17 @@ import 'package:com.mybill.app/ui_elements/merchant_appbar.dart';
 import 'package:com.mybill.app/ui_elements/merchant_drawer.dart';
 import 'package:flutter/material.dart';
 
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:com.mybill.app/generated/l10n.dart';
 
 class MerchantLatestSales extends StatefulWidget {
-  const MerchantLatestSales({Key? key}) : super(key: key);
+  const MerchantLatestSales({super.key});
 
   @override
   _LatestSalesState createState() => _LatestSalesState();
 }
 
 class _LatestSalesState extends State<MerchantLatestSales> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -38,8 +38,8 @@ class _LatestSalesState extends State<MerchantLatestSales> {
             app_language_rtl.$ ? TextDirection.rtl : TextDirection.ltr,
         child: Scaffold(
             key: _scaffoldKey,
-            appBar: MerchantAppBar.buildMerchantAppBar(context, 'latest_sales',
-                _scaffoldKey, AppLocalizations.of(context)!.offers),
+            appBar: MerchantAppBar.buildMerchantAppBar(
+                context, 'latest_sales', _scaffoldKey, S.of(context).offers),
             drawer: MerchantDrawer.buildDrawer(context),
             body: RefreshIndicator(
                 color: MyTheme.accent_color,
@@ -48,7 +48,8 @@ class _LatestSalesState extends State<MerchantLatestSales> {
                 onRefresh: _onRefresh,
                 child: Container(
                   width: MediaQuery.of(context).size.width,
-                  margin: EdgeInsets.symmetric(horizontal: 14, vertical: 20),
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 14, vertical: 20),
                   child: SingleChildScrollView(
                     child: _buildSalesList(),
                   ),
@@ -59,7 +60,7 @@ class _LatestSalesState extends State<MerchantLatestSales> {
     return Column(
       children: [
         Container(
-          margin: EdgeInsets.only(bottom: 12),
+          margin: const EdgeInsets.only(bottom: 12),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -71,7 +72,7 @@ class _LatestSalesState extends State<MerchantLatestSales> {
                     width: 70,
                     height: 70,
                   ),
-                  Padding(
+                  const Padding(
                       padding: EdgeInsets.symmetric(horizontal: 16),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,

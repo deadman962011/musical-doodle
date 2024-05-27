@@ -4,7 +4,7 @@
 import 'package:flutter/material.dart';
 
 class MerchantReports extends StatefulWidget {
-  MerchantReports() : super();
+  const MerchantReports({super.key});
 
   @override
   _MerchantReportsState createState() => _MerchantReportsState();
@@ -12,7 +12,7 @@ class MerchantReports extends StatefulWidget {
 
 
 class _MerchantReportsState extends State<MerchantReports> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -29,6 +29,6 @@ class _MerchantReportsState extends State<MerchantReports> {
   
   @override
   Widget build(BuildContext context) { 
-    return Text('test');
+    return const Text('test');
   }
 }

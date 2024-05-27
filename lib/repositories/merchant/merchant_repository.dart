@@ -6,7 +6,8 @@ import 'package:com.mybill.app/models/responses/merchant/availability/merchant_a
 import 'package:com.mybill.app/models/responses/merchant/availability/merchant_availability_toggle_day_status_response.dart';
 import 'package:com.mybill.app/models/responses/merchant/availability/merchant_availabiliy_add_slot_response.dart';
 import 'package:com.mybill.app/models/responses/merchant/merchant_update_contact_response.dart';
-import 'package:com.mybill.app/models/responses/merchant_response.dart';
+import 'package:com.mybill.app/models/responses/merchant/merchant_response.dart';
+import 'package:com.mybill.app/models/responses/merchant/merchant_update_response.dart';
 import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
@@ -24,10 +25,34 @@ class MerchantRepository {
         "Authorization": "Bearer ${access_token.$}",
       },
     );
-
+    AppConfig.alice.onHttpResponse(response, body: null);
     final responseBody = jsonDecode(response.body);
     if (response.statusCode == 200 && responseBody['success'] == true) {
       return merchantResponseFromMap(response.body);
+    } else {
+      return false;
+    }
+  }
+
+  Future<dynamic> getMerchantUpdateResponse(
+      @required String shop_name_ar, @required String shop_name_en) async {
+    Uri url = Uri.parse("${AppConfig.BASE_URL}/shop/");
+
+    var postBody = jsonEncode(
+        {"shop_name_ar": shop_name_ar, "shop_name_en": shop_name_en});
+
+    final response = await http.put(url,
+        headers: {
+          'Accept': 'application/json',
+          "Content-Type": "application/json",
+          "Accept-Language": app_language.$,
+          "Authorization": "Bearer ${access_token.$}",
+        },
+        body: postBody);
+    AppConfig.alice.onHttpResponse(response, body: postBody);
+    final responseBody = jsonDecode(response.body);
+    if (response.statusCode == 200 && responseBody['success'] == true) {
+      return merchantUpdateResponseFromMap(response.body);
     } else {
       return false;
     }
@@ -37,7 +62,7 @@ class MerchantRepository {
       @required String email, @required String phone) async {
     Uri url = Uri.parse("${AppConfig.BASE_URL}/shop/contact");
 
-    var post_body = jsonEncode({"email": email, "phone": phone});
+    var postBody = jsonEncode({"email": email, "phone": phone});
 
     final response = await http.put(url,
         headers: {
@@ -46,8 +71,8 @@ class MerchantRepository {
           "Accept-Language": app_language.$,
           "Authorization": "Bearer ${access_token.$}",
         },
-        body: post_body);
-
+        body: postBody);
+    AppConfig.alice.onHttpResponse(response, body: postBody);
     final responseBody = jsonDecode(response.body);
     if (response.statusCode == 200 && responseBody['success'] == true) {
       return merchantUpdateContactResponseFromMap(response.body);
@@ -68,8 +93,9 @@ class MerchantRepository {
         "Authorization": "Bearer ${access_token.$}",
       },
     );
-
+    AppConfig.alice.onHttpResponse(response, body: null);
     final responseBody = jsonDecode(response.body);
+    debugPrint(response.body);
     if (response.statusCode == 200 && responseBody['success'] == true) {
       return merchantAvailabilityResponseFromMap(response.body);
     } else {
@@ -79,7 +105,7 @@ class MerchantRepository {
 
   Future<dynamic> getMerchantAvailabilityToggleDayResponse(
       @required int id) async {
-    var post_body = jsonEncode({
+    var postBody = jsonEncode({
       "shop_availability_id": id,
     });
 
@@ -92,8 +118,8 @@ class MerchantRepository {
           "Accept-Language": app_language.$,
           "Authorization": "Bearer ${access_token.$}",
         },
-        body: post_body);
-
+        body: postBody);
+    AppConfig.alice.onHttpResponse(response, body: postBody);
     final responseBody = jsonDecode(response.body);
     if (response.statusCode == 200 && responseBody['success'] == true) {
       return merchantAvailabilityToggleDayStatusResponseFromMap(response.body);
@@ -104,7 +130,7 @@ class MerchantRepository {
 
   Future<dynamic> getMerchantAvailabilityAddSlotResponse(
       @required int id) async {
-    var post_body = jsonEncode({
+    var postBody = jsonEncode({
       "shop_availability_id": id,
     });
 
@@ -117,7 +143,8 @@ class MerchantRepository {
           "Accept-Language": app_language.$,
           "Authorization": "Bearer ${access_token.$}",
         },
-        body: post_body);
+        body: postBody);
+    AppConfig.alice.onHttpResponse(response, body: postBody);
 
     final responseBody = jsonDecode(response.body);
     if (response.statusCode == 200 && responseBody['success'] == true) {
@@ -129,7 +156,7 @@ class MerchantRepository {
 
   Future<dynamic> getMerchantAvailabilityRemoveSlotResponse(
       @required int id) async {
-    var post_body = jsonEncode({
+    var postBody = jsonEncode({
       "id": id,
     });
 
@@ -142,7 +169,8 @@ class MerchantRepository {
           "Accept-Language": app_language.$,
           "Authorization": "Bearer ${access_token.$}",
         },
-        body: post_body);
+        body: postBody);
+    AppConfig.alice.onHttpResponse(response, body: postBody);
     debugPrint(response.body);
     final responseBody = jsonDecode(response.body);
     if (response.statusCode == 200 && responseBody['success'] == true) {
@@ -154,7 +182,7 @@ class MerchantRepository {
 
   Future<dynamic> getMerchantAvailabilityUpdateSlotResponse(
       @required int id, @required String start, @required String end) async {
-    var post_body = jsonEncode({"id": id, "start": start, "end": end});
+    var postBody = jsonEncode({"id": id, "start": start, "end": end});
 
     Uri url = Uri.parse("${AppConfig.BASE_URL}/shop/availability/slot");
 
@@ -165,7 +193,8 @@ class MerchantRepository {
           "Accept-Language": app_language.$,
           "Authorization": "Bearer ${access_token.$}",
         },
-        body: post_body);
+        body: postBody);
+    AppConfig.alice.onHttpResponse(response, body: postBody);
     debugPrint(response.body);
     final responseBody = jsonDecode(response.body);
     if (response.statusCode == 200 && responseBody['success'] == true) {

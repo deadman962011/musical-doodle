@@ -1,13 +1,11 @@
 // ignore_for_file: unused_field
 
-import 'package:com.mybill.app/app_config.dart';
 import 'package:com.mybill.app/custom/device_info.dart';
 import 'package:com.mybill.app/helpers/auth_helper.dart';
 import 'package:com.mybill.app/helpers/shared_value_helper.dart';
 import 'package:com.mybill.app/my_theme.dart';
 import 'package:com.mybill.app/providers/locale_provider.dart';
 import 'package:com.mybill.app/screens/guest.dart';
-import 'package:com.mybill.app/screens/login.dart';
 import 'package:com.mybill.app/screens/merchant/main.dart';
 import 'package:com.mybill.app/screens/user/main.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen() : super();
+  const SplashScreen({super.key});
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
@@ -49,7 +47,7 @@ class _SplashScreenState extends State<SplashScreen> {
         future: getSharedValueHelperData(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            Future.delayed(Duration(seconds: 3)).then((value) {
+            Future.delayed(const Duration(seconds: 3)).then((value) {
               Provider.of<LocaleProvider>(context, listen: false)
                   .setLocale(app_mobile_language.$);
 
@@ -112,7 +110,7 @@ class _SplashScreenState extends State<SplashScreen> {
                         height: 200,
                         width: 200,
                         padding:
-                            EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                            const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
                         child: Image.asset(
                           "assets/splash_screen_logo.png",
                           filterQuality: FilterQuality.low,

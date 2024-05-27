@@ -1,4 +1,3 @@
-import 'package:com.mybill.app/my_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_cancellable_tile_provider/flutter_map_cancellable_tile_provider.dart';
@@ -7,7 +6,7 @@ import 'package:permission_handler/permission_handler.dart';
 
 class HomeMap extends StatefulWidget {
   final List items;
-  const HomeMap({required this.items, Key? key}) : super(key: key);
+  const HomeMap({required this.items, super.key});
 
   @override
   _HomeMapState createState() => _HomeMapState();
@@ -15,7 +14,7 @@ class HomeMap extends StatefulWidget {
 
 class _HomeMapState extends State<HomeMap> {
   bool counterRotate = false;
-  List<Marker> _markers = [];
+  final List<Marker> _markers = [];
   @override
   void initState() {
     super.initState();
@@ -75,15 +74,15 @@ class _HomeMapState extends State<HomeMap> {
           ),
           Container(
             alignment: Alignment.center,
-            margin: EdgeInsets.only(top: 10),
-            padding: EdgeInsets.all(4),
+            margin: const EdgeInsets.only(top: 10),
+            padding: const EdgeInsets.all(4),
             width: 26,
             height: 26,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(60), color: Colors.white),
             child: Text(
               '${amount.toString()}%',
-              style: TextStyle(color: Colors.black, fontSize: 10),
+              style: const TextStyle(color: Colors.black, fontSize: 10),
             ),
           ),
         ],
@@ -100,7 +99,7 @@ class _HomeMapState extends State<HomeMap> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: EdgeInsets.only(top: 16),
+        padding: const EdgeInsets.only(top: 16),
         height: 200,
         child: FlutterMap(
             options: const MapOptions(

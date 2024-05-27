@@ -15,7 +15,7 @@ import 'package:flutter/material.dart';
 
 class UserAuthRepository {
   Future<dynamic> getUserAuthenticateResponse(@required String email) async {
-    var post_body = jsonEncode({"email": "${email}"});
+    var postBody = jsonEncode({"email": email});
 
     Uri url = Uri.parse("${AppConfig.BASE_URL}/user/auth");
     final response = await http.post(url,
@@ -24,8 +24,8 @@ class UserAuthRepository {
           "Content-Type": "application/json",
           "Accept-Language": app_language.$,
         },
-        body: post_body);
-
+        body: postBody);
+    AppConfig.alice.onHttpResponse(response, body: postBody);
     debugPrint(response.body);
     if (response.statusCode == 200) {
       return userLoginResponseFromJson(response.body);
@@ -38,7 +38,7 @@ class UserAuthRepository {
 
   Future<dynamic> getUserValidateMagicLinkResponse(
       @required String token, @required String action) async {
-    var post_body = jsonEncode({"token": token, "action": action});
+    var postBody = jsonEncode({"token": token, "action": action});
 
     Uri url = Uri.parse("${AppConfig.BASE_URL}/user/auth/validate");
     final response = await http.post(url,
@@ -49,9 +49,10 @@ class UserAuthRepository {
           "latitude": user_latitude.$,
           "longitude": user_longitude.$
         },
-        body: post_body);
+        body: postBody);
 
     debugPrint(response.body);
+    AppConfig.alice.onHttpResponse(response, body: postBody);
     if (response.statusCode == 200) {
       if (action == 'verifyUserLogin') {
         return userValidateloginResponseFromJson(response.body);
@@ -67,21 +68,21 @@ class UserAuthRepository {
 
   Future<dynamic> getUserCompleteRegisterResponse(
     @required String email,
-    @required String first_name,
-    @required String last_name,
+    @required String firstName,
+    @required String lastName,
     @required String gender,
-    @required String birth_date,
-    String referral_code,
+    @required String birthDate,
+    String referralCode,
   ) async {
-    var post_body = jsonEncode({
+    var postBody = jsonEncode({
       "email": email,
-      "first_name": first_name,
-      'last_name': last_name,
-      "birth_date": birth_date,
+      "first_name": firstName,
+      'last_name': lastName,
+      "birth_date": birthDate,
       "gender": gender,
-      "referral_code": referral_code,
+      "referral_code": referralCode,
     });
-    debugPrint(post_body.toString());
+    debugPrint(postBody.toString());
 
     Uri url = Uri.parse("${AppConfig.BASE_URL}/user/auth/register/complete");
     final response = await http.post(url,
@@ -89,10 +90,13 @@ class UserAuthRepository {
           'Accept': 'application/json',
           "Content-Type": "application/json",
           "Accept-Language": app_language.$,
+          "latitude": user_latitude.$,
+          "longitude": user_longitude.$
         },
-        body: post_body);
+        body: postBody);
 
     debugPrint(response.body);
+    AppConfig.alice.onHttpResponse(response, body: postBody);
     if (response.statusCode == 201) {
       return userCompleteRegisterResponseFromJson(response.body);
     } else if (response.statusCode == 422) {
@@ -113,6 +117,7 @@ class UserAuthRepository {
         "Authorization": "Bearer ${access_token.$}",
       },
     );
+    AppConfig.alice.onHttpResponse(response, body: null);
     if (response.statusCode == 200) {
       return userProfileResponseFromJson(response.body);
     } else {
@@ -121,18 +126,18 @@ class UserAuthRepository {
   }
 
   Future<dynamic> getUserProfileUpdateResponse(
-    @required String first_name,
-    @required String last_name,
+    @required String firstName,
+    @required String lastName,
     @required String gender,
-    @required String birth_date,
+    @required String birthDate,
   ) async {
-    var post_body = jsonEncode({
-      "first_name": first_name,
-      'last_name': last_name,
-      "birth_date": birth_date,
+    var postBody = jsonEncode({
+      "first_name": firstName,
+      'last_name': lastName,
+      "birth_date": birthDate,
       "gender": gender,
     });
-    debugPrint(post_body);
+    debugPrint(postBody);
     Uri url = Uri.parse("${AppConfig.BASE_URL}/user/auth/profile");
     final response = await http.post(url,
         headers: {
@@ -141,9 +146,10 @@ class UserAuthRepository {
           "Accept-Language": app_language.$,
           "Authorization": "Bearer ${access_token.$}",
         },
-        body: post_body);
+        body: postBody);
 
     debugPrint(response.body);
+    AppConfig.alice.onHttpResponse(response, body: postBody);
     if (response.statusCode == 200) {
       return userProfileUpdateResponseFromJson(response.body);
     } else {
@@ -153,7 +159,7 @@ class UserAuthRepository {
 
   Future<dynamic> getUserProfileUpdateImageResponse(
       @required String image, @required String filename) async {
-    var post_body = jsonEncode({"image": "${image}", "filename": "$filename"});
+    var postBody = jsonEncode({"image": image, "filename": filename});
     Uri url = Uri.parse("${AppConfig.BASE_URL}/user/auth/profile/update-image");
     final response = await http.post(url,
         headers: {
@@ -162,7 +168,8 @@ class UserAuthRepository {
           "Accept-Language": app_language.$,
           "Authorization": "Bearer ${access_token.$}",
         },
-        body: post_body);
+        body: postBody);
+    AppConfig.alice.onHttpResponse(response, body: postBody);
     if (response.statusCode == 200) {
       return userProfileUploadImageResponseFromJson(response.body);
     } else {

@@ -1,15 +1,11 @@
-import 'package:com.mybill.app/custom/box_decorations.dart';
-import 'package:com.mybill.app/custom/device_info.dart';
 import 'package:com.mybill.app/helpers/shared_value_helper.dart';
-import 'package:com.mybill.app/my_theme.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../custom/device_info.dart';
 
 class AuthScreen {
   // static GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  static ScrollController _mainScrollController = ScrollController();
+  static final ScrollController _mainScrollController = ScrollController();
   static Widget buildScreen(
       BuildContext context,
       String headerText,
@@ -30,7 +26,7 @@ class AuthScreen {
                   child: Image.asset('assets/auth_bg.png'),
                 ),
                 Padding(
-                    padding: EdgeInsets.only(
+                    padding: const EdgeInsets.only(
                       left: 14,
                       right: 14,
                       // bottom: MediaQuery.of(context).viewInsets.bottom

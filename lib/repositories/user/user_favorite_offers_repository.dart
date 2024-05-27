@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:com.mybill.app/models/responses/user/offer/user_offers_response.dart';
-import 'package:com.mybill.app/models/responses/validation_response.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:com.mybill.app/app_config.dart';
@@ -8,7 +7,7 @@ import 'package:com.mybill.app/helpers/shared_value_helper.dart';
 
 class UserFavoriteOfferRepository {
   Future<dynamic> getUserFavoriteOffersResponse({int page = 1}) async {
-    Uri url = Uri.parse("${AppConfig.BASE_URL}/user/offer_favorite?=${page}");
+    Uri url = Uri.parse("${AppConfig.BASE_URL}/user/offer_favorite?=$page");
 
     final response = await http.get(
       url,
@@ -30,13 +29,13 @@ class UserFavoriteOfferRepository {
 
   Future<dynamic> toggleUserFavoriteOffersResponse(
       {required int offerId}) async {
-    var post_body = jsonEncode({"offer_id": "${offerId}"});
+    var postBody = jsonEncode({"offer_id": "$offerId"});
 
     Uri url = Uri.parse("${AppConfig.BASE_URL}/user/offer_favorite");
 
     final response = await http.post(
       url,
-      body: post_body,
+      body: postBody,
       headers: {
         'Accept': 'application/json',
         "Content-Type": "application/json",
@@ -44,6 +43,7 @@ class UserFavoriteOfferRepository {
         "Authorization": "Bearer ${access_token.$}",
       },
     );
+    AppConfig.alice.onHttpResponse(response, body: postBody);
     debugPrint(response.body.toString());
     // response.body
     if (response.statusCode == 200) {

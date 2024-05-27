@@ -1,11 +1,8 @@
-import 'package:com.mybill.app/custom/toast_component.dart';
-import 'package:com.mybill.app/helpers/shared_value_helper.dart';
-import 'package:com.mybill.app/models/items/Offer.dart';
-import 'package:com.mybill.app/repositories/user/user_favorite_offers_repository.dart';
+import 'package:com.mybill.app/screens/user/main.dart';
 import 'package:flutter/material.dart';
 import 'package:com.mybill.app/my_theme.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:toast/toast.dart';
+
+import 'package:com.mybill.app/generated/l10n.dart';
 // import 'package:com.mybill.app/providers/offer_provider.dart';
 // import 'package:com.mybill.app/screens/merchant/offers/add_offer.dart';
 // import 'package:com.mybill.app/ui_elements/dialog.dart';
@@ -23,13 +20,13 @@ class UserAppBar {
           Row(
             children: [
               Text(
-                AppLocalizations.of(context)!.balance,
-                style: TextStyle(
+                S.of(context).balance,
+                style: const TextStyle(
                     fontSize: 18,
                     // height: 37.48,
                     fontWeight: FontWeight.w700),
               ),
-              Text(' : 0',
+              const Text(' : 0',
                   style: TextStyle(
                       fontSize: 20,
                       // height: 37.48,
@@ -58,6 +55,7 @@ class UserAppBar {
       case 'edit_profile':
       case 'favorite':
       case 'notifications':
+      case 'scan':
         widgets = [
           _buildBackButton(context),
           _buildTitle(title),
@@ -67,14 +65,33 @@ class UserAppBar {
         ];
         break;
 
+      case 'wallet':
+        widgets = [
+          Container(
+            width: 50,
+          ),
+          _buildTitle(title),
+          Container(
+            width: 50,
+          )
+        ];
+        break;
+
       default:
+        widgets = [
+          _buildBackButton(context),
+          _buildTitle(title),
+          Container(
+            width: 50,
+          )
+        ];
     }
 
     return PreferredSize(
         preferredSize: const Size.fromHeight(80),
         child: Container(
           width: MediaQuery.of(context).size.width,
-          margin: EdgeInsets.only(top: 30, bottom: 10),
+          margin: const EdgeInsets.only(top: 30, bottom: 10),
           padding: const EdgeInsets.symmetric(
             horizontal: 14,
           ),
@@ -90,7 +107,7 @@ class UserAppBar {
   static Widget _buildTitle(title) {
     return Text(
       title,
-      style: TextStyle(fontWeight: FontWeight.w800, fontSize: 14),
+      style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 14),
     );
   }
 
@@ -100,9 +117,21 @@ class UserAppBar {
       width: 40,
       height: 40,
       child: IconButton(
-        icon: Icon(Icons.chevron_left),
+        icon: const Icon(Icons.chevron_left),
         onPressed: () {
-          Navigator.pop(context);
+          final hasHistory = Navigator.of(context).canPop();
+          debugPrint(
+              'back clicjedasdasljkfdsklfjkldsjflsdjflksdf, ${hasHistory}');
+          if (hasHistory) {
+            Navigator.pop(context);
+          } else {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) {
+                return UserMain();
+              }),
+            );
+          }
         },
       ),
     );
@@ -124,13 +153,13 @@ class UserAppBar {
   }
 
   static Widget _buildLocationOfferButton(context) {
-    return Container(
+    return SizedBox(
       width: 40,
       height: 40,
       child: IconButton(
         color: MyTheme.accent_color,
         onPressed: () {},
-        icon: Icon(Icons.place),
+        icon: const Icon(Icons.place),
       ),
     );
   }

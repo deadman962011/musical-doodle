@@ -2,17 +2,19 @@ import 'package:com.mybill.app/helpers/shared_value_helper.dart';
 import 'package:com.mybill.app/my_theme.dart';
 import 'package:com.mybill.app/ui_elements/user_appbar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import 'package:com.mybill.app/generated/l10n.dart';
 
 class UserNotifications extends StatefulWidget {
-  const UserNotifications({Key? key}) : super(key: key);
+  const UserNotifications({super.key});
 
   @override
   _NotificationsState createState() => _NotificationsState();
 }
 
 class _NotificationsState extends State<UserNotifications> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -20,11 +22,11 @@ class _NotificationsState extends State<UserNotifications> {
             app_language_rtl.$ ? TextDirection.rtl : TextDirection.ltr,
         child: Scaffold(
           key: _scaffoldKey,
-          appBar: UserAppBar.buildUserAppBar(context, 'notifications',
-              AppLocalizations.of(context)!.notifications, {}),
+          appBar: UserAppBar.buildUserAppBar(
+              context, 'notifications', S.of(context).notifications, {}),
           body: Container(
               width: MediaQuery.of(context).size.width,
-              padding: EdgeInsets.symmetric(horizontal: 14),
+              padding: const EdgeInsets.symmetric(horizontal: 14),
               child: RefreshIndicator(
                   color: MyTheme.accent_color,
                   backgroundColor: Colors.white,
@@ -54,8 +56,8 @@ class _NotificationsState extends State<UserNotifications> {
             'assets/bell_medium.png',
             color: MyTheme.accent_color,
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8),
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 8),
             child: Text(
               'No Notifications',
               style: TextStyle(fontWeight: FontWeight.bold),

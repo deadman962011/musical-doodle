@@ -1,9 +1,6 @@
-import 'package:com.mybill.app/app_config.dart';
 import 'package:com.mybill.app/helpers/general_helper.dart';
-import 'package:com.mybill.app/helpers/shared_value_helper.dart';
 import 'package:com.mybill.app/repositories/category_repository.dart';
 import 'package:com.mybill.app/repositories/zones_repository.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:com.mybill.app/custom/box_decorations.dart';
 import 'package:com.mybill.app/custom/device_info.dart';
@@ -12,16 +9,18 @@ import 'package:com.mybill.app/repositories/merchant/merchant_auth_repository.da
 import 'package:com.mybill.app/screens/merchant/location_selector.dart';
 import 'package:com.mybill.app/screens/merchant/registration_completed.dart';
 import 'package:com.mybill.app/ui_elements/auth_ui.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:com.mybill.app/custom/input_decorations.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import 'package:com.mybill.app/generated/l10n.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:intl_phone_field/countries.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:multi_dropdown/multiselect_dropdown.dart';
 import 'package:form_builder_extra_fields/form_builder_extra_fields.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 
 class MerchantRegistration extends StatefulWidget {
   final String email;
@@ -33,17 +32,17 @@ class MerchantRegistration extends StatefulWidget {
 }
 
 class _MerchantRegistrationState extends State<MerchantRegistration> {
-  final Debounce _debounce = Debounce(Duration(milliseconds: 900));
+  final Debounce _debounce = Debounce(const Duration(milliseconds: 900));
   Map<String, dynamic> _errors = {};
   //controllers
-  TextEditingController _shopNameController = TextEditingController();
-  TextEditingController _address = TextEditingController();
-  MultiSelectController _categoriesController = MultiSelectController();
-  TextEditingController _taxRegisterController = TextEditingController();
-  TextEditingController _ownerNameController = TextEditingController();
-  TextEditingController _phoneController = TextEditingController();
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _referralCodeController = TextEditingController();
+  final TextEditingController _shopNameController = TextEditingController();
+  final TextEditingController _address = TextEditingController();
+  final MultiSelectController _categoriesController = MultiSelectController();
+  final TextEditingController _taxRegisterController = TextEditingController();
+  final TextEditingController _ownerNameController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _referralCodeController = TextEditingController();
 
   // TextEditingController _nameController = TextEditingController();
   // final _formKey = GlobalKey<FormState>();
@@ -51,12 +50,43 @@ class _MerchantRegistrationState extends State<MerchantRegistration> {
   late List _categories_list = [];
   late List _zones_list = [];
   String categoriesIds = '';
+  String fullPhone = '';
   int? zoneId;
   LatLng? selectedLocation;
   bool _isLoading = false;
-  bool _enableBtn = false;
-
+  final bool _enableBtn = false;
   bool obscureText = true;
+  Country _country = Country(
+    name: "Saudi Arabia",
+    nameTranslations: {
+      "sk": "Saudská Arábia",
+      "se": "Saudi-Arábia",
+      "pl": "Arabia Saudyjska",
+      "no": "Saudi-Arabia",
+      "ja": "サウジアラビア",
+      "it": "Arabia Saudita",
+      "zh": "沙特阿拉伯",
+      "nl": "Saoedi-Arabië",
+      "de": "Saudi-Arabien",
+      "fr": "Arabie saoudite",
+      "es": "Arabia Saudí",
+      "en": "Saudi Arabia",
+      "pt_BR": "Arábia Saudita",
+      "sr-Cyrl": "Саудијска Арабија",
+      "sr-Latn": "Saudijska Arabija",
+      "zh_TW": "沙烏地阿拉",
+      "tr": "Suudi Arabistan",
+      "ro": "Arabia Saudită",
+      "ar": "السعودية",
+      "fa": "عربستان سعودی",
+      "yue": "沙地阿拉伯"
+    },
+    flag: "🇸🇦",
+    code: "SA",
+    dialCode: "966",
+    minLength: 9,
+    maxLength: 9,
+  );
 
   void toggleObscureText() {
     setState(() {
@@ -89,8 +119,8 @@ class _MerchantRegistrationState extends State<MerchantRegistration> {
     var response = await CategoryRepository().getAllCategoriesResponse();
     if (response.runtimeType.toString() == 'AllCategoriesResponse') {
       List<dynamic> categories = response.categories;
-      if (categories.length > 0) {
-        categories.forEach((category) {
+      if (categories.isNotEmpty) {
+        for (var category in categories) {
           dropDownItems.add(DropdownMenuItem(
             value: category.id,
             child: Text(
@@ -98,7 +128,7 @@ class _MerchantRegistrationState extends State<MerchantRegistration> {
               // style: TextStyle(color: Colors.white),
             ),
           ));
-        });
+        }
       }
       setState(() {
         _categories_list = dropDownItems;
@@ -112,13 +142,13 @@ class _MerchantRegistrationState extends State<MerchantRegistration> {
     var response = await ZoneRepository().getAllZonesResponse();
     if (response.runtimeType.toString() == 'AllZonesResponse') {
       List<dynamic> zones = response.zones;
-      if (zones.length > 0) {
-        zones.forEach((zone) {
+      if (zones.isNotEmpty) {
+        for (var zone in zones) {
           dropDownItems.add(DropdownMenuItem(
             value: zone.id,
             child: Text(zone.name),
           ));
-        });
+        }
       }
       setState(() {
         _zones_list = dropDownItems;
@@ -127,36 +157,35 @@ class _MerchantRegistrationState extends State<MerchantRegistration> {
   }
 
   onPressedMerchantRegister() async {
-    String shop_name = _shopNameController.text.toString();
-    String categories_ids = categoriesIds;
-    String shop_tax_register = _taxRegisterController.text.toString();
-    String shop_address = _address.text.toString();
-    String shop_admin_name = _ownerNameController.text.toString();
-    String shop_admin_phone = _phoneController.text.toString();
-    String shop_admin_email =
-        widget.email; //  _emailController.text.toString();
-    String referral_code = _referralCodeController.text.toString();
-
+    String shopName = _shopNameController.text.toString();
+    String categoriesIdsInp = categoriesIds;
+    String shopTaxRegister = _taxRegisterController.text.toString();
+    String shopAddress = _address.text.toString();
+    String shopAdminName = _ownerNameController.text.toString();
+    String shopAdminPhone = fullPhone;
+    // String shopAdminPhone = _phoneController.text.toString();
+    String shopAdminEmail = widget.email; //  _emailController.text.toString();
+    String referralCode = _referralCodeController.text.toString();
     setState(() {
       _isLoading = true;
     });
 
     var response = await MerchantAuthRepository()
         .getMerchantCompleteRegisterResponse(
-            shop_name,
-            shop_address,
-            categories_ids,
-            shop_tax_register,
-            shop_admin_name,
-            shop_admin_phone,
-            shop_admin_email,
+            shopName,
+            shopAddress,
+            categoriesIdsInp,
+            shopTaxRegister,
+            shopAdminName,
+            shopAdminPhone,
+            shopAdminEmail,
             selectedLocation!.longitude.toString(),
             selectedLocation!.latitude.toString(),
             zoneId!,
-            referral_code);
+            referralCode);
     if (response.runtimeType.toString() == 'MerchantCompleteRegisterResponse') {
       Navigator.push(context, MaterialPageRoute(builder: (context) {
-        return RegistartionCompleted();
+        return const RegistartionCompleted();
       }));
       // Navi
     } else if (response.runtimeType.toString() == 'ValidationResponse') {
@@ -187,7 +216,9 @@ class _MerchantRegistrationState extends State<MerchantRegistration> {
     if (zoneId == null) {
       return false;
     }
-
+    if (fullPhone == '') {
+      return false;
+    }
     if (selectedLocation == null) {
       return false;
     }
@@ -205,19 +236,12 @@ class _MerchantRegistrationState extends State<MerchantRegistration> {
     } else {
       return MyTheme.accent_color_shadow;
     }
-
-    // if (_formKey.currentState == null ||
-    //     !_formKey.currentState!.isValid ||
-    //     categoriesIds.isEmpty) {
-    //   return MyTheme.grey_153;
-    // }
-    // if (_isLoading) {}
   }
 
   @override
   Widget build(BuildContext context) {
-    final _screen_height = MediaQuery.of(context).size.height;
-    final _screen_width = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
 
     final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
     return AuthScreen.buildScreen(context, 'Merchant Registration',
@@ -240,14 +264,14 @@ class _MerchantRegistrationState extends State<MerchantRegistration> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(vertical: 16),
+              padding: const EdgeInsets.symmetric(vertical: 16),
               child: Column(
                 children: [
                   Text(
-                    AppLocalizations.of(context)!
-                        .please_enter_your_informations_to_continue,
+                    S.of(context).please_enter_your_informations_to_continue,
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 16),
                   )
                 ],
               ),
@@ -264,7 +288,7 @@ class _MerchantRegistrationState extends State<MerchantRegistration> {
               child: Column(
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(bottom: 8),
+                    padding: const EdgeInsets.only(bottom: 8),
                     child: FormBuilderTextField(
                       // autofocus: false,
                       // autovalidateMode: AutovalidateMode.always,
@@ -272,7 +296,7 @@ class _MerchantRegistrationState extends State<MerchantRegistration> {
                       controller: _shopNameController,
                       autovalidateMode: AutovalidateMode.disabled,
                       decoration: InputDecorations.buildInputDecoration_1(
-                          hint_text: AppLocalizations.of(context)!.shop_name),
+                          hint_text: S.of(context).shop_name),
                       validator: FormBuilderValidators.compose([
                         FormBuilderValidators.required(),
                         FormBuilderValidators.minLength(3),
@@ -285,40 +309,53 @@ class _MerchantRegistrationState extends State<MerchantRegistration> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        DropdownSearch.multiSelection(
-                            dropdownBuilder: (context, selectedItems) {
-                              if (selectedItems.isNotEmpty) {
-                                return Wrap(
-                                    children: selectedItems.map((e) {
-                                  return Container(
-                                    margin: EdgeInsets.symmetric(
-                                        vertical: 8, horizontal: 6),
-                                    padding: const EdgeInsets.symmetric(
-                                      vertical: 10,
-                                      horizontal: 10,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      color: MyTheme.accent_color,
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    child: Text(
-                                          e.child.data,
-                                          style: TextStyle(color: Colors.white),
-                                        ) ??
-                                        Text(''),
-                                  );
-                                }).toList());
+                        DropdownSearch(
+                            dropdownBuilder: (context, selectedItem) {
+                              if (selectedItem != null) {
+                                return Padding(
+                                    padding: const EdgeInsets.all(4.0),
+                                    child: Container(
+                                      child: ListTile(
+                                        contentPadding: const EdgeInsets.all(0),
+                                        title: selectedItem,
+                                      ),
+                                    ));
                               } else {
-                                return Text(AppLocalizations.of(context)!
-                                    .select_category);
+                                return const Text('Select Category');
                               }
                             },
+                            // dropdownBuilder: (context, selectedItems) {
+
+                            //   if (selectedItems.isNotEmpty) {
+                            //     return Wrap(
+                            //         children: selectedItems.map((e) {
+                            //       return Container(
+                            //         margin: const EdgeInsets.symmetric(
+                            //             vertical: 8, horizontal: 6),
+                            //         padding: const EdgeInsets.symmetric(
+                            //           vertical: 10,
+                            //           horizontal: 10,
+                            //         ),
+                            //         decoration: BoxDecoration(
+                            //           color: MyTheme.accent_color,
+                            //           borderRadius: BorderRadius.circular(20),
+                            //         ),
+                            //         child: Text(
+                            //               e.child.data,
+                            //               style: const TextStyle(
+                            //                   color: Colors.white),
+                            //             ) ??
+                            //             const Text(''),
+                            //       );
+                            //     }).toList());
+                            //   } else {
+                            //     return Text(S.of(context).select_category);
+                            //   }
+                            // },
                             onChanged: (value) {
                               setState(
                                 () {
-                                  categoriesIds = value
-                                      .map((item) => item.value)
-                                      .join(', ');
+                                  categoriesIds = value.value.toString();
                                 },
                               );
                             },
@@ -327,18 +364,15 @@ class _MerchantRegistrationState extends State<MerchantRegistration> {
                                 showSearchBox: true,
                                 isFilterOnline: true,
                                 searchDelay:
-                                    Duration(seconds: 0, milliseconds: 1),
+                                    const Duration(seconds: 0, milliseconds: 1),
                                 searchFieldProps: TextFieldProps(
                                     decoration: InputDecorations
                                         .buildDropdownInputDecoration_1(
-                                            hint_text:
-                                                AppLocalizations.of(context)!
-                                                    .search))),
+                                            hint_text: S.of(context).search))),
                             dropdownDecoratorProps: DropDownDecoratorProps(
                               dropdownSearchDecoration:
                                   InputDecorations.buildInputDecoration_1(
-                                      hint_text:
-                                          AppLocalizations.of(context)!.search),
+                                      hint_text: S.of(context).search),
                             ),
                             items: _categories_list,
                             filterFn: (i, s) {
@@ -348,13 +382,13 @@ class _MerchantRegistrationState extends State<MerchantRegistration> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(bottom: 8),
+                    padding: const EdgeInsets.only(bottom: 8),
                     child: FormBuilderTextField(
                       name: 'tax_name',
                       controller: _taxRegisterController,
                       autovalidateMode: AutovalidateMode.disabled,
                       decoration: InputDecorations.buildInputDecoration_1(
-                        hint_text: AppLocalizations.of(context)!.tex_register,
+                        hint_text: S.of(context).tex_register,
                         error_text: _errors['tax_register'] != null
                             ? _errors['tax_register']![0]
                             : null,
@@ -371,7 +405,7 @@ class _MerchantRegistrationState extends State<MerchantRegistration> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(bottom: 8),
+                    padding: const EdgeInsets.only(bottom: 8),
                     child: FormBuilderTextField(
                       // autofocus: false,
                       // autovalidateMode: AutovalidateMode.always,
@@ -379,8 +413,7 @@ class _MerchantRegistrationState extends State<MerchantRegistration> {
                       controller: _ownerNameController,
                       autovalidateMode: AutovalidateMode.disabled,
                       decoration: InputDecorations.buildInputDecoration_1(
-                          hint_text:
-                              AppLocalizations.of(context)!.shop_admin_name),
+                          hint_text: S.of(context).shop_admin_name),
                       validator: FormBuilderValidators.compose([
                         FormBuilderValidators.required(),
                         FormBuilderValidators.minLength(3),
@@ -389,31 +422,64 @@ class _MerchantRegistrationState extends State<MerchantRegistration> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(bottom: 8),
-                    child: FormBuilderTextField(
-                      // autofocus: false,
-                      // autovalidateMode: AutovalidateMode.always,
-                      name: 'shop_admin_phone',
-                      controller: _phoneController,
-                      autovalidateMode: AutovalidateMode.disabled,
-                      decoration: InputDecorations.buildInputDecoration_1(
-                          error_text: _errors['shop_admin_phone'] != null
-                              ? _errors['shop_admin_phone']![0]
-                              : null,
-                          hint_text:
-                              AppLocalizations.of(context)!.shop_admin_phone),
+                      padding: const EdgeInsets.only(bottom: 8),
+                      child: IntlPhoneField(
+                        enabled: true,
+                        onChanged: (phone) {
+                          List<String> _prefixes = [
+                            '50',
+                            '53',
+                            '54',
+                            '55',
+                            '059',
+                            '58',
+                            '56',
+                            '57'
+                          ];
 
-                      validator: FormBuilderValidators.compose([
-                        FormBuilderValidators.required(),
-                        FormBuilderValidators.minLength(10),
-                      ]),
-                      textInputAction: TextInputAction.next,
-                      inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.digitsOnly
-                      ],
-                      keyboardType: TextInputType.number,
-                    ),
-                  ),
+                          if (phone.number.length >= _country.minLength &&
+                              phone.number.length <= _country.maxLength &&
+                              _prefixes
+                                  .contains(phone.number.substring(0, 3))) {
+                            setState(() {
+                              fullPhone = phone.number;
+                            });
+                          } else {
+                            setState(() {
+                              fullPhone = '';
+                            });
+                          }
+                        },
+                        countries: [_country],
+                        controller: _phoneController,
+                        decoration:
+                            InputDecorations.buildDropdownInputDecoration_1(),
+                        initialCountryCode: 'SA',
+                      )
+
+                      // FormBuilderTextField(
+                      //   // autofocus: false,
+                      //   // autovalidateMode: AutovalidateMode.always,
+                      //   name: 'shop_admin_phone',
+                      //   controller: _phoneController,
+                      //   autovalidateMode: AutovalidateMode.disabled,
+                      //   decoration: InputDecorations.buildInputDecoration_1(
+                      //       error_text: _errors['shop_admin_phone'] != null
+                      //           ? _errors['shop_admin_phone']![0]
+                      //           : null,
+                      //       hint_text: S.of(context).shop_admin_phone),
+
+                      //   validator: FormBuilderValidators.compose([
+                      //     FormBuilderValidators.required(),
+                      //     FormBuilderValidators.minLength(10),
+                      //   ]),
+                      //   textInputAction: TextInputAction.next,
+                      //   inputFormatters: <TextInputFormatter>[
+                      //     FilteringTextInputFormatter.digitsOnly
+                      //   ],
+                      //   keyboardType: TextInputType.number,
+                      // ),
+                      ),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 8.0),
                     child: Column(
@@ -426,34 +492,33 @@ class _MerchantRegistrationState extends State<MerchantRegistration> {
                                     padding: const EdgeInsets.all(4.0),
                                     child: Container(
                                       child: ListTile(
-                                        contentPadding: EdgeInsets.all(0),
+                                        contentPadding: const EdgeInsets.all(0),
                                         title: selectedItem,
                                       ),
                                     ));
                               } else {
-                                return Text('Select Zone');
+                                return const Text('Select Zone');
                               }
                             },
                             onChanged: (value) {
-                              zoneId = value.value;
+                              setState(() {
+                                zoneId = value.value;
+                              });
                             },
                             popupProps: PopupPropsMultiSelection.menu(
                                 itemBuilder: _customPopupItemBuilder,
                                 showSearchBox: true,
                                 isFilterOnline: true,
                                 searchDelay:
-                                    Duration(seconds: 0, milliseconds: 1),
+                                    const Duration(seconds: 0, milliseconds: 1),
                                 searchFieldProps: TextFieldProps(
                                     decoration: InputDecorations
                                         .buildDropdownInputDecoration_1(
-                                            hint_text:
-                                                AppLocalizations.of(context)!
-                                                    .search))),
+                                            hint_text: S.of(context).search))),
                             dropdownDecoratorProps: DropDownDecoratorProps(
                               dropdownSearchDecoration:
                                   InputDecorations.buildInputDecoration_1(
-                                      hint_text:
-                                          AppLocalizations.of(context)!.search),
+                                      hint_text: S.of(context).search),
                             ),
                             items: _zones_list,
                             filterFn: (i, s) {
@@ -463,7 +528,7 @@ class _MerchantRegistrationState extends State<MerchantRegistration> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(bottom: 8),
+                    padding: const EdgeInsets.only(bottom: 8),
                     child: FormBuilderTextField(
                       // autofocus: false,
                       // autovalidateMode: AutovalidateMode.always,
@@ -471,8 +536,7 @@ class _MerchantRegistrationState extends State<MerchantRegistration> {
                       name: 'referral_code',
                       autovalidateMode: AutovalidateMode.disabled,
                       decoration: InputDecorations.buildInputDecoration_1(
-                          hint_text:
-                              AppLocalizations.of(context)!.referral_code),
+                          hint_text: S.of(context).referral_code),
                       textInputAction: TextInputAction.send,
                     ),
                   ),
@@ -496,14 +560,15 @@ class _MerchantRegistrationState extends State<MerchantRegistration> {
                                 ]),
                             child: TextButton(
                               child: Text(
-                                AppLocalizations.of(context)!.select_location,
+                                S.of(context).select_location,
                                 style: TextStyle(color: MyTheme.accent_color),
                               ),
                               onPressed: () {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => LocationSelector()),
+                                      builder: (context) =>
+                                          const LocationSelector()),
                                 ).then((selectedLocation) => {
                                       setState(() {
                                         this.selectedLocation =
@@ -545,7 +610,7 @@ class _MerchantRegistrationState extends State<MerchantRegistration> {
                                             .transparent, // Customize the background color if needed
                                       ))
                                   : Text(
-                                      AppLocalizations.of(context)!.continue_b,
+                                      S.of(context).continue_b,
                                       style: TextStyle(
                                         color: MyTheme.white,
                                         fontSize: 16,
@@ -562,8 +627,7 @@ class _MerchantRegistrationState extends State<MerchantRegistration> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  AppLocalizations.of(context)!
-                                      .by_clicking_continue_you_are,
+                                  S.of(context).by_clicking_continue_you_are,
                                   style: TextStyle(
                                       color: MyTheme.grey_153,
                                       fontSize: 8,
@@ -574,9 +638,7 @@ class _MerchantRegistrationState extends State<MerchantRegistration> {
                                         minimumSize: Size.zero,
                                         padding: EdgeInsets.zero),
                                     onPressed: () {},
-                                    child: Text(
-                                        AppLocalizations.of(context)!
-                                            .terms_conditions,
+                                    child: Text(S.of(context).terms_conditions,
                                         style: TextStyle(
                                             decoration:
                                                 TextDecoration.underline,
@@ -597,7 +659,7 @@ class _MerchantRegistrationState extends State<MerchantRegistration> {
 
   Widget _customPopupItemBuilder(BuildContext context, item, bool isSelected) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 8),
+      margin: const EdgeInsets.symmetric(horizontal: 8),
       decoration: !isSelected
           ? null
           : BoxDecoration(

@@ -12,7 +12,7 @@ class BoxDecorations {
           color: Colors.black.withOpacity(.08),
           blurRadius: blurRadius,
           spreadRadius: 0.0,
-          offset: Offset(0.0, 6.0), // shadow direction: bottom right
+          offset: const Offset(0.0, 0.0), // shadow direction: bottom right
         )
       ],
     );
@@ -21,14 +21,14 @@ class BoxDecorations {
   static BoxDecoration buildBoxDecoration2({double radius = 6.0}) {
     return BoxDecoration(
       borderRadius: BorderRadius.circular(radius),
-      color: Color.fromARGB(255, 236, 236, 236),
+      color: const Color.fromARGB(255, 236, 236, 236),
       // Colors.grey.shade200
       boxShadow: [
         BoxShadow(
           color: Colors.black.withOpacity(.08),
           blurRadius: 20,
           spreadRadius: 0.0,
-          offset: Offset(0.0, 10.0), // shadow direction: bottom right
+          offset: const Offset(0.0, 10.0), // shadow direction: bottom right
         )
       ],
     );
@@ -43,7 +43,7 @@ class BoxDecorations {
           color: Colors.black.withOpacity(.24),
           blurRadius: 6,
           spreadRadius: 0.0,
-          offset: Offset(0.0, 0.0), // shadow direction: bottom right
+          offset: const Offset(0.0, 0.0), // shadow direction: bottom right
         )
       ],
     );
@@ -58,7 +58,7 @@ class BoxDecorations {
           color: Colors.black.withOpacity(.08),
           blurRadius: 20,
           spreadRadius: 0.0,
-          offset: Offset(0.0, 8.0), // shadow direction: bottom right
+          offset: const Offset(0.0, 8.0), // shadow direction: bottom right
         )
       ],
     );
@@ -67,7 +67,7 @@ class BoxDecorations {
   static BoxDecoration buildCartCircularButtonDecoration() {
     return BoxDecoration(
       borderRadius: BorderRadius.circular(16.0),
-      color: Color.fromRGBO(229, 241, 248, 1),
+      color: const Color.fromRGBO(229, 241, 248, 1),
     );
   }
 
@@ -80,7 +80,7 @@ class BoxDecorations {
           color: Colors.black.withOpacity(.08),
           blurRadius: 20,
           spreadRadius: 0.0,
-          offset: Offset(0.0, 10.0), // shadow direction: bottom right
+          offset: const Offset(0.0, 10.0), // shadow direction: bottom right
         )
       ],
     );

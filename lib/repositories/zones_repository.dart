@@ -1,5 +1,4 @@
 import 'package:com.mybill.app/models/responses/zone/all_zones_response.dart';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:com.mybill.app/app_config.dart';
 import 'package:com.mybill.app/helpers/shared_value_helper.dart';
@@ -15,6 +14,7 @@ class ZoneRepository {
         "Accept-Language": app_language.$,
       },
     );
+    AppConfig.alice.onHttpResponse(response, body: null);
     if (response.statusCode == 200) {
       return allZonesResponseFromJson(response.body);
     } else {
