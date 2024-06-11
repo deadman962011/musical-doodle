@@ -2,6 +2,7 @@ import 'package:com.mybill.app/custom/box_decorations.dart';
 import 'package:com.mybill.app/helpers/shared_value_helper.dart';
 import 'package:com.mybill.app/helpers/shimmer_helper.dart';
 import 'package:com.mybill.app/models/items/MerchantIOffer.dart';
+import 'package:com.mybill.app/models/responses/merchant/offer/merchant_offers_response.dart';
 import 'package:com.mybill.app/my_theme.dart';
 import 'package:com.mybill.app/providers/offer_provider.dart';
 import 'package:com.mybill.app/repositories/merchant/merchant_offer_repository.dart';
@@ -31,9 +32,9 @@ class _MerchantOffersState extends State<MerchantOffers>
   @override
   void initState() {
     // TODO: implement initState
+    super.initState();
     reset();
     fetchOffers();
-    super.initState();
 
     _mainScrollController.addListener(() {
       if (_mainScrollController.position.pixels ==
@@ -51,16 +52,17 @@ class _MerchantOffersState extends State<MerchantOffers>
   fetchOffers() async {
     final offerProvider = Provider.of<OfferProvider>(context, listen: false);
     offerProvider.clearFirstOffer();
-    await MerchantOfferRepository()
-        .getMerchantOffersResponse(page: _page)
-        .then((value) {
-      if (value.runtimeType.toString() == 'MerchantOffersResponse') {
-        _offersList = value.offers;
-        if (_offersList.isNotEmpty) {
-          offerProvider.setFirstOffer(_offersList.first);
-        }
-      } else {}
-    });
+    // if (offerProvider.firstOffer != null) {}
+
+    var response =
+        await MerchantOfferRepository().getMerchantOffersResponse(page: _page);
+    debugPrint(response.runtimeType.toString());
+    if (response.runtimeType.toString() == 'MerchantOffersResponse') {
+      _offersList = response.offers;
+      if (response.offers.isNotEmpty) {
+        offerProvider.setFirstOffer(_offersList.first);
+      }
+    }
     setState(() {
       _isOffersLoading = false;
     });
@@ -209,7 +211,7 @@ class _MerchantOffersState extends State<MerchantOffers>
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     children: [
-                                      const Text('sales'),
+                                        Text(S.of(context).sales),
                                       Text(offer.sales.toString())
                                     ],
                                   )),
@@ -221,7 +223,7 @@ class _MerchantOffersState extends State<MerchantOffers>
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     children: [
-                                      const Text('Commissions'),
+                                       Text(S.of(context).commission),
                                       Text(offer.commission.toString())
                                     ],
                                   )),
@@ -233,7 +235,7 @@ class _MerchantOffersState extends State<MerchantOffers>
                       context,
                       MaterialPageRoute(
                           builder: (context) => OfferDetails(
-                                offer: offer,
+                                offerId: offer.id,
                               )));
                 },
               );

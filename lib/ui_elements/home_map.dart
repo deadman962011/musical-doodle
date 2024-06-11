@@ -1,3 +1,4 @@
+import 'package:com.mybill.app/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_cancellable_tile_provider/flutter_map_cancellable_tile_provider.dart';
@@ -50,8 +51,8 @@ class _HomeMapState extends State<HomeMap> {
       // Handle the case where the user did not grant permission
       // You might want to show a dialog or a snackbar to inform the user
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Location permission is required to use this feature.'),
+          SnackBar(
+          content: Text(S.of(context).location_permission_is_required),
           duration: Duration(seconds: 3),
         ),
       );
@@ -69,20 +70,28 @@ class _HomeMapState extends State<HomeMap> {
           // Icon(Icons.location_pin, size: 60, color: MyTheme.accent_color),
           Image.asset(
             'assets/location_pin.png',
-            width: 64,
-            height: 64,
+            width: 74,
+            height: 74,
           ),
           Container(
-            alignment: Alignment.center,
             margin: const EdgeInsets.only(top: 10),
             padding: const EdgeInsets.all(4),
-            width: 26,
-            height: 26,
+            width: 32,
+            height: 32,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(60), color: Colors.white),
-            child: Text(
-              '${amount.toString()}%',
-              style: const TextStyle(color: Colors.black, fontSize: 10),
+            child: Row(
+              // textDirection: TextD,
+              children: [
+                Text(
+                  '${amount.toString()}',
+                  style: const TextStyle(color: Colors.black, fontSize: 12),
+                ),
+                Text(
+                  '%',
+                  style: const TextStyle(fontSize: 12),
+                ),
+              ],
             ),
           ),
         ],

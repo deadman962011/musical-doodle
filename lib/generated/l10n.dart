@@ -490,6 +490,16 @@ class S {
     );
   }
 
+  /// `Merchant Registration request is under review ,You will be notified soon`
+  String get merchant_registran_request_pending {
+    return Intl.message(
+      'Merchant Registration request is under review ,You will be notified soon',
+      name: 'merchant_registran_request_pending',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Back To Main Page`
   String get back_to_main {
     return Intl.message(
@@ -1805,6 +1815,466 @@ class S {
     return Intl.message(
       'Phone number',
       name: 'phone_number',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Shop contact informations`
+  String get shop_contact_informations {
+    return Intl.message(
+      'Shop contact informations',
+      name: 'shop_contact_informations',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `shop contact website`
+  String get shop_contact_website {
+    return Intl.message(
+      'shop contact website',
+      name: 'shop_contact_website',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sender full name`
+  String get sender_full_name {
+    return Intl.message(
+      'Sender full name',
+      name: 'sender_full_name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sender phone number`
+  String get sender_phone_number {
+    return Intl.message(
+      'Sender phone number',
+      name: 'sender_phone_number',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Deposited at`
+  String get deposited_at {
+    return Intl.message(
+      'Deposited at',
+      name: 'deposited_at',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Notice`
+  String get notice {
+    return Intl.message(
+      'Notice',
+      name: 'notice',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Transaction screenshot`
+  String get transaction_screenshot {
+    return Intl.message(
+      'Transaction screenshot',
+      name: 'transaction_screenshot',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select payment method`
+  String get select_payment_method {
+    return Intl.message(
+      'Select payment method',
+      name: 'select_payment_method',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Bank transaction`
+  String get bank_transaction {
+    return Intl.message(
+      'Bank transaction',
+      name: 'bank_transaction',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Online payment (soon)`
+  String get online_payment_soon {
+    return Intl.message(
+      'Online payment (soon)',
+      name: 'online_payment_soon',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Deposit bank account`
+  String get deposit_bank_account {
+    return Intl.message(
+      'Deposit bank account',
+      name: 'deposit_bank_account',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `pay with bank transaction for the bank accounts below then fill transaction informations`
+  String get pay_offer_commission_pay_with_bank_transaction {
+    return Intl.message(
+      'pay with bank transaction for the bank accounts below then fill transaction informations',
+      name: 'pay_offer_commission_pay_with_bank_transaction',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No deposit bank accounts`
+  String get no_deposit_bank_accounts {
+    return Intl.message(
+      'No deposit bank accounts',
+      name: 'no_deposit_bank_accounts',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select city`
+  String get select_city {
+    return Intl.message(
+      'Select city',
+      name: 'select_city',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select district`
+  String get select_district {
+    return Intl.message(
+      'Select district',
+      name: 'select_district',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Commission amount for offer`
+  String get commission_amount_for_offer {
+    return Intl.message(
+      'Commission amount for offer',
+      name: 'commission_amount_for_offer',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Offer sales`
+  String get offer_sales {
+    return Intl.message(
+      'Offer sales',
+      name: 'offer_sales',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Total commission`
+  String get total_commission {
+    return Intl.message(
+      'Total commission',
+      name: 'total_commission',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sales`
+  String get sales {
+    return Intl.message(
+      'Sales',
+      name: 'sales',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `About this coupon`
+  String get about_this_coupon {
+    return Intl.message(
+      'About this coupon',
+      name: 'about_this_coupon',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Refund details`
+  String get refund_details {
+    return Intl.message(
+      'Refund details',
+      name: 'refund_details',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Quantity`
+  String get quantity {
+    return Intl.message(
+      'Quantity',
+      name: 'quantity',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No categories`
+  String get no_cateogies {
+    return Intl.message(
+      'No categories',
+      name: 'no_cateogies',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Last name`
+  String get last_name {
+    return Intl.message(
+      'Last name',
+      name: 'last_name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Birth date`
+  String get birth_date {
+    return Intl.message(
+      'Birth date',
+      name: 'birth_date',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Gender`
+  String get gender {
+    return Intl.message(
+      'Gender',
+      name: 'gender',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Male`
+  String get male {
+    return Intl.message(
+      'Male',
+      name: 'male',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Female`
+  String get female {
+    return Intl.message(
+      'Female',
+      name: 'female',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select gender`
+  String get select_gender {
+    return Intl.message(
+      'Select gender',
+      name: 'select_gender',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `point at mybill equal`
+  String get point_at_my_bill_equal {
+    return Intl.message(
+      'point at mybill equal',
+      name: 'point_at_my_bill_equal',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select bank account`
+  String get select_bank_account {
+    return Intl.message(
+      'Select bank account',
+      name: 'select_bank_account',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `location permission is required`
+  String get location_permission_is_required {
+    return Intl.message(
+      'location permission is required',
+      name: 'location_permission_is_required',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Rdeem points history`
+  String get redeem_points_history {
+    return Intl.message(
+      'Rdeem points history',
+      name: 'redeem_points_history',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `used`
+  String get used {
+    return Intl.message(
+      'used',
+      name: 'used',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Point`
+  String get point {
+    return Intl.message(
+      'Point',
+      name: 'point',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Each point is equivalent to one riyal and can be exchanged or requested to be withdrawn and transferred to your bank account. A minimum of 100 points must be collected for withdrawal. Points are valid for 12 months from the date they were earned.`
+  String get withdraw_blanace_long_text {
+    return Intl.message(
+      'Each point is equivalent to one riyal and can be exchanged or requested to be withdrawn and transferred to your bank account. A minimum of 100 points must be collected for withdrawal. Points are valid for 12 months from the date they were earned.',
+      name: 'withdraw_blanace_long_text',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `valid for`
+  String get valid_for {
+    return Intl.message(
+      'valid for',
+      name: 'valid_for',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Year`
+  String get year {
+    return Intl.message(
+      'Year',
+      name: 'year',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Month`
+  String get month {
+    return Intl.message(
+      'Month',
+      name: 'month',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Day`
+  String get day {
+    return Intl.message(
+      'Day',
+      name: 'day',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Hour`
+  String get hour {
+    return Intl.message(
+      'Hour',
+      name: 'hour',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `coupon details`
+  String get coupon_detals {
+    return Intl.message(
+      'coupon details',
+      name: 'coupon_detals',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `shop informations`
+  String get shop_informations {
+    return Intl.message(
+      'shop informations',
+      name: 'shop_informations',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `ُEnter shop name`
+  String get enter_shop_name {
+    return Intl.message(
+      'ُEnter shop name',
+      name: 'enter_shop_name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Expired`
+  String get expired {
+    return Intl.message(
+      'Expired',
+      name: 'expired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `ID`
+  String get id {
+    return Intl.message(
+      'ID',
+      name: 'id',
       desc: '',
       args: [],
     );

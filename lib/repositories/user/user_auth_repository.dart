@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:com.mybill.app/models/responses/unexpected_error_response.dart';
 import 'package:com.mybill.app/models/responses/user/user_complete_register_response.dart';
 import 'package:com.mybill.app/models/responses/user/user_login_validate_response.dart';
 import 'package:com.mybill.app/models/responses/user/user_login_response.dart';
@@ -18,21 +19,26 @@ class UserAuthRepository {
     var postBody = jsonEncode({"email": email});
 
     Uri url = Uri.parse("${AppConfig.BASE_URL}/user/auth");
-    final response = await http.post(url,
-        headers: {
-          'Accept': 'application/json',
-          "Content-Type": "application/json",
-          "Accept-Language": app_language.$,
-        },
-        body: postBody);
-    AppConfig.alice.onHttpResponse(response, body: postBody);
-    debugPrint(response.body);
-    if (response.statusCode == 200) {
-      return userLoginResponseFromJson(response.body);
-    } else if (response.statusCode == 422) {
-      return validationResponseFromJson(response.body);
-    } else {
-      return false;
+
+    try {
+      final response = await http.post(url,
+          headers: {
+            'Accept': 'application/json',
+            "Content-Type": "application/json",
+            "Accept-Language": app_language.$,
+          },
+          body: postBody);
+      AppConfig.alice.onHttpResponse(response, body: postBody);
+      final responseBody = jsonDecode(response.body);
+      if (response.statusCode == 200 && responseBody['success']) {
+        return userLoginResponseFromJson(response.body);
+      } else if (response.statusCode == 422) {
+        return validationResponseFromJson(response.body);
+      } else {
+        return unexpectedErrorResponseFromJson(response.body);
+      }
+    } catch (e) {
+      return null;
     }
   }
 
@@ -51,9 +57,9 @@ class UserAuthRepository {
         },
         body: postBody);
 
-    debugPrint(response.body);
     AppConfig.alice.onHttpResponse(response, body: postBody);
-    if (response.statusCode == 200) {
+    final responseBody = jsonDecode(response.body);
+    if (response.statusCode == 200 && responseBody['success']) {
       if (action == 'verifyUserLogin') {
         return userValidateloginResponseFromJson(response.body);
       } else if (action == 'verifyUserRegister') {
@@ -62,7 +68,7 @@ class UserAuthRepository {
     } else if (response.statusCode == 422) {
       return validationResponseFromJson(response.body);
     } else {
-      return false;
+      return unexpectedErrorResponseFromJson(response.body);
     }
   }
 

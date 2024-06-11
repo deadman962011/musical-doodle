@@ -107,8 +107,7 @@ class _UserHomeState extends State<UserHome> {
       _offersList.clear();
     });
     var response = await UserOfferRepository()
-        .getUserOffersResponse(
-            page: _page + 1, category: selectedCategoryId)
+        .getUserOffersResponse(page: _page + 1, category: selectedCategoryId)
         .then((value) {
       if (value.runtimeType.toString() == 'UserOffersResponse') {
         List<Offer> offers = value.offers;
@@ -165,9 +164,9 @@ class _UserHomeState extends State<UserHome> {
 
   logout() {
     AuthHelper().clearUserData();
-    Navigator.push(context, MaterialPageRoute(builder: (context) {
+    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
       return UserMain();
-    }));
+    }), (route) => false);
   }
 
   @override
@@ -252,7 +251,7 @@ class _UserHomeState extends State<UserHome> {
           ));
     } else {
       if (_categoriesList.isEmpty) {
-        return const Text('no categories');
+        return   Text(S.of(context).no_cateogies);
       } else {
         return Container(
             width: MediaQuery.of(context).size.width,
@@ -411,17 +410,5 @@ class _UserHomeState extends State<UserHome> {
         );
       }
     }
-
-    // if (_isCarouselLoading && _carouselImageList.isEmpty) {
-
-    // } else if (_carouselImageList.length > 0) {
-    // } else if (!_isCarouselLoading && _carouselImageList.length == 0) {
-    //   ;
-    // } else {
-    //   // should not be happening
-    //   return Container(
-    //     height: 100,
-    //   );
-    // }
   }
 }

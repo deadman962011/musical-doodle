@@ -110,8 +110,8 @@ class _BankAccountEditState extends State<BankAccountEdit> {
             app_language_rtl.$ ? TextDirection.rtl : TextDirection.ltr,
         child: Scaffold(
             key: _scaffoldKey,
-            appBar: UserAppBar.buildUserAppBar(
-                context, 'edit_profile', S.of(context).profile_edit, {}),
+            appBar: UserAppBar.buildUserAppBar(context, 'bank_account_edit',
+                S.of(context).bank_account_edit, {}),
             body: Container(
                 padding: const EdgeInsets.only(left: 14, right: 14, bottom: 12),
                 width: MediaQuery.of(context).size.width,
@@ -137,10 +137,10 @@ class _BankAccountEditState extends State<BankAccountEdit> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        const Padding(
+                                        Padding(
                                           padding: EdgeInsets.only(bottom: 8),
                                           child: Text(
-                                            'bank name',
+                                            S.of(context).bank_name,
                                           ),
                                         ),
                                         FormBuilderTextField(
@@ -163,9 +163,9 @@ class _BankAccountEditState extends State<BankAccountEdit> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        const Padding(
+                                        Padding(
                                           padding: EdgeInsets.only(bottom: 8),
-                                          child: Text('full name'),
+                                          child: Text(S.of(context).full_name),
                                         ),
                                         FormBuilderTextField(
                                           name: 'full_name',
@@ -187,9 +187,10 @@ class _BankAccountEditState extends State<BankAccountEdit> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        const Padding(
+                                        Padding(
                                           padding: EdgeInsets.only(bottom: 8),
-                                          child: Text('account number'),
+                                          child: Text(
+                                              S.of(context).account_number),
                                         ),
                                         FormBuilderTextField(
                                           name: 'account_number',
@@ -212,9 +213,9 @@ class _BankAccountEditState extends State<BankAccountEdit> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        const Padding(
+                                        Padding(
                                           padding: EdgeInsets.only(bottom: 8),
-                                          child: Text('iban number'),
+                                          child: Text(S.of(context).iban),
                                         ),
                                         FormBuilderTextField(
                                           name: 'iban',

@@ -202,10 +202,10 @@ class _ProfileEditState extends State<ProfileEdit> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    const Padding(
+                                    Padding(
                                       padding: EdgeInsets.only(bottom: 8),
                                       child: Text(
-                                        'first name',
+                                        S.of(context).firstname,
                                       ),
                                     ),
                                     FormBuilderTextField(
@@ -226,9 +226,9 @@ class _ProfileEditState extends State<ProfileEdit> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    const Padding(
+                                    Padding(
                                       padding: EdgeInsets.only(bottom: 8),
-                                      child: Text('last name'),
+                                      child: Text(S.of(context).last_name),
                                     ),
                                     FormBuilderTextField(
                                       name: 'last_name',
@@ -253,10 +253,11 @@ class _ProfileEditState extends State<ProfileEdit> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          const Padding(
+                                          Padding(
                                             padding:
                                                 EdgeInsets.only(bottom: 8.0),
-                                            child: Text('birth date'),
+                                            child:
+                                                Text(S.of(context).birth_date),
                                           ),
                                           FormBuilderDateTimePicker(
                                             initialDate: _birthDate,
@@ -289,21 +290,24 @@ class _ProfileEditState extends State<ProfileEdit> {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
-                                              const Padding(
+                                              Padding(
                                                 padding:
                                                     EdgeInsets.only(bottom: 8),
-                                                child: Text('gender'),
+                                                child:
+                                                    Text(S.of(context).gender),
                                               ),
                                               FormBuilderDropdown(
                                                 name: 'gender',
                                                 initialValue: _gender,
-                                                items: const [
+                                                items: [
                                                   DropdownMenuItem(
                                                       value: 'male',
-                                                      child: Text('male')),
+                                                      child: Text(
+                                                          S.of(context).male)),
                                                   DropdownMenuItem(
                                                       value: 'female',
-                                                      child: Text('female'))
+                                                      child: Text(
+                                                          S.of(context).female))
                                                 ],
                                                 validator: FormBuilderValidators
                                                     .compose([
@@ -312,8 +316,9 @@ class _ProfileEditState extends State<ProfileEdit> {
                                                 ]),
                                                 decoration: InputDecorations
                                                     .buildDropdownInputDecoration_1(
-                                                        hint_text:
-                                                            'Select Gender'),
+                                                        hint_text: S
+                                                            .of(context)
+                                                            .select_gender),
                                               )
                                             ])))
                               ],

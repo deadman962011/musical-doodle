@@ -128,12 +128,12 @@ class _MerchantProfileEditState extends State<MerchantProfileEdit> {
           'action': 'contact_informations',
           'action_title': S.of(context).edit
         },
-        {
-          'title': S.of(context).rating,
-          'image': 'assets/star.png',
-          'action': 'rating',
-          'action_title': S.of(context).edit
-        },
+        // {
+        //   'title': S.of(context).rating,
+        //   'image': 'assets/star.png',
+        //   'action': 'rating',
+        //   'action_title': S.of(context).edit
+        // },
       ]
     };
 

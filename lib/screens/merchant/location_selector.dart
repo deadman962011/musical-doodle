@@ -6,7 +6,9 @@ import 'package:flutter_map_cancellable_tile_provider/flutter_map_cancellable_ti
 import 'package:permission_handler/permission_handler.dart';
 
 class LocationSelector extends StatefulWidget {
-  const LocationSelector({super.key});
+  final LatLng center;
+
+  const LocationSelector({super.key, required this.center});
 
   @override
   _LocationSelectorState createState() => _LocationSelectorState();
@@ -15,13 +17,11 @@ class LocationSelector extends StatefulWidget {
 class _LocationSelectorState extends State<LocationSelector> {
   bool counterRotate = false;
   late MapController _mapController;
-  final LatLng _userLocation = const LatLng(51.509364, -0.128928); // Initial center
+  final LatLng _userLocation =
+      const LatLng(51.509364, -0.128928); // Initial center
   Marker? _selectedMarker;
   late LatLng _selectedLocation;
-  late final customMarkers = <Marker>[
-    // buildPin(const LatLng(51.51868093513547, -0.12835376940892318)),
-    // buildPin(const LatLng(53.33360293799854, -6.284001062079881)),
-  ];
+  late final customMarkers = <Marker>[];
 
   TileLayer get openStreetMapTileLayer => TileLayer(
         urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -100,7 +100,7 @@ class _LocationSelectorState extends State<LocationSelector> {
       children: [
         FlutterMap(
             options: MapOptions(
-              initialCenter: const LatLng(24.7136, 46.6753),
+              initialCenter: widget.center,
               initialZoom: 10,
               onTap: (_, p) => setState(() {
                 setState(() {
@@ -144,10 +144,9 @@ class _LocationSelectorState extends State<LocationSelector> {
   }
 }
 
-
 //   // @override
 //   // Widget build(BuildContext context) {
 //   //   return Container(
-      
+
 //   //   );
 //   // }

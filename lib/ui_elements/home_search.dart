@@ -1,3 +1,4 @@
+import 'package:com.mybill.app/generated/l10n.dart';
 import 'package:com.mybill.app/my_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -61,7 +62,7 @@ class _HomeSearchState extends State<HomeSearch> {
                     ),
                     filled: true,
                     hintStyle: TextStyle(color: Colors.grey[800]),
-                    hintText: "Type in your text",
+                    hintText: S.of(context).enter_shop_name,
                   ),
                 )),
             PositionedDirectional(

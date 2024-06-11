@@ -196,13 +196,13 @@ class _UserRegistrationState extends State<UserRegistration> {
                   padding: const EdgeInsets.only(bottom: 8),
                   child: FormBuilderDropdown(
                       name: 'gender',
-                      items: const [
-                        DropdownMenuItem(value: 'male', child: Text('male')),
-                        DropdownMenuItem(value: 'female', child: Text('female'))
+                      items:   [
+                        DropdownMenuItem(value: 'male', child: Text(S.of(context).male)),
+                        DropdownMenuItem(value: 'female', child: Text(S.of(context).female))
                       ],
                       decoration:
                           InputDecorations.buildDropdownInputDecoration_1(
-                              hint_text: 'Select Gender'),
+                              hint_text: S.of(context).select_gender),
                       onChanged: (value) {
                         _gender = value.toString();
                       }),

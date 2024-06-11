@@ -1,6 +1,7 @@
 import 'package:com.mybill.app/custom/box_decorations.dart';
 import 'package:com.mybill.app/custom/device_info.dart';
 import 'package:com.mybill.app/custom/input_decorations.dart';
+import 'package:com.mybill.app/custom/toast_component.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 import 'package:com.mybill.app/generated/l10n.dart';
@@ -13,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
 import 'package:loading_indicator/loading_indicator.dart';
+import 'package:toast/toast.dart';
 
 class Login extends StatefulWidget {
   final String model;
@@ -48,7 +50,7 @@ class _LoginState extends State<Login> {
 
   Color bgColorSub() {
     if (_formKey.currentState == null || !_formKey.currentState!.isValid) {
-      return MyTheme.grey_153;
+      return MyTheme.accent_color_shadow;
     }
     if (_isLoading) {
       return MyTheme.accent_color_shadow;
@@ -64,59 +66,44 @@ class _LoginState extends State<Login> {
       _isLoading = true;
     });
 
-    if (widget.model == 'user') {
-      await UserAuthRepository()
-          .getUserAuthenticateResponse(email)
-          .then((value) {
-        setState(() {
-          _isLoading = false;
-        });
-        if (value.runtimeType.toString() == 'ValidationResponse') {
-          setState(() {
-            _errors = value.errors;
-          });
-        } else if (value.runtimeType.toString() == 'UserLoginResponse') {
-          Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return CheckMail(
-              email: email,
-              model: widget.model,
-            );
-          }));
-        }
-      });
-    } else if (widget.model == 'merchant') {
-      await MerchantAuthRepository()
-          .getMerchantAuthenticateResponse(email)
-          .then((value) => {
-                if (value.runtimeType.toString() == 'ValidationResponse')
-                  {
-                    setState(() {
-                      _errors = value.errors;
-                    }),
-                  }
-                else if (value.runtimeType.toString() ==
-                    'MerchantLoginResponse')
-                  {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) {
-                      return CheckMail(email: email, model: widget.model);
-                    }))
-                  }
-                else
-                  {},
-              });
+    var response;
 
-      setState(() {
-        _isLoading = false;
-      });
+    if (widget.model == 'user') {
+      response = await UserAuthRepository().getUserAuthenticateResponse(email);
+    } else if (widget.model == 'merchant') {
+      response =
+          await MerchantAuthRepository().getMerchantAuthenticateResponse(email);
     }
+
+    if (response.runtimeType.toString() == 'ValidationResponse') {
+      setState(() {
+        _errors = response.errors;
+      });
+    } else if (response.runtimeType.toString() == 'UserLoginResponse') {
+      Navigator.push(context, MaterialPageRoute(builder: (context) {
+        return CheckMail(
+          email: email,
+          model: widget.model,
+        );
+      }));
+    } else if (response.runtimeType.toString() == 'MerchantLoginResponse') {
+      Navigator.push(context, MaterialPageRoute(builder: (context) {
+        return CheckMail(email: email, model: widget.model);
+      }));
+    } else {
+      ToastComponent.showDialog('network_error', context,
+          gravity: Toast.bottom, duration: Toast.lengthLong);
+    }
+
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-    return AuthScreen.buildScreen(
-        context, 'login', login(), false, scaffoldKey);
+    return AuthScreen.buildScreen(context, 'login', login(), true, scaffoldKey);
   }
 
   Widget login() {

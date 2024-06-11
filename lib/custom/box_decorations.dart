@@ -38,9 +38,11 @@ class BoxDecorations {
     return BoxDecoration(
       borderRadius: BorderRadius.circular(radius),
       color: Colors.white,
+      border: Border.all(width: 0.2, color: Colors.black.withOpacity(.24)),
       boxShadow: [
         BoxShadow(
-          color: Colors.black.withOpacity(.24),
+          color: Colors.black
+              .withOpacity(.24), //color: Colors.black.withOpacity(.24),
           blurRadius: 6,
           spreadRadius: 0.0,
           offset: const Offset(0.0, 0.0), // shadow direction: bottom right

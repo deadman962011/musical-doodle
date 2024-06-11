@@ -376,9 +376,7 @@ class _AddOfferState extends State<AddOffer> {
                                   onChanged: (value) => {
                                     _offerCashbackAmountController.text =
                                         value.toString(),
-                                    // setState(() {
-                                    //   _formKey.currentState?.validate();
-                                    // })
+                                    
                                   },
                                   items: _checkout_amounts,
                                   decoration: InputDecorations
@@ -566,47 +564,13 @@ class _AddOfferState extends State<AddOffer> {
                             ),
                           ],
                         ),
-                        Row(
+                        Flex(
                           mainAxisAlignment: MainAxisAlignment.center,
+                          direction: Axis.horizontal,
                           children: [
-                            Padding(
-                                padding: const EdgeInsets.only(
-                                    top: 8.0, left: 12, right: 12),
-                                child: SizedBox(
-                                  width: 100,
-                                  height: 46,
-                                  child: TextButton(
-                                    style: TextButton.styleFrom(
-                                      // primary: Colors.white,
-                                      backgroundColor: Colors.transparent,
-                                      shape: RoundedRectangleBorder(
-                                          side: BorderSide(
-                                              color: MyTheme.accent_color,
-                                              width: 1.6),
-                                          borderRadius:
-                                              BorderRadius.circular(8.0)),
-                                      // padding: !_isLoading
-                                      //     ? const EdgeInsets.symmetric(vertical: 12)
-                                      //     : null,
-                                    ),
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    child: Text(
-                                      S.of(context).cancel,
-                                      style: TextStyle(
-                                        color: MyTheme.accent_color,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.normal,
-                                      ),
-                                    ),
-                                  ),
-                                )),
-                            Padding(
-                                padding: const EdgeInsets.only(
-                                    top: 8.0, left: 6, right: 6),
-                                child: SizedBox(
-                                  width: double.infinity,
+                            Expanded(
+                              flex: 2,
+                              child: SizedBox(
                                   height: 46,
                                   child: TextButton(
                                     style: TextButton.styleFrom(
@@ -648,8 +612,42 @@ class _AddOfferState extends State<AddOffer> {
                                               fontWeight: FontWeight.normal,
                                             ),
                                           ),
-                                  ),
-                                )),
+                                  )),
+                            ),
+                            Expanded(
+                                flex: 1,
+                                child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 12),
+                                    child: SizedBox(
+                                      height: 46,
+                                      child: TextButton(
+                                        style: TextButton.styleFrom(
+                                          // primary: Colors.white,
+                                          backgroundColor: Colors.transparent,
+                                          shape: RoundedRectangleBorder(
+                                              side: BorderSide(
+                                                  color: MyTheme.accent_color,
+                                                  width: 1.6),
+                                              borderRadius:
+                                                  BorderRadius.circular(8.0)),
+                                          // padding: !_isLoading
+                                          //     ? const EdgeInsets.symmetric(vertical: 12)
+                                          //     : null,
+                                        ),
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: Text(
+                                          S.of(context).cancel,
+                                          style: TextStyle(
+                                            color: MyTheme.accent_color,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        ),
+                                      ),
+                                    )))
                           ],
                         ),
                       ],

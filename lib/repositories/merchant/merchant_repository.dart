@@ -9,6 +9,7 @@ import 'package:com.mybill.app/models/responses/merchant/merchant_update_contact
 import 'package:com.mybill.app/models/responses/merchant/merchant_response.dart';
 import 'package:com.mybill.app/models/responses/merchant/merchant_update_response.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 import 'package:http/http.dart' as http;
 
@@ -58,11 +59,12 @@ class MerchantRepository {
     }
   }
 
-  Future<dynamic> getMerchantUpdateContactResponse(
-      @required String email, @required String phone) async {
+  Future<dynamic> getMerchantUpdateContactResponse(@required String email,
+      @required String phone, @required String website) async {
     Uri url = Uri.parse("${AppConfig.BASE_URL}/shop/contact");
 
-    var postBody = jsonEncode({"email": email, "phone": phone});
+    var postBody =
+        jsonEncode({"email": email, "phone": phone, "website": website});
 
     final response = await http.put(url,
         headers: {

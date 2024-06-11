@@ -4,6 +4,7 @@ import 'package:com.mybill.app/firebase_options.dart';
 import 'package:com.mybill.app/helpers/notification_helper.dart';
 import 'package:com.mybill.app/helpers/shared_value_helper.dart';
 import 'package:com.mybill.app/providers/offer_provider.dart';
+import 'package:com.mybill.app/ui_elements/dialog.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:com.mybill.app/screens/verifyLink.dart';
@@ -99,9 +100,10 @@ class _MyAppState extends State<MyApp> {
     //   maxCallsCount: 1000,
     // );
     super.initState();
+    // getLocation();
     initUniLinks();
-    getLocation();
     initFirebase();
+    // _checkPermission(() {});
     super.initState();
   }
 
@@ -128,30 +130,21 @@ class _MyAppState extends State<MyApp> {
     // if (!mounted) return;
     debugPrint('am at hander deeep link');
 
-    AppConfig.alice
-        .getNavigatorKey()!
-        .currentState!
-        .push(MaterialPageRoute(builder: (context) {
-      return VerifyLink(
-        url: uri,
-      );
-    }));
+    if (uri.path.toString() == '/to/guest') {
+      //do nothing
+    } else {
+      AppConfig.alice
+          .getNavigatorKey()!
+          .currentState!
+          .push(MaterialPageRoute(builder: (context) {
+        return VerifyLink(
+          url: uri,
+        );
+      }));
+    }
+
     // SchedulerBinding.instance.addPostFrameCallback((_) {
     // });
-  }
-
-  void getLocation() async {
-    LocationPermission permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-    } else if (permission == LocationPermission.always) {
-      Position position = await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.high);
-      user_longitude.$ = position.longitude.toString();
-      user_longitude.save();
-      user_latitude.$ = position.latitude.toString();
-      user_latitude.save();
-    }
   }
 
   void initFirebase() async {
@@ -201,11 +194,18 @@ class _MyAppState extends State<MyApp> {
               title: AppConfig.app_name,
               debugShowCheckedModeBanner: false,
               theme: ThemeData(
+                useMaterial3: true,
+                canvasColor: Colors.white,
                 primaryColor: MyTheme.white,
                 scaffoldBackgroundColor: Colors.white,
                 visualDensity: VisualDensity.adaptivePlatformDensity,
-                dialogBackgroundColor: Colors.white,
                 textTheme: GoogleFonts.interTightTextTheme(),
+                dialogBackgroundColor: Colors.white,
+                dialogTheme: DialogTheme(
+                  backgroundColor: Colors.white,
+                  surfaceTintColor: Colors.white,
+                ),
+                // dialogBackgroundColor:Colors.white
 
                 //  .interTightTextTheme(textTheme).copyWith(
                 //   titleMedium: TextStyle(color: MyTheme.accent_color),

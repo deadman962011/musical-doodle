@@ -4,6 +4,8 @@ import 'package:com.mybill.app/helpers/shared_value_helper.dart';
 import 'package:com.mybill.app/models/responses/merchant/merchant_response.dart';
 import 'package:com.mybill.app/my_theme.dart';
 import 'package:com.mybill.app/repositories/merchant/merchant_repository.dart';
+import 'package:com.mybill.app/screens/merchant/profile/edit.dart';
+import 'package:com.mybill.app/screens/merchant/profile_edit.dart';
 import 'package:com.mybill.app/ui_elements/merchant_appbar.dart';
 import 'package:com.mybill.app/ui_elements/merchant_drawer.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +29,8 @@ class _ContactInformationsState extends State<ContactInformations> {
 
   final TextEditingController _contactEmailController = TextEditingController();
   final TextEditingController _contactPhoneController = TextEditingController();
+  final TextEditingController _contactWebsiteController =
+      TextEditingController();
 
   bool _isLoading = false;
 
@@ -44,8 +48,15 @@ class _ContactInformationsState extends State<ContactInformations> {
     var response = await MerchantRepository().getMerchantResponse();
     if (response.runtimeType.toString() == 'MerchantResponse') {
       MerchantResponse data = response;
-      _contactEmailController.text = data.payload.shopContactEmail;
-      _contactPhoneController.text = data.payload.shopContactPhone;
+      if (data.payload.shopContactEmail != null) {
+        _contactEmailController.text = data.payload.shopContactEmail!;
+      }
+      if (data.payload.shopContactPhone != null) {
+        _contactPhoneController.text = data.payload.shopContactPhone!;
+      }
+      if (data.payload.shopContactWebsite != null) {
+        _contactWebsiteController.text = data.payload.shopContactWebsite!;
+      }
     }
   }
 
@@ -76,12 +87,18 @@ class _ContactInformationsState extends State<ContactInformations> {
 
     String email = _contactEmailController.text.toString();
     String phone = _contactPhoneController.text.toString();
+    String website = _contactWebsiteController.text.toString();
+
     var response = await MerchantRepository()
-        .getMerchantUpdateContactResponse(email, phone);
+        .getMerchantUpdateContactResponse(email, phone, website);
     if (response.runtimeType.toString() == 'MerchantUpdateContactResponse') {
       ToastComponent.showDialog(
           'Shop Contact informations successfully updated', context,
           gravity: Toast.bottom, duration: Toast.lengthLong);
+
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+        return const MerchantProfileEdit();
+      }));
     }
 
     setState(
@@ -98,8 +115,8 @@ class _ContactInformationsState extends State<ContactInformations> {
             app_language_rtl.$ ? TextDirection.rtl : TextDirection.ltr,
         child: Scaffold(
             key: _scaffoldKey,
-            appBar: MerchantAppBar.buildMerchantAppBar(
-                context, 'add_offer', _scaffoldKey, S.of(context).add_offer),
+            appBar: MerchantAppBar.buildMerchantAppBar(context, 'add_offer',
+                _scaffoldKey, S.of(context).shop_contact_informations),
             drawer: MerchantDrawer.buildDrawer(context),
             body: Padding(
                 padding: const EdgeInsets.only(right: 14, left: 14, bottom: 20),
@@ -115,17 +132,15 @@ class _ContactInformationsState extends State<ContactInformations> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Column(
-                            // mainAxisSize: MainAxisSize.max,
-                            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const Padding(
+                                    Padding(
                                     padding:
                                         EdgeInsets.only(top: 12, bottom: 3),
-                                    child: Text('shop contact email'),
+                                    child: Text(S.of(context).shop_contact_email),
                                   ),
                                   FormBuilderTextField(
                                     name: 'shop_contact_email',
@@ -146,10 +161,10 @@ class _ContactInformationsState extends State<ContactInformations> {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const Padding(
+                                    Padding(
                                     padding:
                                         EdgeInsets.only(top: 12, bottom: 3),
-                                    child: Text('shop contact phone'),
+                                    child: Text(S.of(context).shop_contact_phone),
                                   ),
                                   FormBuilderTextField(
                                     name: 'shop_contact_phone',
@@ -160,6 +175,27 @@ class _ContactInformationsState extends State<ContactInformations> {
                                       FormBuilderValidators.required(),
                                       FormBuilderValidators.minLength(10),
                                       FormBuilderValidators.numeric()
+                                    ]),
+                                    textInputAction: TextInputAction.next,
+                                  ),
+                                ],
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding:
+                                        EdgeInsets.only(top: 12, bottom: 3),
+                                    child: Text(
+                                        S.of(context).shop_contact_website),
+                                  ),
+                                  FormBuilderTextField(
+                                    name: 'shop_contact_website',
+                                    controller: _contactWebsiteController,
+                                    decoration: InputDecorations
+                                        .buildInputDecoration_1(),
+                                    validator: FormBuilderValidators.compose([
+                                      FormBuilderValidators.required(),
                                     ]),
                                     textInputAction: TextInputAction.next,
                                   ),
@@ -193,7 +229,7 @@ class _ContactInformationsState extends State<ContactInformations> {
                                         backgroundColor: Colors
                                             .transparent, // Customize the background color if needed
                                       ))
-                                  : Text('update',
+                                  : Text(S.of(context).update,
                                       style: TextStyle(
                                         color: MyTheme.white,
                                         fontSize: 16,

@@ -102,7 +102,10 @@ class _EditState extends State<MerchantEdit> {
         child: Scaffold(
             key: _scaffoldKey,
             appBar: MerchantAppBar.buildMerchantAppBar(
-                context, 'add_offer', _scaffoldKey, S.of(context).add_offer),
+                context,
+                'shop_informations',
+                _scaffoldKey,
+                S.of(context).shop_informations),
             drawer: MerchantDrawer.buildDrawer(context),
             body: Padding(
                 padding: const EdgeInsets.only(right: 14, left: 14, bottom: 20),
@@ -125,10 +128,11 @@ class _EditState extends State<MerchantEdit> {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const Padding(
+                                  Padding(
                                     padding:
                                         EdgeInsets.only(top: 12, bottom: 3),
-                                    child: Text('shop name in arabic'),
+                                    child:
+                                        Text(S.of(context).shop_name_in_arabic),
                                   ),
                                   FormBuilderTextField(
                                     name: 'shop_name_in_ar',
@@ -149,10 +153,11 @@ class _EditState extends State<MerchantEdit> {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const Padding(
+                                  Padding(
                                     padding:
                                         EdgeInsets.only(top: 12, bottom: 3),
-                                    child: Text('shop name in english'),
+                                    child: Text(
+                                        S.of(context).shop_name_in_english),
                                   ),
                                   FormBuilderTextField(
                                     name: 'shop_name_in_en',
@@ -198,7 +203,7 @@ class _EditState extends State<MerchantEdit> {
                                         backgroundColor: Colors
                                             .transparent, // Customize the background color if needed
                                       ))
-                                  : Text('update',
+                                  : Text(S.of(context).update,
                                       style: TextStyle(
                                         color: MyTheme.white,
                                         fontSize: 16,

@@ -72,26 +72,26 @@ class _MerchantWalletState extends State<MerchantWallet> {
       decoration: BoxDecorations.buildBoxDecoration_1(),
       child: Column(
         children: [
-          const Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [Text('Available Balance'), Text('0.00')],
+                children: [Text(S.of(context).available_balance), Text('0.00')],
               ),
-              Text('SAR')
+              Text(S.of(context).sar)
             ],
           ),
-          const Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [Text('Pending Balance'), Text('0.00')],
+                children: [Text(S.of(context).pending_balance), Text('0.00')],
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [Text('Total Balance'), Text('0.00')],
+                children: [Text(S.of(context).total_balance), Text('0.00')],
               )
             ],
           ),
@@ -211,7 +211,7 @@ class _MerchantWalletState extends State<MerchantWallet> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            const Text('Commission amout for offer 9',
+            Text('  ${S.of(context).commission_amount_for_offer} 9',
                 style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14)),
             Container(
               margin: const EdgeInsets.symmetric(vertical: 10),
@@ -220,11 +220,11 @@ class _MerchantWalletState extends State<MerchantWallet> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
-                    'Offer sales:',
+                  Text(
+                    '${S.of(context).offer_sales}:',
                     style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14),
                   ),
-                  Text('35000 SAR',
+                  Text('35000 ${S.of(context).sar}',
                       style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 14,
@@ -244,13 +244,13 @@ class _MerchantWalletState extends State<MerchantWallet> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          const Padding(
+                          Padding(
                             padding: EdgeInsets.only(bottom: 8),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text('total commission: ',
+                                Text('${S.of(context).total_commission} : ',
                                     style: TextStyle(
                                         fontWeight: FontWeight.w700,
                                         fontSize: 14)),
@@ -263,7 +263,7 @@ class _MerchantWalletState extends State<MerchantWallet> {
                             ),
                           ),
                           Text(
-                            '700 SAR',
+                            '700 ${S.of(context).sar}',
                             style: TextStyle(
                                 fontWeight: FontWeight.w600,
                                 fontSize: 14,
@@ -284,13 +284,13 @@ class _MerchantWalletState extends State<MerchantWallet> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          const Padding(
+                            Padding(
                             padding: EdgeInsets.only(bottom: 8),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text('total commission: ',
+                                Text('${S.of(context).total_commission} : ',
                                     style: TextStyle(
                                         fontWeight: FontWeight.w700,
                                         fontSize: 14)),
@@ -302,7 +302,7 @@ class _MerchantWalletState extends State<MerchantWallet> {
                               ],
                             ),
                           ),
-                          Text('700 SAR',
+                          Text('700 ${S.of(context).sar}',
                               style: TextStyle(
                                   fontWeight: FontWeight.w600,
                                   fontSize: 14,
@@ -325,8 +325,8 @@ class _MerchantWalletState extends State<MerchantWallet> {
                     borderRadius: BorderRadius.circular(4)),
                 backgroundColor: MyTheme.accent_color,
               ),
-              child: const Text(
-                'Pay',
+              child:   Text(
+                S.of(context).pay,
                 style: TextStyle(color: Colors.white),
               ),
             ))

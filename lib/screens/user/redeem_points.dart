@@ -23,13 +23,14 @@ class RedeemPoints extends StatefulWidget {
 class _RedeemPointsState extends State<RedeemPoints> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final ScrollController _couponsScrollController = ScrollController();
-  bool isLoading = true;
+  bool isCouponsLoading = true;
   List<CouponMini> _coupons = [];
   final TextEditingController _pointAmountController = TextEditingController();
+  int? selectedCoupon;
 
   fetchCoupons() async {
     setState(() {
-      isLoading = true;
+      isCouponsLoading = true;
     });
     var response = await UserCouponRepository()
         .getUserCouponsResponse(category: '', page: 1);
@@ -42,7 +43,34 @@ class _RedeemPointsState extends State<RedeemPoints> {
     } else {}
 
     setState(() {
-      isLoading = false;
+      isCouponsLoading = false;
+    });
+  }
+
+  bool isFormValid() {
+    if (isCouponsLoading) {
+      return false;
+    }
+    if (_pointAmountController.value.text.isEmpty) {
+      return false;
+    }
+    if (selectedCoupon == null) {
+      return false;
+    }
+
+    return true;
+  }
+
+  Color bgColorSub() {
+    if (!isFormValid()) {
+      return MyTheme.accent_color_shadow;
+    }
+    return MyTheme.accent_color;
+  }
+
+  selectCoupon(int id) {
+    setState(() {
+      selectedCoupon = id;
     });
   }
 
@@ -91,13 +119,19 @@ class _RedeemPointsState extends State<RedeemPoints> {
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 12),
                                 backgroundColor:
-                                    MyTheme.accent_color, //MyTheme.accent_color
+                                    bgColorSub(), //MyTheme.accent_color
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8.0))),
-                            onPressed: () async {
-                              debugPrint('xasxasx');
-                              // await onPressedUpdateProfile();
-                            },
+                            onPressed: isFormValid()
+                                ? () async {
+                                    Navigator.push(context,
+                                        MaterialPageRoute(builder: (context) {
+                                      return CouponDetails(
+                                        couponId: selectedCoupon!,
+                                      );
+                                    }));
+                                  }
+                                : () {},
                             child: Text(
                               S.of(context).next,
                               style: TextStyle(
@@ -114,7 +148,7 @@ class _RedeemPointsState extends State<RedeemPoints> {
     return Container(
       width: MediaQuery.of(context).size.width,
       margin: EdgeInsets.only(bottom: 20),
-      padding: EdgeInsets.symmetric(horizontal: 6, vertical: 14),
+      padding: EdgeInsets.symmetric(horizontal: 14, vertical: 14),
       decoration: BoxDecorations.buildBoxDecoration2(),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -152,27 +186,30 @@ class _RedeemPointsState extends State<RedeemPoints> {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 12),
-            child: Text('notice: 1 point at mybill equal 1 sar'),
+            child: Text('${S.of(context).notice}: 1 ${S.of(context).point_at_my_bill_equal} 1 ${S.of(context).sar}'),
           ),
           FormBuilder(
+              onChanged: () {
+                setState(() {});
+              },
               child: Column(
-            children: [
-              FormBuilderTextField(
-                // autofocus: false,
-                // autovalidateMode: AutovalidateMode.always,
-                name: 'point_amount',
-                controller: _pointAmountController,
-                autovalidateMode: AutovalidateMode.disabled,
-                decoration:
-                    InputDecorations.buildInputDecoration_1(hint_text: '20'),
-                validator: FormBuilderValidators.compose([
-                  FormBuilderValidators.required(),
-                  FormBuilderValidators.minLength(3),
-                ]),
-                textInputAction: TextInputAction.next,
-              )
-            ],
-          ))
+                children: [
+                  FormBuilderTextField(
+                    // autofocus: false,
+                    // autovalidateMode: AutovalidateMode.always,
+                    name: 'point_amount',
+                    controller: _pointAmountController,
+                    autovalidateMode: AutovalidateMode.disabled,
+                    decoration: InputDecorations.buildInputDecoration_1(
+                        hint_text: '20'),
+                    validator: FormBuilderValidators.compose([
+                      FormBuilderValidators.required(),
+                      FormBuilderValidators.minLength(3),
+                    ]),
+                    textInputAction: TextInputAction.next,
+                  )
+                ],
+              ))
         ],
       ),
     );
@@ -231,7 +268,7 @@ class _RedeemPointsState extends State<RedeemPoints> {
   }
 
   Widget _buildCouponList() {
-    if (isLoading) {
+    if (isCouponsLoading) {
       return Container(
           height: 254,
           child: SingleChildScrollView(
@@ -242,39 +279,35 @@ class _RedeemPointsState extends State<RedeemPoints> {
         return SizedBox(
             height: 258,
             child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2, childAspectRatio: 1.6),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 12,
+                    crossAxisSpacing: 20,
+                    childAspectRatio: 2),
                 itemCount: _coupons.length,
                 shrinkWrap: true,
-                padding: EdgeInsets.all(6),
                 physics: AlwaysScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
                   return GestureDetector(
-                    child: Image.network(_coupons[index].thumbnail),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          fit: BoxFit.fill,
+                          image: NetworkImage(_coupons[index].thumbnail),
+                        ),
+                        border: selectedCoupon != null &&
+                                selectedCoupon == _coupons[index].id
+                            ? Border.all(color: MyTheme.accent_color, width: 1)
+                            : null,
+                        borderRadius: BorderRadius.all(Radius.circular(
+                            8.0)), // Border radius for rounded corners
+                      ),
+                    ),
                     onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return CouponDetails(
-                          couponId: _coupons[index].id,
-                        );
-                      }));
+                      selectCoupon(_coupons[index].id);
                     },
                   );
-                })
-
-            //  SingleChildScrollView(
-            //     physics: AlwaysScrollableScrollPhysics(),
-            //     child:
-
-            //         )
-
-            );
-
-        // Container(
-        //     // height: 254,
-        //     child:
-
-        //             );
+                }));
       } else {
         return Container(
           height: 254,

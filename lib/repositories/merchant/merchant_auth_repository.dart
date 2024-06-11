@@ -4,6 +4,7 @@ import 'package:com.mybill.app/models/responses/merchant/merchant_login_response
 import 'package:com.mybill.app/models/responses/merchant/merchant_validate_login_response.dart';
 // import 'package:com.mybill.app/models/merchant/merchant_validate_login_response.dart';
 import 'package:com.mybill.app/models/responses/merchant/merchant_validate_register_response.dart';
+import 'package:com.mybill.app/models/responses/unexpected_error_response.dart';
 import 'package:com.mybill.app/models/responses/validation_response.dart';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
@@ -61,7 +62,7 @@ class MerchantAuthRepository {
     } else if (response.statusCode == 422) {
       return validationResponseFromJson(response.body);
     } else {
-      return false;
+      return unexpectedErrorResponseFromJson(response.body);
     }
   }
 
@@ -76,6 +77,7 @@ class MerchantAuthRepository {
     @required String longitude,
     @required String latitude,
     @required int zoneId,
+    @required int districtId,
     String referralCode,
   ) async {
     var postBody = jsonEncode({
@@ -89,6 +91,7 @@ class MerchantAuthRepository {
       "longitude": longitude,
       "latitude": latitude,
       "zone_id": zoneId,
+      'district_id': districtId,
       "referral_code": referralCode
     });
     debugPrint(postBody.toString());

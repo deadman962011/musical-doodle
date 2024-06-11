@@ -27,9 +27,9 @@ class _UserScanState extends State<UserScan> {
       _sendingRequest = true;
     });
     if (_sendingRequest) {
-      // controller.stop();
+      controller.stop();
 
-      controller.dispose();
+      // controller.dispose();
       var response = await UserOfferInvoiceRepository()
           .getUserOfferInvoiceScanResponse(
               payload: _barcode!.rawValue.toString());
@@ -48,9 +48,11 @@ class _UserScanState extends State<UserScan> {
                       Navigator.pushReplacement(context,
                           MaterialPageRoute(builder: (context) {
                         return UserMain(
-                          go_back: true,
+                          go_back: false,
                         );
                       }));
+                    } else {
+                      controller.start();
                     }
                   },
                 ));
@@ -60,7 +62,7 @@ class _UserScanState extends State<UserScan> {
     setState(() {
       _sendingRequest = false;
     });
-    controller.start();
+    // controller.start();
     // controller.dispose();
   }
 

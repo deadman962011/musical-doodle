@@ -64,7 +64,7 @@ class _BankAccountsState extends State<BankAccounts> {
         child: Scaffold(
           key: _scaffoldKey,
           appBar: UserAppBar.buildUserAppBar(
-              context, 'notifications', S.of(context).notifications, {}),
+              context, 'notifications', S.of(context).bank_accounts, {}),
           body: Container(
               width: MediaQuery.of(context).size.width,
               padding: const EdgeInsets.symmetric(horizontal: 14),
@@ -88,85 +88,86 @@ class _BankAccountsState extends State<BankAccounts> {
   }
 
   Widget _buildBankAccountList() {
-    if (isLoading) {
-      return Container(
-          alignment: Alignment.center,
-          margin: const EdgeInsets.only(bottom: 80),
-          padding: const EdgeInsets.symmetric(vertical: 4),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              ShimmerHelper().buildBasicShimmer(height: 120),
-              ShimmerHelper().buildBasicShimmer(height: 120),
-              ShimmerHelper().buildBasicShimmer(height: 120),
-              ShimmerHelper().buildBasicShimmer(height: 120),
-            ],
-          ));
-    } else {
-      if (_bank_accounts.isEmpty) {
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              'assets/credit_card.png',
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 8),
-              child: Text(
-                'No Bank accounts',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 8),
-              child: GestureDetector(
-                child: Text(
-                  'Add new bank account',
-                  style: TextStyle(
-                      color: MyTheme.accent_color, fontWeight: FontWeight.bold),
-                ),
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return AddBankAccount();
-                  }));
-                },
-              ),
-            )
-          ],
-        );
-      } else {
-        return Padding(
-            padding: EdgeInsets.only(bottom: 16),
-            child: Column(
-              children: [
-                Column(
-                  children: _bank_accounts
-                      .map(
-                          (bank_account) => _buildBankAccountItem(bank_account))
-                      .toList(),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8),
-                  child: GestureDetector(
-                    child: Text(
-                      'Add new bank account',
-                      style: TextStyle(
-                          color: MyTheme.accent_color,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return AddBankAccount();
-                      }));
-                    },
-                  ),
-                )
-              ],
-            ));
-      }
-    }
+    return Container(
+        width: MediaQuery.of(context).size.width,
+        alignment: Alignment.center,
+        margin: const EdgeInsets.only(bottom: 80),
+        padding: const EdgeInsets.symmetric(vertical: 4),
+        child: isLoading
+            ? Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  ShimmerHelper().buildBasicShimmer(height: 120),
+                  ShimmerHelper().buildBasicShimmer(height: 120),
+                  ShimmerHelper().buildBasicShimmer(height: 120),
+                  ShimmerHelper().buildBasicShimmer(height: 120),
+                ],
+              )
+            : _bank_accounts.isEmpty
+                ? Container(
+                    height: MediaQuery.sizeOf(context).height,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/credit_card.png',
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 8),
+                          child: Text(
+                            'No Bank accounts',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 8),
+                          child: GestureDetector(
+                            child: Text(
+                              'Add new bank account',
+                              style: TextStyle(
+                                  color: MyTheme.accent_color,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            onTap: () {
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) {
+                                return AddBankAccount();
+                              }));
+                            },
+                          ),
+                        )
+                      ],
+                    ))
+                : Padding(
+                    padding: EdgeInsets.only(bottom: 16),
+                    child: Column(
+                      children: [
+                        Column(
+                          children: _bank_accounts
+                              .map((bank_account) =>
+                                  _buildBankAccountItem(bank_account))
+                              .toList(),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 8),
+                          child: GestureDetector(
+                            child: Text(
+                              'Add new bank account',
+                              style: TextStyle(
+                                  color: MyTheme.accent_color,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            onTap: () {
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) {
+                                return AddBankAccount();
+                              }));
+                            },
+                          ),
+                        )
+                      ],
+                    )));
 
     // return _buildNoNotifications();
   }

@@ -1,4 +1,7 @@
+import 'package:com.mybill.app/helpers/auth_helper.dart';
 import 'package:com.mybill.app/my_theme.dart';
+import 'package:com.mybill.app/providers/offer_provider.dart';
+import 'package:com.mybill.app/screens/guest.dart';
 import 'package:com.mybill.app/screens/merchant/offers/offers.dart';
 import 'package:com.mybill.app/screens/merchant/profile_edit.dart';
 import 'package:com.mybill.app/screens/merchant/statistics/latest_sales.dart';
@@ -7,6 +10,7 @@ import 'package:com.mybill.app/screens/merchant/wallet.dart';
 import 'package:flutter/material.dart';
 
 import 'package:com.mybill.app/generated/l10n.dart';
+import 'package:provider/provider.dart';
 
 class MerchantDrawer {
   static Drawer buildDrawer(context) {
@@ -92,12 +96,29 @@ class MerchantDrawer {
         'action': () {},
         'sub': []
       },
+      {
+        'title': S.of(context).logout,
+        'image': 'assets/settings.png',
+        'action': () {
+          AuthHelper().clearMerchantData();
+          final offerProvider =
+              Provider.of<OfferProvider>(context, listen: false);
+
+          offerProvider.clearFirstOffer();
+          Navigator.pushAndRemoveUntil(context,
+              MaterialPageRoute(builder: (context) {
+            return Guest();
+          }), (route) => false);
+        },
+        'sub': []
+      },
     ];
 
     return Drawer(
       width: 230,
+
       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
-      backgroundColor: MyTheme.accent_color,
+      backgroundColor: MyTheme.accent_color_shadow,
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
@@ -106,7 +127,7 @@ class MerchantDrawer {
             child: SizedBox(
               height: 50,
               child: Text(
-                'Drawer Header',
+                ' ',
                 style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
@@ -123,12 +144,14 @@ class MerchantDrawer {
                           Padding(
                             padding: const EdgeInsetsDirectional.only(
                                 start: 6, end: 12),
-                            child: Image.asset(item['image']),
+                            child: Image.asset(
+                              item['image'],
+                              color: Colors.white,
+                            ),
                           ),
                           Text(
                             item['title'],
-                            style:
-                                TextStyle(color: MyTheme.white, fontSize: 12),
+                            style: TextStyle(fontSize: 12, color: Colors.white),
                           )
                         ],
                       ),
@@ -136,7 +159,7 @@ class MerchantDrawer {
                         return ListTile(
                           title: Text(child['title'],
                               style: TextStyle(
-                                color: MyTheme.white,
+                                color: Colors.white,
                                 fontSize: 12,
                               )),
                           onTap: child['action'],
@@ -152,12 +175,12 @@ class MerchantDrawer {
                           Padding(
                             padding: const EdgeInsetsDirectional.only(
                                 start: 6, end: 12),
-                            child: Image.asset(item['image']),
+                            child: Image.asset(item['image'],
+                                color: MyTheme.white),
                           ),
                           Text(
                             item['title'],
-                            style:
-                                TextStyle(color: MyTheme.white, fontSize: 12),
+                            style: TextStyle(color: Colors.white, fontSize: 12),
                           )
                         ],
                       ),

@@ -59,12 +59,21 @@ class _RegistrationCompletedState extends State<RegistartionCompleted> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
                   S.of(context).merchant_registration_completed,
                   style: const TextStyle(
                       fontWeight: FontWeight.bold, fontSize: 16),
-                )
+                ),
+                Padding(
+                    padding: EdgeInsets.symmetric(vertical: 20),
+                    child: Text(
+                        S.of(context).merchant_registran_request_pending,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                            fontWeight: FontWeight.w400, fontSize: 16)))
               ],
             ),
           ),

@@ -34,6 +34,7 @@ class MyTheme {
   static Color box_gray = const Color.fromARGB(255, 225, 225, 225);
   static Color shimmer_base = Colors.grey.shade50;
   static Color shimmer_highlighted = Colors.grey.shade200;
+  static Color divider_color = const Color.fromRGBO(201, 201, 201, 1);
 
   //testing shimmer
   /*static Color shimmer_base = Colors.redAccent;

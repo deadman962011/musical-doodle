@@ -40,8 +40,9 @@ class Payload {
   int id;
   String shopNameAr;
   String shopNameEn;
-  String shopContactEmail;
-  String shopContactPhone;
+  String? shopContactEmail;
+  String? shopContactPhone;
+  String? shopContactWebsite;
 
   Payload({
     required this.id,
@@ -49,6 +50,7 @@ class Payload {
     required this.shopNameEn,
     required this.shopContactEmail,
     required this.shopContactPhone,
+    required this.shopContactWebsite,
   });
 
   factory Payload.fromMap(Map<String, dynamic> json) => Payload(
@@ -57,6 +59,7 @@ class Payload {
         shopNameEn: json["shop_name_en"],
         shopContactEmail: json["shop_contact_email"],
         shopContactPhone: json["shop_contact_phone"],
+        shopContactWebsite: json["shop_contact_website"],
       );
 
   Map<String, dynamic> toMap() => {
@@ -65,5 +68,6 @@ class Payload {
         "shop_name_en": shopNameEn,
         "shop_contact_email": shopContactEmail,
         "shop_contact_phone": shopContactPhone,
+        "shop_contact_website": shopContactWebsite
       };
 }

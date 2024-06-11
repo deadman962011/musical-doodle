@@ -154,6 +154,7 @@ class NotificationHelper {
                   ? message.data['image']
                   : '${message.data['image']}'
               : null;
+      debugPrint('notifications image is ${image}');
     } else {
       title = message.notification!.title;
       body = message.notification!.body;

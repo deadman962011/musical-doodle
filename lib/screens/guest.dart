@@ -13,7 +13,9 @@ import 'package:flutter/material.dart';
 import 'package:com.mybill.app/helpers/shared_value_helper.dart';
 import 'package:flutter/services.dart';
 
+import 'package:com.mybill.app/ui_elements/dialog.dart';
 import 'package:com.mybill.app/generated/l10n.dart';
+import 'package:geolocator/geolocator.dart';
 
 class Guest extends StatefulWidget {
   late bool go_back;
@@ -49,10 +51,36 @@ class _GuestState extends State<Guest> with TickerProviderStateMixin {
     // In initState()
 
     fetchAll();
+    _checkPermission();
   }
 
   fetchAll() {
     fetchGuestLayout();
+  }
+
+  void _checkPermission() async {
+    LocationPermission permission = await Geolocator.checkPermission();
+
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+    } else if (permission == LocationPermission.deniedForever) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) => CheckLocaionDialog(
+              description: 'you_denied',
+              onOkPressed: () async {
+                await Geolocator.requestPermission();
+                _checkPermission();
+              }));
+    } else if (permission == LocationPermission.whileInUse ||
+        permission == LocationPermission.always) {
+      Position position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high);
+      user_longitude.$ = position.longitude.toString();
+      user_latitude.$ = position.latitude.toString();
+      user_longitude.save();
+      user_latitude.save();
+    }
   }
 
   fetchGuestLayout() async {

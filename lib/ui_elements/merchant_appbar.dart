@@ -59,6 +59,14 @@ class MerchantAppBar {
         ];
         break;
 
+      case 'commission_payment':
+        widgets = [
+          _buildToggleDrawerButton(context, scaffoldKey),
+          Text(title),
+          Container()
+        ];
+        break;
+
       default:
         widgets = [
           _buildBackButton(context),

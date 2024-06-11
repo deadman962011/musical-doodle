@@ -11,22 +11,14 @@ class AppConfig {
   static String mobile_app_code = "en";
   static bool app_language_rtl = false;
 
-  //configure this
   static const bool HTTPS = false;
 
   static const bool IsDevelp = true;
 
-  //configure this
-
-  // static const DOMAIN_PATH = "192.168.6.1/folder"; //localhost
-  //192.168.56.1
-  // https://admin.mybill1.com/
-  // static const DOMAIN_PATH = "192.168.43.103:8000"; // directly inside the public folder
   static const DOMAIN_PATH = IsDevelp
       ? "192.168.43.103:8000"
-      : 'admin.mybill1.com'; //  http://192.168.43.103:8000/
-  // 192.168.43.103
-  //do not configure these below
+      : 'admin.mybill1.com'; //  http://192.168.43.103:8000/ 192.168.123.236:8000
+
   static const String API_ENDPATH = "api/v1";
   static const String PROTOCOL = HTTPS ? "https://" : "http://";
   static const String RAW_BASE_URL = "$PROTOCOL$DOMAIN_PATH";

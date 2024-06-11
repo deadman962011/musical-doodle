@@ -29,6 +29,8 @@ class _WorkingHoursState extends State<WorkingHours> {
   final _formKey = GlobalKey<FormBuilderState>();
 
   bool isLoading = true;
+  bool isLoadingInBackground = false;
+
   List<AvailabilityDay> _availability_days = [];
 
   @override
@@ -39,12 +41,15 @@ class _WorkingHoursState extends State<WorkingHours> {
 
   fetchAll() {
     setState(() {
-      isLoading = true;
+      isLoadingInBackground = true;
     });
     fetchAvailability();
   }
 
   reset() {
+    setState(() {
+      isLoading = true;
+    });
     fetchAll();
   }
 
@@ -58,6 +63,7 @@ class _WorkingHoursState extends State<WorkingHours> {
 
     setState(() {
       isLoading = false;
+      isLoadingInBackground = false;
     });
   }
 
@@ -110,6 +116,9 @@ class _WorkingHoursState extends State<WorkingHours> {
   }
 
   Future<void> _onRefresh() async {
+    setState(() {
+      isLoading = true;
+    });
     fetchAll();
   }
 
@@ -121,7 +130,7 @@ class _WorkingHoursState extends State<WorkingHours> {
         child: Scaffold(
             key: _scaffoldKey,
             appBar: MerchantAppBar.buildMerchantAppBar(context, 'working_hours',
-                _scaffoldKey, S.of(context).add_offer),
+                _scaffoldKey, S.of(context).working_hours),
             drawer: MerchantDrawer.buildDrawer(context),
             backgroundColor: Colors.transparent,
             body: RefreshIndicator(
@@ -191,9 +200,11 @@ class _WorkingHoursState extends State<WorkingHours> {
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 child: GestureDetector(
                   child: Text(
-                    '+ Add New Slot',
+                    '+ ${S.of(context).add_new_slot}',
                     style: TextStyle(
-                        color: MyTheme.accent_color,
+                        color: isLoadingInBackground
+                            ? MyTheme.grey_153
+                            : MyTheme.accent_color,
                         fontWeight: FontWeight.w600),
                   ),
                   onTap: () {
@@ -210,6 +221,8 @@ class _WorkingHoursState extends State<WorkingHours> {
     DateTime? endDate = slot.start != null ? DateTime.parse(slot.start) : null;
 
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Expanded(
           child: Column(
@@ -270,9 +283,12 @@ class _WorkingHoursState extends State<WorkingHours> {
         ),
         IconButton(
           icon: const Icon(Icons.close),
-          onPressed: () {
-            removeSlot(slot.id);
-          },
+          color: isLoadingInBackground ? MyTheme.grey_153 : Colors.black,
+          onPressed: !isLoadingInBackground
+              ? () {
+                  removeSlot(slot.id);
+                }
+              : null,
         )
       ],
     );

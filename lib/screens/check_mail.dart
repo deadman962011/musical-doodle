@@ -21,6 +21,7 @@ class CheckMail extends StatefulWidget {
 
 class _CheckMailState extends State<CheckMail> with TickerProviderStateMixin {
   late AnimationController _controller;
+  bool _isAnimationInitialized = false;
   late bool showOpenEmailBtn = true;
   late String buttonAction = '';
   int levelClock = 45;
@@ -68,7 +69,9 @@ class _CheckMailState extends State<CheckMail> with TickerProviderStateMixin {
 
   @override
   void dispose() {
-    _controller.dispose();
+    if (_isAnimationInitialized) {
+      _controller.dispose();
+    }
     super.dispose();
   }
 
@@ -105,6 +108,7 @@ class _CheckMailState extends State<CheckMail> with TickerProviderStateMixin {
     setState(() {
       _controller = AnimationController(
           vsync: this, duration: Duration(seconds: levelClock));
+      _isAnimationInitialized = true;
       _controller.forward();
       _controller.addStatusListener(_counterAnimationStatusListener);
       _displayCounter = true;

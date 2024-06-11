@@ -4,6 +4,7 @@ import 'package:com.mybill.app/generated/l10n.dart';
 import 'package:com.mybill.app/helpers/shared_value_helper.dart';
 import 'package:com.mybill.app/my_theme.dart';
 import 'package:com.mybill.app/repositories/user/user_bank_account_repository.dart';
+import 'package:com.mybill.app/screens/user/bank_accounts.dart';
 import 'package:com.mybill.app/ui_elements/user_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -66,7 +67,10 @@ class _AddBankAccountState extends State<AddBankAccount> {
     if (response.runtimeType.toString() == 'UserCreateBankAccountsResponse') {
       ToastComponent.showDialog('bank account successfully created', context,
           gravity: Toast.bottom, duration: Toast.lengthLong);
-      Navigator.pop(context);
+      // Navigator.pop(context);
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+        return BankAccounts();
+      }));
     } else if (response.runtimeType.toString() == 'ValidationResponse') {
       setState(() {
         _errors = response.errors;
@@ -93,8 +97,8 @@ class _AddBankAccountState extends State<AddBankAccount> {
             app_language_rtl.$ ? TextDirection.rtl : TextDirection.ltr,
         child: Scaffold(
             key: _scaffoldKey,
-            appBar: UserAppBar.buildUserAppBar(
-                context, 'edit_profile', S.of(context).profile_edit, {}),
+            appBar: UserAppBar.buildUserAppBar(context, 'add_bank_account',
+                S.of(context).add_bank_account, {}),
             body: Container(
                 padding: const EdgeInsets.only(left: 14, right: 14, bottom: 12),
                 width: MediaQuery.of(context).size.width,
@@ -120,10 +124,9 @@ class _AddBankAccountState extends State<AddBankAccount> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        const Padding(
+                                          Padding(
                                           padding: EdgeInsets.only(bottom: 8),
-                                          child: Text(
-                                            'bank name',
+                                          child: Text(S.of(context).bank_name,
                                           ),
                                         ),
                                         FormBuilderTextField(
@@ -146,9 +149,9 @@ class _AddBankAccountState extends State<AddBankAccount> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        const Padding(
+                                          Padding(
                                           padding: EdgeInsets.only(bottom: 8),
-                                          child: Text('full name'),
+                                          child: Text(S.of(context).full_name),
                                         ),
                                         FormBuilderTextField(
                                           name: 'full_name',
@@ -170,9 +173,9 @@ class _AddBankAccountState extends State<AddBankAccount> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        const Padding(
+                                          Padding(
                                           padding: EdgeInsets.only(bottom: 8),
-                                          child: Text('account number'),
+                                          child: Text(S.of(context).account_number),
                                         ),
                                         FormBuilderTextField(
                                           name: 'account_number',
@@ -195,9 +198,9 @@ class _AddBankAccountState extends State<AddBankAccount> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        const Padding(
+                                          Padding(
                                           padding: EdgeInsets.only(bottom: 8),
-                                          child: Text('iban number'),
+                                          child: Text(S.of(context).iban),
                                         ),
                                         FormBuilderTextField(
                                           name: 'iban',

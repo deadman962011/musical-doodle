@@ -6,6 +6,7 @@ import 'package:com.mybill.app/my_theme.dart';
 import 'package:com.mybill.app/repositories/user/user_offer_invoice.dart';
 import 'package:com.mybill.app/screens/user/invoice_details.dart';
 import 'package:com.mybill.app/screens/user/redeem_points.dart';
+import 'package:com.mybill.app/screens/user/withdraw_balance.dart';
 import 'package:com.mybill.app/ui_elements/merchant_drawer.dart';
 import 'package:com.mybill.app/ui_elements/user_appbar.dart';
 import 'package:flutter/material.dart';
@@ -135,7 +136,7 @@ class _UserWalletState extends State<UserWallet> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [Text(S.of(context).available_balance), Text('0.00')],
               ),
-              Text('SAR')
+              Text(S.of(context).sar)
             ],
           ),
           Row(
@@ -242,23 +243,30 @@ class _UserWalletState extends State<UserWallet> {
               ),
             ),
           ),
-          Container(
-            width: 110,
-            height: 110,
-            decoration: BoxDecorations.buildBoxDecoration_1(),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset(
-                  'assets/wallet_3.png',
-                ),
-                Text(
-                  S.of(context).withdraw_balance,
-                  style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500),
-                )
-              ],
+          GestureDetector(
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return const WithdrawBalance();
+              }));
+            },
+            child: Container(
+              width: 110,
+              height: 110,
+              decoration: BoxDecorations.buildBoxDecoration_1(),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    'assets/wallet_3.png',
+                  ),
+                  Text(
+                    S.of(context).withdraw_balance,
+                    style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500),
+                  )
+                ],
+              ),
             ),
-          ),
+          )
         ],
       ),
     );

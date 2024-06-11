@@ -208,7 +208,7 @@ class _StatisticsState extends State<MerchantStatistics> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text('Offers shh'),
+              const Text('Offers '),
               TextButton(
                   style: TextButton.styleFrom(
                       backgroundColor: MyTheme.accent_color,
@@ -248,51 +248,45 @@ class _StatisticsState extends State<MerchantStatistics> {
             horizontalMargin: 6,
             columnSpacing: 12,
             headingRowHeight: 24,
-            columns: const <DataColumn>[
+            columns:   <DataColumn>[
               DataColumn(
                 label: Expanded(
-                  child: Text(
-                    'bill ID',
+                  child: Text(S.of(context).bill_id,
                     style: TextStyle(fontSize: 12),
                   ),
                 ),
               ),
               DataColumn(
                 label: Expanded(
-                  child: Text(
-                    'Customer name',
+                  child: Text(S.of(context).customre_name,
                     style: TextStyle(fontSize: 12),
                   ),
                 ),
               ),
               DataColumn(
                 label: Expanded(
-                  child: Text(
-                    'Date',
+                  child: Text(S.of(context).date,
                     style: TextStyle(fontSize: 12),
                   ),
                 ),
               ),
               DataColumn(
                 label: Expanded(
-                  child: Text(
-                    'Status',
+                  child: Text(S.of(context).status,
                     style: TextStyle(fontSize: 12),
                   ),
                 ),
               ),
               DataColumn(
                 label: Expanded(
-                  child: Text(
-                    'Amount',
+                  child: Text(S.of(context).amount,
                     style: TextStyle(fontSize: 12),
                   ),
                 ),
               ),
               DataColumn(
                 label: Expanded(
-                  child: Text(
-                    'Bill',
+                  child: Text(S.of(context).bill,
                     style: TextStyle(fontSize: 12),
                   ),
                 ),

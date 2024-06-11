@@ -9,8 +9,11 @@ import 'package:com.mybill.app/screens/guest.dart';
 import 'package:com.mybill.app/screens/merchant/main.dart';
 import 'package:com.mybill.app/screens/user/main.dart';
 import 'package:flutter/material.dart';
+import 'package:com.mybill.app/ui_elements/dialog.dart';
+import 'package:geolocator/geolocator.dart';
 // import 'package:package_info/package_info.dart';
 import 'package:provider/provider.dart';
+import 'package:one_context/one_context.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -39,8 +42,15 @@ class _SplashScreenState extends State<SplashScreen> {
     // TODO: implement initState
     super.initState();
     _initPackageInfo();
-  }
+    // _checkPermission();
+    // Future.delayed(Duration(seconds: 5), );
+    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    //   _checkPermission();
+    // });
 
+    // _locationPermission();
+  }
+  
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<String>(
@@ -109,8 +119,8 @@ class _SplashScreenState extends State<SplashScreen> {
                       child: Container(
                         height: 200,
                         width: 200,
-                        padding:
-                            const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 12),
                         child: Image.asset(
                           "assets/splash_screen_logo.png",
                           filterQuality: FilterQuality.low,

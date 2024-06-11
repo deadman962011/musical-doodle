@@ -193,10 +193,10 @@ class _ProfileState extends State<UserProfile> {
 
                       if (tab['redirect_to'] == 'logout') {
                         AuthHelper().clearUserData();
-                        Navigator.push(context,
+                        Navigator.pushAndRemoveUntil(context,
                             MaterialPageRoute(builder: (context) {
                           return UserMain();
-                        }));
+                        }), (route) => false);
                       }
 
                       // else if (tab['redirect_to'] == 'change_theme') {

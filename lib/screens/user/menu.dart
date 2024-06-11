@@ -14,8 +14,7 @@ class UserMenu extends StatefulWidget {
   _MenuState createState() => _MenuState();
 }
 
-class _MenuState extends State<UserMenu> {
-  final ScrollController _mainScrollController = ScrollController();
+class _MenuState extends State<UserMenu> { 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -74,13 +73,6 @@ class _MenuState extends State<UserMenu> {
                     ],
                   ),
                 )
-
-                //  SingleChildScrollView(
-                //     controller: _mainScrollController,
-                //     physics: const BouncingScrollPhysics(
-                //         parent: AlwaysScrollableScrollPhysics()),
-                //     child:
-                //     ),
                 ),
           ],
         ));

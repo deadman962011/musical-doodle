@@ -40,9 +40,13 @@ class InputDecorations {
   }
 
   static InputDecoration buildDropdownInputDecoration_1(
-      {hint_text = "", horizontalPadding = 16.00, verticalPadding = 0.00}) {
+      {hint_text = "",
+      error_text,
+      horizontalPadding = 16.00,
+      verticalPadding = 0.00}) {
     return InputDecoration(
         hintText: hint_text,
+        errorText: error_text,
         filled: true,
         fillColor: MyTheme.white,
         hintStyle: TextStyle(fontSize: 12.0, color: MyTheme.textfield_grey),

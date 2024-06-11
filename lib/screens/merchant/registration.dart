@@ -1,3 +1,4 @@
+import 'package:com.mybill.app/custom/common_functions.dart';
 import 'package:com.mybill.app/helpers/general_helper.dart';
 import 'package:com.mybill.app/repositories/category_repository.dart';
 import 'package:com.mybill.app/repositories/zones_repository.dart';
@@ -44,25 +45,29 @@ class _MerchantRegistrationState extends State<MerchantRegistration> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _referralCodeController = TextEditingController();
 
+  final districtDropDownKey = GlobalKey<DropdownSearchState>();
+
   // TextEditingController _nameController = TextEditingController();
   // final _formKey = GlobalKey<FormState>();
   final _formKey = GlobalKey<FormBuilderState>();
   late List _categories_list = [];
   late List _zones_list = [];
+  late List _districts_list = [];
   String categoriesIds = '';
   String fullPhone = '';
   int? zoneId;
+  int? districtId;
+  LatLng? selectZoneCenter;
   LatLng? selectedLocation;
   bool _isLoading = false;
-  final bool _enableBtn = false;
   bool obscureText = true;
   Country _country = Country(
     name: "Saudi Arabia",
     nameTranslations: {
+      "no": "Saudi-Arabia",
       "sk": "Saudská Arábia",
       "se": "Saudi-Arábia",
       "pl": "Arabia Saudyjska",
-      "no": "Saudi-Arabia",
       "ja": "サウジアラビア",
       "it": "Arabia Saudita",
       "zh": "沙特阿拉伯",
@@ -97,11 +102,11 @@ class _MerchantRegistrationState extends State<MerchantRegistration> {
   @override
   void initState() {
     //on Splash Screen hide statusbar
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-        overlays: [SystemUiOverlay.bottom]);
+    // SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+    //     overlays: [SystemUiOverlay.bottom]);
+    super.initState();
     fetchCategories();
     fetchZones();
-    super.initState();
   }
 
   @override
@@ -141,9 +146,30 @@ class _MerchantRegistrationState extends State<MerchantRegistration> {
 
     var response = await ZoneRepository().getAllZonesResponse();
     if (response.runtimeType.toString() == 'AllZonesResponse') {
-      List<dynamic> zones = response.zones;
+      List<dynamic> zones = response.payload;
       if (zones.isNotEmpty) {
         for (var zone in zones) {
+          dropDownItems.add(DropdownMenuItem(
+            value: zone,
+            child: Text(zone.name),
+          ));
+        }
+      }
+      setState(() {
+        _zones_list = dropDownItems;
+      });
+    } else if (response.runtimeType.toString() == 'ValidationResponse') {}
+  }
+
+  fetchDistricts(int zoneId) async {
+    var dropDownItems = [];
+
+    var response = await ZoneRepository().getZoneDistrictsResponse(zoneId);
+    debugPrint(response.toString());
+    if (response.runtimeType.toString() == 'ZoneDistrictsResponse') {
+      List<dynamic> districts = response.payload;
+      if (districts.isNotEmpty) {
+        for (var zone in districts) {
           dropDownItems.add(DropdownMenuItem(
             value: zone.id,
             child: Text(zone.name),
@@ -151,7 +177,7 @@ class _MerchantRegistrationState extends State<MerchantRegistration> {
         }
       }
       setState(() {
-        _zones_list = dropDownItems;
+        _districts_list = dropDownItems;
       });
     } else if (response.runtimeType.toString() == 'ValidationResponse') {}
   }
@@ -182,6 +208,7 @@ class _MerchantRegistrationState extends State<MerchantRegistration> {
             selectedLocation!.longitude.toString(),
             selectedLocation!.latitude.toString(),
             zoneId!,
+            districtId!,
             referralCode);
     if (response.runtimeType.toString() == 'MerchantCompleteRegisterResponse') {
       Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -200,12 +227,6 @@ class _MerchantRegistrationState extends State<MerchantRegistration> {
     });
   }
 
-//   isButtonActive(){
-// // _isLoading ||_formKey.currentState !=null && !_formKey.currentState!.validate()
-//     return true;
-
-//   }
-
   bool isFormValid() {
     if (_formKey.currentState != null && !_formKey.currentState!.isValid) {
       return false;
@@ -214,6 +235,9 @@ class _MerchantRegistrationState extends State<MerchantRegistration> {
       return false;
     }
     if (zoneId == null) {
+      return false;
+    }
+    if (districtId == null) {
       return false;
     }
     if (fullPhone == '') {
@@ -240,12 +264,14 @@ class _MerchantRegistrationState extends State<MerchantRegistration> {
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
-    final screenWidth = MediaQuery.of(context).size.width;
-
     final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-    return AuthScreen.buildScreen(context, 'Merchant Registration',
-        merchantRegistration(), true, scaffoldKey);
+    return WillPopScope(
+        onWillPop: () async {
+          CommonFunctions(context).appExitDialog();
+          return false;
+        },
+        child: AuthScreen.buildScreen(context, 'Merchant Registration',
+            merchantRegistration(), true, scaffoldKey));
   }
 
   Widget merchantRegistration() {
@@ -321,37 +347,9 @@ class _MerchantRegistrationState extends State<MerchantRegistration> {
                                       ),
                                     ));
                               } else {
-                                return const Text('Select Category');
+                                return Text(S.of(context).select_category);
                               }
                             },
-                            // dropdownBuilder: (context, selectedItems) {
-
-                            //   if (selectedItems.isNotEmpty) {
-                            //     return Wrap(
-                            //         children: selectedItems.map((e) {
-                            //       return Container(
-                            //         margin: const EdgeInsets.symmetric(
-                            //             vertical: 8, horizontal: 6),
-                            //         padding: const EdgeInsets.symmetric(
-                            //           vertical: 10,
-                            //           horizontal: 10,
-                            //         ),
-                            //         decoration: BoxDecoration(
-                            //           color: MyTheme.accent_color,
-                            //           borderRadius: BorderRadius.circular(20),
-                            //         ),
-                            //         child: Text(
-                            //               e.child.data,
-                            //               style: const TextStyle(
-                            //                   color: Colors.white),
-                            //             ) ??
-                            //             const Text(''),
-                            //       );
-                            //     }).toList());
-                            //   } else {
-                            //     return Text(S.of(context).select_category);
-                            //   }
-                            // },
                             onChanged: (value) {
                               setState(
                                 () {
@@ -426,21 +424,21 @@ class _MerchantRegistrationState extends State<MerchantRegistration> {
                       child: IntlPhoneField(
                         enabled: true,
                         onChanged: (phone) {
-                          List<String> _prefixes = [
-                            '50',
-                            '53',
-                            '54',
-                            '55',
-                            '059',
-                            '58',
-                            '56',
-                            '57'
+                          List<int> _prefixes = [
+                            50,
+                            53,
+                            54,
+                            55,
+                            59,
+                            58,
+                            56,
+                            57
                           ];
-
+                          int prefix = int.parse(phone.number.substring(0, 2));
+                          bool containsPrefix = _prefixes.contains(prefix);
                           if (phone.number.length >= _country.minLength &&
                               phone.number.length <= _country.maxLength &&
-                              _prefixes
-                                  .contains(phone.number.substring(0, 3))) {
+                              containsPrefix) {
                             setState(() {
                               fullPhone = phone.number;
                             });
@@ -453,33 +451,12 @@ class _MerchantRegistrationState extends State<MerchantRegistration> {
                         countries: [_country],
                         controller: _phoneController,
                         decoration:
-                            InputDecorations.buildDropdownInputDecoration_1(),
+                            InputDecorations.buildDropdownInputDecoration_1(
+                                error_text: _errors['shop_admin_phone'] != null
+                                    ? _errors['shop_admin_phone']![0]
+                                    : null),
                         initialCountryCode: 'SA',
-                      )
-
-                      // FormBuilderTextField(
-                      //   // autofocus: false,
-                      //   // autovalidateMode: AutovalidateMode.always,
-                      //   name: 'shop_admin_phone',
-                      //   controller: _phoneController,
-                      //   autovalidateMode: AutovalidateMode.disabled,
-                      //   decoration: InputDecorations.buildInputDecoration_1(
-                      //       error_text: _errors['shop_admin_phone'] != null
-                      //           ? _errors['shop_admin_phone']![0]
-                      //           : null,
-                      //       hint_text: S.of(context).shop_admin_phone),
-
-                      //   validator: FormBuilderValidators.compose([
-                      //     FormBuilderValidators.required(),
-                      //     FormBuilderValidators.minLength(10),
-                      //   ]),
-                      //   textInputAction: TextInputAction.next,
-                      //   inputFormatters: <TextInputFormatter>[
-                      //     FilteringTextInputFormatter.digitsOnly
-                      //   ],
-                      //   keyboardType: TextInputType.number,
-                      // ),
-                      ),
+                      )),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 8.0),
                     child: Column(
@@ -497,13 +474,22 @@ class _MerchantRegistrationState extends State<MerchantRegistration> {
                                       ),
                                     ));
                               } else {
-                                return const Text('Select Zone');
+                                return Text(S.of(context).select_city);
                               }
                             },
-                            onChanged: (value) {
+                            onChanged: (selectedZone) {
                               setState(() {
-                                zoneId = value.value;
+                                zoneId = selectedZone.value.id;
+                                selectZoneCenter = LatLng(
+                                    selectedZone.value.center.latitude,
+                                    selectedZone.value.center.longitude);
+                                if (districtId != null) {
+                                  districtDropDownKey.currentState!.clear();
+                                  districtId = null;
+                                }
                               });
+
+                              fetchDistricts(selectedZone.value.id);
                             },
                             popupProps: PopupPropsMultiSelection.menu(
                                 itemBuilder: _customPopupItemBuilder,
@@ -521,6 +507,56 @@ class _MerchantRegistrationState extends State<MerchantRegistration> {
                                       hint_text: S.of(context).search),
                             ),
                             items: _zones_list,
+                            filterFn: (i, s) {
+                              return i.child.data.contains(s.toString());
+                            })
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        DropdownSearch(
+                            key: districtDropDownKey,
+                            dropdownBuilder: (context, selectedItem) {
+                              if (selectedItem != null) {
+                                return Padding(
+                                    padding: const EdgeInsets.all(4.0),
+                                    child: Container(
+                                      child: ListTile(
+                                        contentPadding: const EdgeInsets.all(0),
+                                        title: selectedItem,
+                                      ),
+                                    ));
+                              } else {
+                                return Text(S.of(context).select_district);
+                              }
+                            },
+                            onChanged: (value) {
+                              setState(() {
+                                if (value != null) {
+                                  districtId = value.value;
+                                }
+                              });
+                            },
+                            popupProps: PopupPropsMultiSelection.menu(
+                                itemBuilder: _customPopupItemBuilder,
+                                showSearchBox: true,
+                                isFilterOnline: true,
+                                searchDelay:
+                                    const Duration(seconds: 0, milliseconds: 1),
+                                searchFieldProps: TextFieldProps(
+                                    decoration: InputDecorations
+                                        .buildDropdownInputDecoration_1(
+                                            hint_text: S.of(context).search))),
+                            dropdownDecoratorProps: DropDownDecoratorProps(
+                              dropdownSearchDecoration:
+                                  InputDecorations.buildInputDecoration_1(
+                                      hint_text: S.of(context).search),
+                            ),
+                            items: _districts_list,
                             filterFn: (i, s) {
                               return i.child.data.contains(s.toString());
                             })
@@ -567,8 +603,9 @@ class _MerchantRegistrationState extends State<MerchantRegistration> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) =>
-                                          const LocationSelector()),
+                                      builder: (context) => LocationSelector(
+                                            center: selectZoneCenter!,
+                                          )),
                                 ).then((selectedLocation) => {
                                       setState(() {
                                         this.selectedLocation =

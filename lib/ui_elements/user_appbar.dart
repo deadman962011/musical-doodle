@@ -1,4 +1,6 @@
 import 'package:com.mybill.app/screens/user/main.dart';
+import 'package:com.mybill.app/screens/user/redeem_points_history.dart';
+import 'package:com.mybill.app/screens/user/withdraw_balance_history.dart';
 import 'package:flutter/material.dart';
 import 'package:com.mybill.app/my_theme.dart';
 
@@ -76,6 +78,21 @@ class UserAppBar {
           )
         ];
         break;
+      case 'redeem_points':
+        widgets = [
+          _buildBackButton(context),
+          _buildTitle(title),
+          _buildPreviousRedeemsButton(context)
+        ];
+        break;
+
+      case 'withdraw_balance':
+        widgets = [
+          _buildBackButton(context),
+          _buildTitle(title),
+          _buildWithdrawHistoryButton(context)
+        ];
+        break;
 
       default:
         widgets = [
@@ -91,7 +108,7 @@ class UserAppBar {
         preferredSize: const Size.fromHeight(80),
         child: Container(
           width: MediaQuery.of(context).size.width,
-          margin: const EdgeInsets.only(top: 30, bottom: 10),
+          height: 80,
           padding: const EdgeInsets.symmetric(
             horizontal: 14,
           ),
@@ -160,6 +177,42 @@ class UserAppBar {
         color: MyTheme.accent_color,
         onPressed: () {},
         icon: const Icon(Icons.place),
+      ),
+    );
+  }
+
+  static Widget _buildPreviousRedeemsButton(context) {
+    return SizedBox(
+      width: 40,
+      height: 40,
+      child: IconButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) {
+              return RedeemPointsHistory();
+            }),
+          );
+        },
+        icon: const Icon(Icons.history),
+      ),
+    );
+  }
+
+  static Widget _buildWithdrawHistoryButton(context) {
+    return SizedBox(
+      width: 40,
+      height: 40,
+      child: IconButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) {
+              return WithdrawBalanceHistory();
+            }),
+          );
+        },
+        icon: const Icon(Icons.history),
       ),
     );
   }
