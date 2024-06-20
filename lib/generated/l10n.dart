@@ -680,10 +680,10 @@ class S {
     );
   }
 
-  /// `of bill amount`
+  /// `of bill amount without vat`
   String get of_bill_amount {
     return Intl.message(
-      'of bill amount',
+      'of bill amount without vat',
       name: 'of_bill_amount',
       desc: '',
       args: [],
@@ -1020,10 +1020,10 @@ class S {
     );
   }
 
-  /// `Offer name in english`
+  /// `Offer name`
   String get offer_name_in_en {
     return Intl.message(
-      'Offer name in english',
+      'Offer name',
       name: 'offer_name_in_en',
       desc: '',
       args: [],
@@ -2275,6 +2275,186 @@ class S {
     return Intl.message(
       'ID',
       name: 'id',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Edit menu`
+  String get edit_menu {
+    return Intl.message(
+      'Edit menu',
+      name: 'edit_menu',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `website`
+  String get website {
+    return Intl.message(
+      'website',
+      name: 'website',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Offer thumbnail`
+  String get offer_thumbnail {
+    return Intl.message(
+      'Offer thumbnail',
+      name: 'offer_thumbnail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `km`
+  String get km {
+    return Intl.message(
+      'km',
+      name: 'km',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Wallet history`
+  String get wallet_history {
+    return Intl.message(
+      'Wallet history',
+      name: 'wallet_history',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add staff`
+  String get add_staff {
+    return Intl.message(
+      'Add staff',
+      name: 'add_staff',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add role`
+  String get add_role {
+    return Intl.message(
+      'Add role',
+      name: 'add_role',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select role`
+  String get select_role {
+    return Intl.message(
+      'Select role',
+      name: 'select_role',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Role`
+  String get role {
+    return Intl.message(
+      'Role',
+      name: 'role',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Staff`
+  String get staff {
+    return Intl.message(
+      'Staff',
+      name: 'staff',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add new staff`
+  String get add_new_staff {
+    return Intl.message(
+      'Add new staff',
+      name: 'add_new_staff',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add new role`
+  String get add_new_role {
+    return Intl.message(
+      'Add new role',
+      name: 'add_new_role',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No staff`
+  String get no_staff {
+    return Intl.message(
+      'No staff',
+      name: 'no_staff',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No role`
+  String get no_role {
+    return Intl.message(
+      'No role',
+      name: 'no_role',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Permissions`
+  String get permissions {
+    return Intl.message(
+      'Permissions',
+      name: 'permissions',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Role name in arabic`
+  String get role_name_in_arabic {
+    return Intl.message(
+      'Role name in arabic',
+      name: 'role_name_in_arabic',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Role name in english`
+  String get role_name_in_english {
+    return Intl.message(
+      'Role name in english',
+      name: 'role_name_in_english',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Roles`
+  String get roles {
+    return Intl.message(
+      'Roles',
+      name: 'roles',
       desc: '',
       args: [],
     );

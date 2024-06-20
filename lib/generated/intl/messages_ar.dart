@@ -29,7 +29,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "add_bank_account":
             MessageLookupByLibrary.simpleMessage("اضافة حساب بنكي جديد"),
         "add_menu": MessageLookupByLibrary.simpleMessage("اضافة منيو"),
+        "add_new_role": MessageLookupByLibrary.simpleMessage("اضافة منصب جديد"),
         "add_new_slot": MessageLookupByLibrary.simpleMessage("اضافة توقيت"),
+        "add_new_staff":
+            MessageLookupByLibrary.simpleMessage("اضافة موظف جديد"),
         "add_offer": MessageLookupByLibrary.simpleMessage("اضاففة العرض"),
         "add_offer_btn": MessageLookupByLibrary.simpleMessage("اضافة عرض"),
         "add_offer_has_active_error": MessageLookupByLibrary.simpleMessage(
@@ -39,6 +42,8 @@ class MessageLookup extends MessageLookupByLibrary {
                 "لا يمكن اضافة عرض جديد تحتاج اولا لدفع عمولة العرض السابق"),
         "add_offer_has_pending_error": MessageLookupByLibrary.simpleMessage(
             "لا يمكن اضافة عرض جديد لديك عرض بالانتظار"),
+        "add_role": MessageLookupByLibrary.simpleMessage("اضافة دور"),
+        "add_staff": MessageLookupByLibrary.simpleMessage("اضافة موظف"),
         "address": MessageLookupByLibrary.simpleMessage("العنوان"),
         "all": MessageLookupByLibrary.simpleMessage("الكل"),
         "amount": MessageLookupByLibrary.simpleMessage("المبلغ"),
@@ -107,6 +112,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("لم تستلم رسالة التأكيد ؟"),
         "done": MessageLookupByLibrary.simpleMessage("منتهي"),
         "edit": MessageLookupByLibrary.simpleMessage("تعديل"),
+        "edit_menu": MessageLookupByLibrary.simpleMessage("تعديل المنيو"),
         "email": MessageLookupByLibrary.simpleMessage("البريد الالكتروني"),
         "end": MessageLookupByLibrary.simpleMessage("انتهاء"),
         "end_date_placeholder":
@@ -134,6 +140,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "invoice_date": MessageLookupByLibrary.simpleMessage("تاريخ الفاتورة"),
         "invoice_details":
             MessageLookupByLibrary.simpleMessage("معلومات الفاتورة"),
+        "km": MessageLookupByLibrary.simpleMessage("كم"),
         "language": MessageLookupByLibrary.simpleMessage("اللغة"),
         "last_name": MessageLookupByLibrary.simpleMessage("الاسم الاخير"),
         "lastname": MessageLookupByLibrary.simpleMessage("النسبة"),
@@ -185,20 +192,21 @@ class MessageLookup extends MessageLookupByLibrary {
         "no_offers": MessageLookupByLibrary.simpleMessage("لا يوجد عروض"),
         "no_offers_found":
             MessageLookupByLibrary.simpleMessage("لم يتم العثور على عروض"),
+        "no_role": MessageLookupByLibrary.simpleMessage("لا يوجد مناصب"),
+        "no_staff": MessageLookupByLibrary.simpleMessage("لا يوجد موظفين"),
         "notice": MessageLookupByLibrary.simpleMessage("ملاحظة"),
         "notice_1_point_equal_1_sar": MessageLookupByLibrary.simpleMessage(
             "  ملاحظة كل 1 نقطة تساوي 1 ريال سعودي "),
         "notifications": MessageLookupByLibrary.simpleMessage("الاشعارات"),
-        "of_bill_amount":
-            MessageLookupByLibrary.simpleMessage("من قيمة الفاتورة"),
+        "of_bill_amount": MessageLookupByLibrary.simpleMessage(
+            " من قيمة الفاتورة بدون الضربية"),
         "offer_added_to_favorite": MessageLookupByLibrary.simpleMessage(
             "تم اضافة العرض للمفضلة بنجاح"),
         "offer_duration": MessageLookupByLibrary.simpleMessage("مدة العرض"),
         "offer_name": MessageLookupByLibrary.simpleMessage("اسم العرض"),
         "offer_name_in_ar":
             MessageLookupByLibrary.simpleMessage("اسم العرض بالعربية"),
-        "offer_name_in_en":
-            MessageLookupByLibrary.simpleMessage("اسم العرض بالانكليزي"),
+        "offer_name_in_en": MessageLookupByLibrary.simpleMessage("اسم العرض "),
         "offer_name_placeholder":
             MessageLookupByLibrary.simpleMessage("مثال: برغر "),
         "offer_num_of_beneficiaries":
@@ -206,6 +214,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "offer_removed_from_favorite": MessageLookupByLibrary.simpleMessage(
             "تم ازالة العرض من المفضلة بنجاح"),
         "offer_sales": MessageLookupByLibrary.simpleMessage("مبيعات العرض"),
+        "offer_thumbnail": MessageLookupByLibrary.simpleMessage("صورة العرض"),
         "offers": MessageLookupByLibrary.simpleMessage("العروض"),
         "ok": MessageLookupByLibrary.simpleMessage("موافق"),
         "online_payment_soon":
@@ -224,6 +233,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "pending_balance":
             MessageLookupByLibrary.simpleMessage("الرصيد المعلق"),
         "pending_invoice": MessageLookupByLibrary.simpleMessage("فاتورة معلقة"),
+        "permissions": MessageLookupByLibrary.simpleMessage("الصلاحيات"),
         "phone_number": MessageLookupByLibrary.simpleMessage("رقم الهاتف"),
         "please_check_your_email_inbox": MessageLookupByLibrary.simpleMessage(
             "الرجاء تفقد بريدك الالكتروني "),
@@ -255,6 +265,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "rejected_invoice": MessageLookupByLibrary.simpleMessage("مرفوضة"),
         "reports": MessageLookupByLibrary.simpleMessage("التقارير"),
         "resend_email": MessageLookupByLibrary.simpleMessage("اعادة ارسال"),
+        "role": MessageLookupByLibrary.simpleMessage("الدور"),
+        "role_name_in_arabic":
+            MessageLookupByLibrary.simpleMessage("اسم المنصب بالعربي"),
+        "role_name_in_english":
+            MessageLookupByLibrary.simpleMessage("اسم المنصب بالانكليزي"),
+        "roles": MessageLookupByLibrary.simpleMessage("المناصب"),
         "sales": MessageLookupByLibrary.simpleMessage("المبيعات"),
         "sar": MessageLookupByLibrary.simpleMessage("ر.س"),
         "save": MessageLookupByLibrary.simpleMessage("حفظ"),
@@ -273,6 +289,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "select_location": MessageLookupByLibrary.simpleMessage("اختر العنوان"),
         "select_payment_method":
             MessageLookupByLibrary.simpleMessage("اختر طريقة الدفع"),
+        "select_role": MessageLookupByLibrary.simpleMessage("اختيار الدور"),
         "sender_full_name":
             MessageLookupByLibrary.simpleMessage("الاسم الكامل للمرسل"),
         "sender_phone_number":
@@ -303,6 +320,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "shop_name_in_english":
             MessageLookupByLibrary.simpleMessage("اسم المتجر بالانكليزي"),
         "sorry": MessageLookupByLibrary.simpleMessage("عذرا"),
+        "staff": MessageLookupByLibrary.simpleMessage("الموظفين"),
         "start": MessageLookupByLibrary.simpleMessage(" بدء"),
         "start_date_placeholder":
             MessageLookupByLibrary.simpleMessage("10/10/2023 10:14 PM"),
@@ -330,8 +348,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "valid_invoice": MessageLookupByLibrary.simpleMessage("فاتورة صحيحة"),
         "vat": MessageLookupByLibrary.simpleMessage("قيمة الضريبة"),
         "wallet": MessageLookupByLibrary.simpleMessage("المحفظة"),
+        "wallet_history": MessageLookupByLibrary.simpleMessage("سجل المحفظة"),
         "we_sent_you_confirmatin_email":
             MessageLookupByLibrary.simpleMessage("ارسلنا لك بريد التأكيد"),
+        "website": MessageLookupByLibrary.simpleMessage("موقع الكتروني"),
         "white": MessageLookupByLibrary.simpleMessage("فاتح"),
         "withdraw_balance": MessageLookupByLibrary.simpleMessage("سحب الرصيد"),
         "withdraw_blanace_long_text": MessageLookupByLibrary.simpleMessage(

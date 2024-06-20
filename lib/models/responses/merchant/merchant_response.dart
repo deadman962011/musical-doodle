@@ -13,7 +13,7 @@ String merchantResponseToMap(MerchantResponse data) =>
 
 class MerchantResponse {
   bool success;
-  Payload payload;
+  MerchantDetails payload;
   String message;
 
   MerchantResponse({
@@ -25,7 +25,7 @@ class MerchantResponse {
   factory MerchantResponse.fromMap(Map<String, dynamic> json) =>
       MerchantResponse(
         success: json["success"],
-        payload: Payload.fromMap(json["payload"]),
+        payload: MerchantDetails.fromMap(json["payload"]),
         message: json["message"],
       );
 
@@ -36,31 +36,35 @@ class MerchantResponse {
       };
 }
 
-class Payload {
+class MerchantDetails {
   int id;
   String shopNameAr;
   String shopNameEn;
   String? shopContactEmail;
   String? shopContactPhone;
   String? shopContactWebsite;
+  String? menu;
+  String? logo;
 
-  Payload({
-    required this.id,
-    required this.shopNameAr,
-    required this.shopNameEn,
-    required this.shopContactEmail,
-    required this.shopContactPhone,
-    required this.shopContactWebsite,
-  });
+  MerchantDetails(
+      {required this.id,
+      required this.shopNameAr,
+      required this.shopNameEn,
+      required this.shopContactEmail,
+      required this.shopContactPhone,
+      required this.shopContactWebsite,
+      required this.menu,
+      required this.logo});
 
-  factory Payload.fromMap(Map<String, dynamic> json) => Payload(
-        id: json["id"],
-        shopNameAr: json["shop_name_ar"],
-        shopNameEn: json["shop_name_en"],
-        shopContactEmail: json["shop_contact_email"],
-        shopContactPhone: json["shop_contact_phone"],
-        shopContactWebsite: json["shop_contact_website"],
-      );
+  factory MerchantDetails.fromMap(Map<String, dynamic> json) => MerchantDetails(
+      id: json["id"],
+      shopNameAr: json["shop_name_ar"],
+      shopNameEn: json["shop_name_en"],
+      shopContactEmail: json["shop_contact_email"],
+      shopContactPhone: json["shop_contact_phone"],
+      shopContactWebsite: json["shop_contact_website"],
+      menu: json['menu'],
+      logo: json['logo']);
 
   Map<String, dynamic> toMap() => {
         "id": id,
@@ -68,6 +72,8 @@ class Payload {
         "shop_name_en": shopNameEn,
         "shop_contact_email": shopContactEmail,
         "shop_contact_phone": shopContactPhone,
-        "shop_contact_website": shopContactWebsite
+        "shop_contact_website": shopContactWebsite,
+        "menu": menu,
+        "logo": logo
       };
 }

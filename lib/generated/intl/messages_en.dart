@@ -30,7 +30,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "add_bank_account":
             MessageLookupByLibrary.simpleMessage("Add new bank account"),
         "add_menu": MessageLookupByLibrary.simpleMessage("Add menu"),
+        "add_new_role": MessageLookupByLibrary.simpleMessage("Add new role"),
         "add_new_slot": MessageLookupByLibrary.simpleMessage("Add new slot"),
+        "add_new_staff": MessageLookupByLibrary.simpleMessage("Add new staff"),
         "add_offer": MessageLookupByLibrary.simpleMessage("Add New  Offer"),
         "add_offer_btn": MessageLookupByLibrary.simpleMessage("Add Offer"),
         "add_offer_has_active_error": MessageLookupByLibrary.simpleMessage(
@@ -40,6 +42,8 @@ class MessageLookup extends MessageLookupByLibrary {
                 "Unable to add new offer , you need to pay offer commissions"),
         "add_offer_has_pending_error": MessageLookupByLibrary.simpleMessage(
             "Unable to add new offer because you have pending offer"),
+        "add_role": MessageLookupByLibrary.simpleMessage("Add role"),
+        "add_staff": MessageLookupByLibrary.simpleMessage("Add staff"),
         "address": MessageLookupByLibrary.simpleMessage("address"),
         "all": MessageLookupByLibrary.simpleMessage("All"),
         "amount": MessageLookupByLibrary.simpleMessage("Amount"),
@@ -110,6 +114,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Didnt recive the email ?  "),
         "done": MessageLookupByLibrary.simpleMessage("Done"),
         "edit": MessageLookupByLibrary.simpleMessage("Edit"),
+        "edit_menu": MessageLookupByLibrary.simpleMessage("Edit menu"),
         "email": MessageLookupByLibrary.simpleMessage("Email"),
         "end": MessageLookupByLibrary.simpleMessage("End"),
         "end_date_placeholder":
@@ -139,6 +144,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "invoice_date": MessageLookupByLibrary.simpleMessage("Invoice date"),
         "invoice_details":
             MessageLookupByLibrary.simpleMessage("Invoice details"),
+        "km": MessageLookupByLibrary.simpleMessage("km"),
         "language": MessageLookupByLibrary.simpleMessage("Language"),
         "last_name": MessageLookupByLibrary.simpleMessage("Last name"),
         "lastname": MessageLookupByLibrary.simpleMessage("last name"),
@@ -191,12 +197,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "no_offers": MessageLookupByLibrary.simpleMessage("No offers"),
         "no_offers_found":
             MessageLookupByLibrary.simpleMessage("No Offers Found"),
+        "no_role": MessageLookupByLibrary.simpleMessage("No role"),
+        "no_staff": MessageLookupByLibrary.simpleMessage("No staff"),
         "notice": MessageLookupByLibrary.simpleMessage("Notice"),
         "notice_1_point_equal_1_sar":
             MessageLookupByLibrary.simpleMessage("Notice 1 point eqauls 1 SAR"),
         "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
         "of_bill_amount":
-            MessageLookupByLibrary.simpleMessage("of bill amount"),
+            MessageLookupByLibrary.simpleMessage("of bill amount without vat"),
         "offer_added_to_favorite": MessageLookupByLibrary.simpleMessage(
             "offer successfully added to favorite"),
         "offer_duration":
@@ -204,8 +212,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "offer_name": MessageLookupByLibrary.simpleMessage("Offer Name"),
         "offer_name_in_ar":
             MessageLookupByLibrary.simpleMessage("Offer name in arabic"),
-        "offer_name_in_en":
-            MessageLookupByLibrary.simpleMessage("Offer name in english"),
+        "offer_name_in_en": MessageLookupByLibrary.simpleMessage("Offer name"),
         "offer_name_placeholder":
             MessageLookupByLibrary.simpleMessage("EX : lorem ipsum"),
         "offer_num_of_beneficiaries":
@@ -213,6 +220,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "offer_removed_from_favorite": MessageLookupByLibrary.simpleMessage(
             "Offer successfully removed from favorite"),
         "offer_sales": MessageLookupByLibrary.simpleMessage("Offer sales"),
+        "offer_thumbnail":
+            MessageLookupByLibrary.simpleMessage("Offer thumbnail"),
         "offers": MessageLookupByLibrary.simpleMessage("Offers"),
         "ok": MessageLookupByLibrary.simpleMessage("Ok"),
         "online_payment_soon":
@@ -232,6 +241,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Pending balance"),
         "pending_invoice":
             MessageLookupByLibrary.simpleMessage("Pending invoice"),
+        "permissions": MessageLookupByLibrary.simpleMessage("Permissions"),
         "phone_number": MessageLookupByLibrary.simpleMessage("Phone number"),
         "please_check_your_email_inbox": MessageLookupByLibrary.simpleMessage(
             "Please check your email address"),
@@ -265,6 +275,12 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Rejected invoice"),
         "reports": MessageLookupByLibrary.simpleMessage("Reports"),
         "resend_email": MessageLookupByLibrary.simpleMessage("Resend email"),
+        "role": MessageLookupByLibrary.simpleMessage("Role"),
+        "role_name_in_arabic":
+            MessageLookupByLibrary.simpleMessage("Role name in arabic"),
+        "role_name_in_english":
+            MessageLookupByLibrary.simpleMessage("Role name in english"),
+        "roles": MessageLookupByLibrary.simpleMessage("Roles"),
         "sales": MessageLookupByLibrary.simpleMessage("Sales"),
         "sar": MessageLookupByLibrary.simpleMessage("SAR"),
         "save": MessageLookupByLibrary.simpleMessage("Save"),
@@ -284,6 +300,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("select location"),
         "select_payment_method":
             MessageLookupByLibrary.simpleMessage("Select payment method"),
+        "select_role": MessageLookupByLibrary.simpleMessage("Select role"),
         "sender_full_name":
             MessageLookupByLibrary.simpleMessage("Sender full name"),
         "sender_phone_number":
@@ -314,6 +331,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "shop_name_in_english":
             MessageLookupByLibrary.simpleMessage("Shop name in english"),
         "sorry": MessageLookupByLibrary.simpleMessage("Sorry"),
+        "staff": MessageLookupByLibrary.simpleMessage("Staff"),
         "start": MessageLookupByLibrary.simpleMessage("Start"),
         "start_date_placeholder":
             MessageLookupByLibrary.simpleMessage("10/10/2023 10:14 PM"),
@@ -343,8 +361,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "valid_invoice": MessageLookupByLibrary.simpleMessage("valid_invoice"),
         "vat": MessageLookupByLibrary.simpleMessage("vat"),
         "wallet": MessageLookupByLibrary.simpleMessage("Wallet"),
+        "wallet_history":
+            MessageLookupByLibrary.simpleMessage("Wallet history"),
         "we_sent_you_confirmatin_email": MessageLookupByLibrary.simpleMessage(
             "We sent you a confirmation email"),
+        "website": MessageLookupByLibrary.simpleMessage("website"),
         "white": MessageLookupByLibrary.simpleMessage("white"),
         "withdraw_balance":
             MessageLookupByLibrary.simpleMessage("Withdraw balance"),

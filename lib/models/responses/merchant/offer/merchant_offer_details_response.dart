@@ -44,7 +44,9 @@ class OfferDetailsItem {
   String endDate;
   String state;
   int sales;
-  int commissionAmountPercentage;
+  bool isPaid;
+  String? paidAt;
+  int? commissionAmountPercentage;
   int commission;
   List<OfferInvoiceMini> beneficiaries;
   int beneficiariesCount;
@@ -57,6 +59,8 @@ class OfferDetailsItem {
     required this.endDate,
     required this.state,
     required this.sales,
+    required this.isPaid,
+    required this.paidAt,
     required this.commissionAmountPercentage,
     required this.commission,
     required this.beneficiaries,
@@ -72,6 +76,8 @@ class OfferDetailsItem {
         endDate: json["end_date"],
         state: json["state"],
         sales: json["sales"],
+        isPaid: json['isPaid'],
+        paidAt: json['paid_at'],
         commissionAmountPercentage: json["commission_amount_percentage"],
         commission: json["commission"],
         beneficiaries: List<OfferInvoiceMini>.from(
@@ -87,6 +93,8 @@ class OfferDetailsItem {
         "end_date": endDate,
         "state": state,
         "sales": sales,
+        "isPaid": isPaid,
+        'paidAt': paidAt,
         "commission_amount_percentage": commissionAmountPercentage,
         "commission": commission,
         "beneficiaries":

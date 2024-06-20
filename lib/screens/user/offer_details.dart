@@ -7,6 +7,7 @@ import 'package:com.mybill.app/models/responses/user/offer/user_offer_details_re
 import 'package:com.mybill.app/my_theme.dart';
 import 'package:com.mybill.app/repositories/user/user_favorite_offers_repository.dart';
 import 'package:com.mybill.app/repositories/user/user_offers_repository.dart';
+import 'package:com.mybill.app/screens/full_screen_image_view.dart';
 import 'package:com.mybill.app/ui_elements/user_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' as intl;
@@ -102,24 +103,38 @@ class _OfferDetailsState extends State<OfferDetails> {
                         _buildOfferCard(),
                         Column(
                           children: [
-                            Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 16, vertical: 10),
-                                child: Row(
-                                  children: [
-                                    Image.asset(
-                                      'assets/menu.png',
-                                      color: MyTheme.accent_color,
-                                    ),
-                                    Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 18),
-                                        child: Text(
-                                          S.of(context).menu,
-                                          style: TextStyle(fontSize: 16),
-                                        ))
-                                  ],
-                                )),
+                            GestureDetector(
+                                onTap: _offer!.shop.menu != null
+                                    ? () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                FullscreenImageView(
+                                                    imageUrl:
+                                                        _offer!.shop.menu!),
+                                          ),
+                                        );
+                                      }
+                                    : null,
+                                child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16, vertical: 10),
+                                    child: Row(
+                                      children: [
+                                        Image.asset(
+                                          'assets/menu.png',
+                                          color: MyTheme.accent_color,
+                                        ),
+                                        Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 18),
+                                            child: Text(
+                                              S.of(context).menu,
+                                              style: TextStyle(fontSize: 16),
+                                            ))
+                                      ],
+                                    ))),
                             ExpansionTile(
                               title: Text(S.of(context).working_hours),
                               controlAffinity: ListTileControlAffinity.leading,
@@ -256,21 +271,68 @@ class _OfferDetailsState extends State<OfferDetails> {
                                             ],
                                           ),
                                         ),
+                                        Divider(
+                                          color: Colors.grey,
+                                          height: 0.3,
+                                        ),
+                                        _offer!.shop.shopContactWebsite != null
+                                            ? Column(
+                                                children: [
+                                                  Padding(
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                            vertical: 10),
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Row(
+                                                          children: [
+                                                            Padding(
+                                                                padding:
+                                                                    const EdgeInsetsDirectional
+                                                                        .only(
+                                                                        end:
+                                                                            12),
+                                                                child: Icon(
+                                                                  Icons
+                                                                      .language,
+                                                                  color: MyTheme
+                                                                      .accent_color,
+                                                                )),
+                                                            Text(S
+                                                                .of(context)
+                                                                .website)
+                                                          ],
+                                                        ),
+                                                        Text(_offer!.shop
+                                                            .shopContactWebsite!)
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  Divider(
+                                                    color: Colors.grey,
+                                                    height: 0.3,
+                                                  ),
+                                                ],
+                                              )
+                                            : Container(),
                                       ],
                                     ),
                                   ),
                                 ]),
-                            ExpansionTile(
-                              title: Text(S.of(context).rating),
-                              controlAffinity: ListTileControlAffinity.leading,
-                              leading: Image.asset(
-                                'assets/star.png',
-                                color: MyTheme.accent_color,
-                              ),
-                              children: const <Widget>[
-                                ListTile(title: Text('This is tile number 1')),
-                              ],
-                            ),
+                            // ExpansionTile(
+                            //   title: Text(S.of(context).rating),
+                            //   controlAffinity: ListTileControlAffinity.leading,
+                            //   leading: Image.asset(
+                            //     'assets/star.png',
+                            //     color: MyTheme.accent_color,
+                            //   ),
+                            //   children: const <Widget>[
+                            //     ListTile(title: Text('This is tile number 1')),
+                            //   ],
+                            // ),
                           ],
                         ),
                       ])))),
@@ -410,106 +472,5 @@ class _OfferDetailsState extends State<OfferDetails> {
         ],
       ),
     );
-
-    // return Container(
-    //   margin: const EdgeInsets.only(bottom: 20),
-    //   decoration: BoxDecorations.buildBoxDecoration(radius: 8),
-    //   child: Stack(
-    //     alignment: Alignment.bottomCenter,
-    //     children: [
-    //       ClipRRect(
-    //           borderRadius: BorderRadius.circular(8),
-    //           child: _offer?.image != null
-    //               ? Image.network(
-    //                   _offer!.image,
-    //                 )
-    //               : Image.asset(
-    //                   'assets/dummy_376x238.png',
-    //                 )),
-    //       Container(
-    //         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 18),
-    //         decoration: BoxDecoration(
-    //           color: Colors.white,
-    //           borderRadius: const BorderRadius.all(Radius.circular(8)),
-    //           boxShadow: [
-    //             BoxShadow(
-    //               color: Colors.black.withOpacity(.08),
-    //               blurRadius: 20,
-    //               spreadRadius: 0.0,
-    //               offset:
-    //                   const Offset(0.0, -6.0), // shadow direction: bottom right
-    //             )
-    //           ],
-    //         ),
-    //         child: const Row(
-    //           mainAxisAlignment: MainAxisAlignment.center,
-    //           children: [
-    //             Text('offer ends at 23/10/2043'),
-    //           ],
-    //         ),
-    //       ),
-    //       PositionedDirectional(
-    //         top: 12,
-    //         start: 12,
-    //         child: Row(
-    //           mainAxisAlignment: MainAxisAlignment.spaceAround,
-    //           children: [
-    //             GestureDetector(
-    //                 onTap: () {},
-    //                 child: Container(
-    //                     padding: const EdgeInsets.all(10),
-    //                     decoration: BoxDecoration(
-    //                         color: MyTheme.accent_color,
-    //                         borderRadius:
-    //                             const BorderRadius.all(Radius.circular(50))),
-    //                     child: Column(
-    //                       children: [
-    //                         Image.asset('assets/share.png'),
-    //                         const Text(
-    //                           'share',
-    //                           style: TextStyle(color: Colors.white),
-    //                         )
-    //                       ],
-    //                     ))),
-    //           ],
-    //         ),
-    //       ),
-    //       PositionedDirectional(
-    //           end: 12,
-    //           bottom: 20,
-    //           child: Column(
-    //             mainAxisAlignment: MainAxisAlignment.center,
-    //             children: [
-    //               Container(
-    //                 padding: const EdgeInsets.all(7.0),
-    //                 decoration: const BoxDecoration(
-    //                     color: Colors.white,
-    //                     borderRadius: BorderRadius.all(Radius.circular(50))),
-    //                 child: Container(
-    //                   margin: const EdgeInsets.only(bottom: 0),
-    //                   padding: const EdgeInsets.all(14),
-    //                   decoration: BoxDecoration(
-    //                       color: MyTheme.accent_color,
-    //                       borderRadius:
-    //                           const BorderRadius.all(Radius.circular(50))),
-    //                   child: const Column(
-    //                     children: [
-    //                       Text(
-    //                         '09%',
-    //                         style: TextStyle(color: Colors.white),
-    //                       ),
-    //                       Text(
-    //                         'كاش باك',
-    //                         style: TextStyle(color: Colors.white),
-    //                       )
-    //                     ],
-    //                   ),
-    //                 ),
-    //               ),
-    //             ],
-    //           ))
-    //     ],
-    //   ),
-    // );
   }
 }

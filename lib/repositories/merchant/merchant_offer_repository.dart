@@ -12,7 +12,7 @@ import 'package:com.mybill.app/helpers/shared_value_helper.dart';
 
 class MerchantOfferRepository {
   Future<dynamic> getMerchantOffersResponse({int page = 1}) async {
-    Uri url = Uri.parse("${AppConfig.BASE_URL}/shop/offer");
+    Uri url = Uri.parse("${AppConfig.BASE_URL}/shop/offer?page=${page}");
 
     final response = await http.get(
       url,

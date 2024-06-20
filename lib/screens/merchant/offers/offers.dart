@@ -211,7 +211,7 @@ class _MerchantOffersState extends State<MerchantOffers>
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     children: [
-                                        Text(S.of(context).sales),
+                                      Text(S.of(context).sales),
                                       Text(offer.sales.toString())
                                     ],
                                   )),
@@ -223,7 +223,7 @@ class _MerchantOffersState extends State<MerchantOffers>
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     children: [
-                                       Text(S.of(context).commission),
+                                      Text(S.of(context).commission),
                                       Text(offer.commission.toString())
                                     ],
                                   )),

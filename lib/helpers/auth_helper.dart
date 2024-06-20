@@ -15,10 +15,8 @@ class AuthHelper {
     shop_admin_name.save();
     shop_admin_email.$ = loginResponse['admin']['email'];
     shop_admin_email.save();
-
-    // shop_admin_avatar.$=loginResponse.payload['avatar'];
-    // shop_id
-    // shop_name
+    shop_admin_permissions.$ = loginResponse['admin']['permissions'];
+    shop_admin_permissions.save();
   }
 
   clearMerchantData() {
@@ -34,6 +32,8 @@ class AuthHelper {
     shop_admin_name.save();
     shop_admin_email.$ = '';
     shop_admin_email.save();
+    shop_admin_permissions.$ = [];
+    shop_admin_permissions.save();
   }
 
   setUserData(loginResponse) {
@@ -70,6 +70,18 @@ class AuthHelper {
     user_email.save();
     user_avatar.$ = '';
     user_avatar.save();
+  }
+
+  bool canAny(permissions) {
+    return permissions
+        .any((permission) => shop_admin_permissions.$.contains(permission));
+  }
+
+  bool can(permission) {
+    if (shop_admin_permissions.$.contains(permission)) {
+      return true;
+    }
+    return false;
   }
 
   fetch_and_set() async {

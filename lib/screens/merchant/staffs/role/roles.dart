@@ -2,58 +2,73 @@ import 'package:com.mybill.app/custom/box_decorations.dart';
 import 'package:com.mybill.app/generated/l10n.dart';
 import 'package:com.mybill.app/helpers/shared_value_helper.dart';
 import 'package:com.mybill.app/helpers/shimmer_helper.dart';
-import 'package:com.mybill.app/models/responses/user/bank_account/user_bank_accounts_response.dart';
+import 'package:com.mybill.app/models/responses/merchant/role/merchant_role_response.dart';
 import 'package:com.mybill.app/my_theme.dart';
-import 'package:com.mybill.app/repositories/user/user_bank_account_repository.dart';
-import 'package:com.mybill.app/screens/user/add_bank_account.dart';
-import 'package:com.mybill.app/screens/user/bank_account_edit.dart';
+import 'package:com.mybill.app/repositories/merchant/merchant_role_repository.dart';
+import 'package:com.mybill.app/screens/merchant/staffs/role/add_role.dart';
 import 'package:com.mybill.app/ui_elements/user_appbar.dart';
 import 'package:flutter/material.dart';
 
-class BankAccounts extends StatefulWidget {
-  const BankAccounts({super.key});
+class MerchantRoles extends StatefulWidget {
+  const MerchantRoles({Key? key}) : super(key: key);
 
   @override
-  _BankAccountsState createState() => _BankAccountsState();
+  _MerchantRoleState createState() => _MerchantRoleState();
 }
 
-class _BankAccountsState extends State<BankAccounts> {
+class _MerchantRoleState extends State<MerchantRoles>
+    with TickerProviderStateMixin {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  bool isLoading = true;
-  List<BankAccountMini> _bank_accounts = [];
+  final ScrollController _mainScrollController = ScrollController();
+  bool _isRolesLoading = true;
+  late List<MerchantRoleItem> _merchantRoleList = [];
+  int _page = 1;
 
   @override
   void initState() {
-    fetchAll();
-
+    // TODO: implement initState
     super.initState();
-  }
+    reset();
+    fetchRoles();
 
-  fetchAll() async {
-    fetchCoupons();
-  }
-
-  reset() async {
-    fetchAll();
-  }
-
-  fetchCoupons() async {
-    setState(() {
-      isLoading = true;
+    _mainScrollController.addListener(() {
+      if (_mainScrollController.position.pixels ==
+          _mainScrollController.position.maxScrollExtent) {
+        setState(() {
+          _page++;
+        });
+        _isRolesLoading = true;
+        reset();
+        fetchRoles();
+      }
     });
+  }
+
+  fetchRoles() async {
+    // if (offerProvider.firstOffer != null) {}
+
     var response =
-        await UserBankAccountRepository().getUserBankAccountsResponse();
-    if (response.runtimeType.toString() == 'UserBankAccountsResponse') {
-      UserBankAccountsResponse data = response;
-
-      setState(() {
-        _bank_accounts = data.payload;
-      });
-    } else {}
-
+        await MerchantRoleRepository().getMerchantRolesResponse(page: _page);
+    debugPrint(response.runtimeType.toString());
+    if (response.runtimeType.toString() == 'MerchantRoleResponse') {
+      _merchantRoleList = response.payload.data;
+    }
     setState(() {
-      isLoading = false;
+      _isRolesLoading = false;
     });
+  }
+
+  reset() {
+    setState(() {
+      _page = 1;
+      _isRolesLoading = true;
+      _merchantRoleList.clear();
+    });
+  }
+
+  Future<void> _onRefresh() async {
+    reset();
+    fetchRoles();
   }
 
   @override
@@ -64,7 +79,7 @@ class _BankAccountsState extends State<BankAccounts> {
         child: Scaffold(
           key: _scaffoldKey,
           appBar: UserAppBar.buildUserAppBar(
-              context, 'bank_accounts', S.of(context).bank_accounts, {}),
+              context, 'merchant_roles', S.of(context).roles, {}),
           body: Container(
               width: MediaQuery.of(context).size.width,
               padding: const EdgeInsets.symmetric(horizontal: 14),
@@ -93,7 +108,7 @@ class _BankAccountsState extends State<BankAccounts> {
         alignment: Alignment.center,
         margin: const EdgeInsets.only(bottom: 80),
         padding: const EdgeInsets.symmetric(vertical: 4),
-        child: isLoading
+        child: _isRolesLoading
             ? Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -103,7 +118,7 @@ class _BankAccountsState extends State<BankAccounts> {
                   ShimmerHelper().buildBasicShimmer(height: 120),
                 ],
               )
-            : _bank_accounts.isEmpty
+            : _merchantRoleList.isEmpty
                 ? Container(
                     height: MediaQuery.sizeOf(context).height,
                     child: Column(
@@ -116,7 +131,7 @@ class _BankAccountsState extends State<BankAccounts> {
                         Padding(
                           padding: EdgeInsets.symmetric(vertical: 8),
                           child: Text(
-                            'No Bank accounts',
+                            S.of(context).no_role,
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ),
@@ -124,7 +139,7 @@ class _BankAccountsState extends State<BankAccounts> {
                           padding: EdgeInsets.symmetric(vertical: 8),
                           child: GestureDetector(
                             child: Text(
-                              'Add new bank account',
+                              S.of(context).add_new_role,
                               style: TextStyle(
                                   color: MyTheme.accent_color,
                                   fontWeight: FontWeight.bold),
@@ -132,8 +147,8 @@ class _BankAccountsState extends State<BankAccounts> {
                             onTap: () {
                               Navigator.push(context,
                                   MaterialPageRoute(builder: (context) {
-                                return AddBankAccount();
-                              }));
+                                return AddRole();
+                              })).then((value) => setState(() {}));
                             },
                           ),
                         )
@@ -144,16 +159,15 @@ class _BankAccountsState extends State<BankAccounts> {
                     child: Column(
                       children: [
                         Column(
-                          children: _bank_accounts
-                              .map((bank_account) =>
-                                  _buildBankAccountItem(bank_account))
+                          children: _merchantRoleList
+                              .map((role) => _buildRoleItem(role))
                               .toList(),
                         ),
                         Padding(
                           padding: EdgeInsets.symmetric(vertical: 8),
                           child: GestureDetector(
                             child: Text(
-                              'Add new bank account',
+                              S.of(context).add_new_role,
                               style: TextStyle(
                                   color: MyTheme.accent_color,
                                   fontWeight: FontWeight.bold),
@@ -161,8 +175,8 @@ class _BankAccountsState extends State<BankAccounts> {
                             onTap: () {
                               Navigator.push(context,
                                   MaterialPageRoute(builder: (context) {
-                                return AddBankAccount();
-                              }));
+                                return AddRole();
+                              })).then((value) => setState(() {}));
                             },
                           ),
                         )
@@ -172,7 +186,7 @@ class _BankAccountsState extends State<BankAccounts> {
     // return _buildNoNotifications();
   }
 
-  Widget _buildBankAccountItem(BankAccountMini bank_account) {
+  Widget _buildRoleItem(MerchantRoleItem role) {
     return GestureDetector(
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 10),
@@ -180,8 +194,7 @@ class _BankAccountsState extends State<BankAccounts> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Image.asset('assets/credit_card.png'),
-            Text(bank_account.bankName),
+            Text(role.name),
             Icon(
               Icons.arrow_right,
               color: MyTheme.accent_color,
@@ -191,13 +204,12 @@ class _BankAccountsState extends State<BankAccounts> {
         decoration: BoxDecorations.buildBoxDecoration2(),
       ),
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return BankAccountEdit(
-            bankAccountId: bank_account.id,
-          );
-        }));
+        // Navigator.push(context, MaterialPageRoute(builder: (context) {
+        //   return BankAccountEdit(
+        //     bankAccountId: bank_account.id,
+        //   );
+        // }));
       },
     );
   }
-
 }

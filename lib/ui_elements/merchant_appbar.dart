@@ -112,9 +112,7 @@ class MerchantAppBar {
       child: IconButton(
         icon: const Icon(Icons.chevron_right),
         onPressed: () {
-          Navigator.pop(context);
-          // RootScaffold.openDrawer(context);
-          // Scaffold.of(context).openDrawer();
+          Navigator.pop(context, true);
         },
       ),
     );

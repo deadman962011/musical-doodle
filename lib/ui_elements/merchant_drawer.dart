@@ -1,9 +1,12 @@
 import 'package:com.mybill.app/helpers/auth_helper.dart';
 import 'package:com.mybill.app/my_theme.dart';
 import 'package:com.mybill.app/providers/offer_provider.dart';
+import 'package:com.mybill.app/screens/change_language.dart';
 import 'package:com.mybill.app/screens/guest.dart';
 import 'package:com.mybill.app/screens/merchant/offers/offers.dart';
 import 'package:com.mybill.app/screens/merchant/profile_edit.dart';
+import 'package:com.mybill.app/screens/merchant/staffs/role/roles.dart';
+import 'package:com.mybill.app/screens/merchant/staffs/staff/staff.dart';
 import 'package:com.mybill.app/screens/merchant/statistics/latest_sales.dart';
 import 'package:com.mybill.app/screens/merchant/statistics/statistics.dart';
 import 'package:com.mybill.app/screens/merchant/wallet.dart';
@@ -56,12 +59,18 @@ class MerchantDrawer {
             return const MerchantOffers();
           }));
         },
-        'sub': []
+        'sub': [],
+        'permissions': [
+          'add_shop_offer',
+          'edit_shop_offer',
+          'delete_shop_offer'
+        ]
       },
       {
         'title': S.of(context).pay_commissions,
         'image': 'assets/suitcase.png',
-        'sub': []
+        'sub': [],
+        'permissions': ['pay_offer_commission']
       },
       {
         'title': S.of(context).loyalty_program,
@@ -85,15 +94,69 @@ class MerchantDrawer {
         'sub': []
       },
       {
+        'title': 'staffs',
+        'image': 'assets/profile.png',
+        'action': null,
+        'permissions': [
+          'add_shop_role',
+          'edit_shop_role',
+          'delete_shop_role',
+          'add_shop_staff',
+          'edit_shop_staff',
+          'delete_shop_staff'
+        ],
+        'sub': [
+          {
+            'title': 'staff',
+            'action': () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return const MerchantStaff();
+              }));
+            },
+            'permissions': [
+              'add_shop_role',
+              'edit_shop_role',
+              'delete_shop_role'
+            ]
+          },
+          {
+            'title': 'roles',
+            'action': () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return const MerchantRoles();
+              }));
+            },
+            'permissions': [
+              'add_shop_staff',
+              'edit_shop_staff',
+              'delete_shop_staff'
+            ]
+          }
+        ]
+      },
+      {
         'title': S.of(context).upgrade_profile,
         'image': 'assets/upgrade_account.png',
         'action': () {},
-        'sub': []
+        'sub': [],
+        'permissions': ['upgrade_shop']
       },
       {
         'title': S.of(context).settings,
         'image': 'assets/settings.png',
         'action': () {},
+        'sub': []
+      },
+      {
+        'title': S.of(context).language,
+        'image': 'assets/settings.png',
+        'action': () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return const ChangeLanguage(
+              model: 'merchant',
+            );
+          }));
+        },
         'sub': []
       },
       {
@@ -135,57 +198,65 @@ class MerchantDrawer {
           ),
           Column(
             children: drawerItems.map<Widget>((item) {
-              return item['sub'].length > 0
-                  ? ExpansionTile(
-                      title: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsetsDirectional.only(
-                                start: 6, end: 12),
-                            child: Image.asset(
-                              item['image'],
-                              color: Colors.white,
-                            ),
-                          ),
-                          Text(
-                            item['title'],
-                            style: TextStyle(fontSize: 12, color: Colors.white),
-                          )
-                        ],
-                      ),
-                      children: item['sub'].map<Widget>((child) {
-                        return ListTile(
-                          title: Text(child['title'],
-                              style: TextStyle(
+              if (item['permissions'] != null &&
+                  AuthHelper().canAny(item['permissions'])) {
+                return item['sub'].length > 0
+                    ? ExpansionTile(
+                        title: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsetsDirectional.only(
+                                  start: 6, end: 12),
+                              child: Image.asset(
+                                item['image'],
                                 color: Colors.white,
-                                fontSize: 12,
-                              )),
-                          onTap: child['action'],
-                        );
-                      }).toList(),
-                      shape: const Border(),
-                    )
-                  : ListTile(
-                      title: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsetsDirectional.only(
-                                start: 6, end: 12),
-                            child: Image.asset(item['image'],
-                                color: MyTheme.white),
-                          ),
-                          Text(
-                            item['title'],
-                            style: TextStyle(color: Colors.white, fontSize: 12),
-                          )
-                        ],
-                      ),
-                      onTap: item['action'],
-                    );
+                              ),
+                            ),
+                            Text(
+                              item['title'],
+                              style:
+                                  TextStyle(fontSize: 12, color: Colors.white),
+                            )
+                          ],
+                        ),
+                        children: item['sub'].map<Widget>((child) {
+                          return ListTile(
+                            title: Text(child['title'],
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 12,
+                                )),
+                            onTap: child['action'],
+                          );
+                          
+                        }).toList(),
+                        shape: const Border(),
+                      )
+                    : ListTile(
+                        title: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsetsDirectional.only(
+                                  start: 6, end: 12),
+                              child: Image.asset(item['image'],
+                                  color: MyTheme.white),
+                            ),
+                            Text(
+                              item['title'],
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 12),
+                            )
+                          ],
+                        ),
+                        onTap: item['action'],
+                      );
+              } else {
+                return Container();
+              }
             }).toList(),
           )
 

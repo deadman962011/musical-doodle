@@ -2,10 +2,13 @@ import 'package:com.mybill.app/custom/box_decorations.dart';
 import 'package:com.mybill.app/helpers/shared_value_helper.dart';
 import 'package:com.mybill.app/helpers/shimmer_helper.dart';
 import 'package:com.mybill.app/models/responses/user/offer_invoice/user_previous_invoice_response.dart';
+import 'package:com.mybill.app/models/responses/user/wallet/user_wallet_informations_response.dart';
 import 'package:com.mybill.app/my_theme.dart';
 import 'package:com.mybill.app/repositories/user/user_offer_invoice.dart';
+import 'package:com.mybill.app/repositories/user/user_wallet_repository.dart';
 import 'package:com.mybill.app/screens/user/invoice_details.dart';
 import 'package:com.mybill.app/screens/user/redeem_points.dart';
+import 'package:com.mybill.app/screens/user/wallet_history.dart';
 import 'package:com.mybill.app/screens/user/withdraw_balance.dart';
 import 'package:com.mybill.app/ui_elements/merchant_drawer.dart';
 import 'package:com.mybill.app/ui_elements/user_appbar.dart';
@@ -25,6 +28,9 @@ class _UserWalletState extends State<UserWallet> {
   List<dynamic> _previousOffersList = [];
   int _page = 0;
   bool _isPreviousOffersLoading = true;
+  bool _isWalletInformationsLoading = true;
+  UserWalletInformations? _walletInformations;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -35,6 +41,27 @@ class _UserWalletState extends State<UserWallet> {
   reset() async {
     setState(() {
       fetchPreviousOffers();
+    });
+  }
+
+  fetchWalletInforamtions() async {
+    setState(() {
+      _isWalletInformationsLoading = true;
+
+      _previousOffersList.clear();
+    });
+    var response =
+        await UserWallettRepository().getUserWalletInforamtionsResponse();
+    debugPrint(response.toString());
+    if (response.runtimeType.toString() == 'UserWalletInformationsResponse') {
+      UserWalletInformationsResponse data = response;
+      setState(() {
+        _walletInformations = data.payload;
+      });
+    }
+
+    setState(() {
+      _isWalletInformationsLoading = false;
     });
   }
 
@@ -65,6 +92,7 @@ class _UserWalletState extends State<UserWallet> {
   }
 
   fetchAll() async {
+    fetchWalletInforamtions();
     fetchPreviousOffers();
   }
 
@@ -123,71 +151,92 @@ class _UserWalletState extends State<UserWallet> {
   }
 
   Widget _buildWalletMainBox() {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
-      decoration: BoxDecorations.buildBoxDecoration_1(),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [Text(S.of(context).available_balance), Text('0.00')],
-              ),
-              Text(S.of(context).sar)
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [Text(S.of(context).pending_balance), Text('0.00')],
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [Text(S.of(context).total_balance), Text('0.00')],
-              )
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Expanded(
-                  child: Padding(
-                padding: const EdgeInsets.only(top: 12),
-                child: TextButton(
-                    style: TextButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(4)),
-                      backgroundColor: MyTheme.accent_color,
-                    ),
-                    onPressed: () {},
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Padding(
-                            padding: EdgeInsetsDirectional.only(
-                                top: 6, bottom: 6, end: 6),
-                            child: ImageIcon(
-                              AssetImage('assets/rep.png'),
-                              color: Colors.white,
-                              size: 20,
-                            )),
-                        Text(
-                          S.of(context).my_history,
-                          style: TextStyle(color: Colors.white),
-                        )
-                      ],
-                    )),
-              ))
-            ],
-          )
-        ],
-      ),
-    );
+    if (_isWalletInformationsLoading) {
+      return Padding(
+        padding: EdgeInsets.symmetric(horizontal: 14),
+        child: ShimmerHelper().buildBasicShimmer(height: 200),
+      );
+    } else {
+      return Container(
+        margin: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
+        decoration: BoxDecorations.buildBoxDecoration_1(),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(S.of(context).available_balance),
+                    Text(_walletInformations!.availableBalance.toString())
+                  ],
+                ),
+                Text(S.of(context).sar)
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(S.of(context).pending_balance),
+                    Text(_walletInformations!.pendingBalance.toString())
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(S.of(context).total_balance),
+                    Text(_walletInformations!.totalBalance.toString())
+                  ],
+                )
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                    child: Padding(
+                  padding: const EdgeInsets.only(top: 12),
+                  child: TextButton(
+                      style: TextButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(4)),
+                        backgroundColor: MyTheme.accent_color,
+                      ),
+                      onPressed: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return const UserWalletHistory();
+                        }));
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                              padding: EdgeInsetsDirectional.only(
+                                  top: 6, bottom: 6, end: 6),
+                              child: ImageIcon(
+                                AssetImage('assets/rep.png'),
+                                color: Colors.white,
+                                size: 20,
+                              )),
+                          Text(
+                            S.of(context).my_history,
+                            style: TextStyle(color: Colors.white),
+                          )
+                        ],
+                      )),
+                ))
+              ],
+            )
+          ],
+        ),
+      );
+    }
   }
 
   Widget _buildWalletBoxes() {

@@ -18,6 +18,7 @@ import 'package:com.mybill.app/generated/l10n.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:toast/toast.dart';
+import 'package:intl/intl.dart' as intl;
 
 class AddOffer extends StatefulWidget {
   const AddOffer({super.key});
@@ -43,6 +44,10 @@ class _AddOfferState extends State<AddOffer> {
   DateTime? _endDateFirstDate = DateTime.now();
   DateTime? _endDateLastDate;
   DateTime? _endDateInitalDate;
+
+  DateTime? _selectedOfferStartDate;
+  DateTime? _selectedOfferEndDate;
+
   bool _isLoading = false;
   late final List<DropdownMenuItem> _checkout_amounts = [];
 
@@ -109,7 +114,6 @@ class _AddOfferState extends State<AddOffer> {
     debugPrint(dateString);
     List<String> dateParts = dateString.split(' ');
     List<String> parts = dateParts[0].split('/');
-    // List<String> parts = dateString.split('/');
     int month = int.parse(parts[0]);
     int day = int.parse(parts[1]);
     int year = int.parse(parts[2]);
@@ -149,9 +153,11 @@ class _AddOfferState extends State<AddOffer> {
 
     var offerNameAr = _offerNameArController.text.toString();
     var offerNameEn = _offerNameEnController.text.toString();
-    var startDate = _offerStartDateController.text.toString();
-    var endDate = _offerEndDateController.text.toString();
+    var startDate = _selectedOfferStartDate.toString();
+    var endDate = _selectedOfferEndDate.toString();
     var cashbackAmount = _offerCashbackAmountController.text.toString();
+
+    debugPrint(startDate);
 
     var response = await MerchantOfferRepository().saveMerchantOfferResponse(
         offerNameAr,
@@ -160,7 +166,6 @@ class _AddOfferState extends State<AddOffer> {
         endDate,
         cashbackAmount,
         _uploaded_file_id!);
-    debugPrint(response.runtimeType.toString());
     if (response.runtimeType.toString() == 'MerchantSaveOfferResponse') {
       ToastComponent.showDialog('offer successfully saved', context,
           gravity: Toast.center, duration: Toast.lengthLong);
@@ -269,6 +274,10 @@ class _AddOfferState extends State<AddOffer> {
                                                     setState(
                                                       () {},
                                                     );
+
+                                                    _selectedOfferStartDate =
+                                                        value;
+
                                                     onChangeStartDate(value);
                                                   }
                                                 },
@@ -301,11 +310,16 @@ class _AddOfferState extends State<AddOffer> {
                                                   FormBuilderValidators
                                                       .required(),
                                                 ]),
+                                                onChanged: (value) {
+                                                  _selectedOfferEndDate = value;
+                                                },
                                                 textInputAction:
                                                     TextInputAction.next,
                                                 initialDate: _endDateInitalDate,
                                                 firstDate: _endDateFirstDate,
                                                 lastDate: _endDateLastDate,
+
+                                                // locale: Locale('en'),
                                               ),
                                             ],
                                           ),
@@ -338,30 +352,30 @@ class _AddOfferState extends State<AddOffer> {
                                 ),
                               ],
                             ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.only(top: 12, bottom: 3),
-                                  child: Text(S.of(context).offer_name_in_ar),
-                                ),
-                                FormBuilderTextField(
-                                  name: 'offerNameAr',
-                                  controller: _offerNameArController,
-                                  decoration:
-                                      InputDecorations.buildInputDecoration_1(
-                                          hint_text: S
-                                              .of(context)!
-                                              .offer_name_placeholder),
-                                  validator: FormBuilderValidators.compose([
-                                    FormBuilderValidators.required(),
-                                    FormBuilderValidators.minLength(3),
-                                  ]),
-                                  textInputAction: TextInputAction.next,
-                                ),
-                              ],
-                            ),
+                            // Column(
+                            //   crossAxisAlignment: CrossAxisAlignment.start,
+                            //   children: [
+                            //     Padding(
+                            //       padding:
+                            //           const EdgeInsets.only(top: 12, bottom: 3),
+                            //       child: Text(S.of(context).offer_name_in_ar),
+                            //     ),
+                            //     FormBuilderTextField(
+                            //       name: 'offerNameAr',
+                            //       controller: _offerNameArController,
+                            //       decoration:
+                            //           InputDecorations.buildInputDecoration_1(
+                            //               hint_text: S
+                            //                   .of(context)!
+                            //                   .offer_name_placeholder),
+                            //       validator: FormBuilderValidators.compose([
+                            //         FormBuilderValidators.required(),
+                            //         FormBuilderValidators.minLength(3),
+                            //       ]),
+                            //       textInputAction: TextInputAction.next,
+                            //     ),
+                            //   ],
+                            // ),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -376,7 +390,6 @@ class _AddOfferState extends State<AddOffer> {
                                   onChanged: (value) => {
                                     _offerCashbackAmountController.text =
                                         value.toString(),
-                                    
                                   },
                                   items: _checkout_amounts,
                                   decoration: InputDecorations
@@ -514,8 +527,7 @@ class _AddOfferState extends State<AddOffer> {
                                 Padding(
                                   padding:
                                       const EdgeInsets.only(top: 12, bottom: 3),
-                                  child: Text(
-                                      S.of(context).application_commission),
+                                  child: Text(S.of(context).offer_thumbnail),
                                 ),
                                 TextFormField(
                                   controller: _offerComissionAmountController

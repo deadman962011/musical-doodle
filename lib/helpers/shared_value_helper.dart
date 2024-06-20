@@ -55,6 +55,10 @@ final SharedValue<String> shop_admin_avatar = SharedValue(
   value: "", // initial value
   key: "shop_admin_avatar", // disk storage key for shared_preferences
 );
+final SharedValue<List<dynamic>> shop_admin_permissions = SharedValue(
+  value: [], // initial value
+  key: "shop_admin_permissions", // disk storage key for shared_preferences
+);
 
 final SharedValue<String> user_id = SharedValue(
   value: "", // initial value

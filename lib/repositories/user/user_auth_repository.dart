@@ -38,6 +38,7 @@ class UserAuthRepository {
         return unexpectedErrorResponseFromJson(response.body);
       }
     } catch (e) {
+      debugPrint(e.toString());
       return null;
     }
   }

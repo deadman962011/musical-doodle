@@ -98,6 +98,8 @@ class Shop {
   String latitude;
   String shopContactEmail;
   String shopContactPhone;
+  String? shopContactWebsite;
+  String? menu;
   List<Availability> availability;
 
   Shop({
@@ -105,6 +107,8 @@ class Shop {
     required this.latitude,
     required this.shopContactEmail,
     required this.shopContactPhone,
+    required this.shopContactWebsite,
+    required this.menu,
     required this.availability,
   });
 
@@ -113,6 +117,8 @@ class Shop {
         latitude: json["latitude"],
         shopContactEmail: json["shop_contact_email"],
         shopContactPhone: json["shop_contact_phone"],
+        shopContactWebsite: json['shop_contact_website'],
+        menu: json['menu'],
         availability: List<Availability>.from(
             json["availability"].map((x) => Availability.fromMap(x))),
       );
@@ -122,6 +128,7 @@ class Shop {
         "latitude": latitude,
         "shop_contact_email": shopContactEmail,
         "shop_contact_phone": shopContactPhone,
+        "shop_contact_website": shopContactWebsite,
         "availability": List<dynamic>.from(availability.map((x) => x.toMap())),
       };
 }
@@ -130,18 +137,12 @@ class Availability {
   int id;
   String day;
   int status;
-  int shopId;
-  DateTime createdAt;
-  DateTime updatedAt;
   List<Slot> slots;
 
   Availability({
     required this.id,
     required this.day,
     required this.status,
-    required this.shopId,
-    required this.createdAt,
-    required this.updatedAt,
     required this.slots,
   });
 
@@ -149,9 +150,6 @@ class Availability {
         id: json["id"],
         day: json["day"],
         status: json["status"],
-        shopId: json["shop_id"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
         slots: List<Slot>.from(json["slots"].map((x) => Slot.fromMap(x))),
       );
 
@@ -159,9 +157,6 @@ class Availability {
         "id": id,
         "day": day,
         "status": status,
-        "shop_id": shopId,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
         "slots": List<dynamic>.from(slots.map((x) => x.toMap())),
       };
 }
@@ -170,9 +165,6 @@ class Slot {
   int id;
   DateTime start;
   DateTime end;
-  int shopAvailabilityId;
-  DateTime createdAt;
-  DateTime updatedAt;
   String startFormatted;
   String endFormatted;
 
@@ -180,9 +172,6 @@ class Slot {
     required this.id,
     required this.start,
     required this.end,
-    required this.shopAvailabilityId,
-    required this.createdAt,
-    required this.updatedAt,
     required this.startFormatted,
     required this.endFormatted,
   });
@@ -191,9 +180,6 @@ class Slot {
         id: json["id"],
         start: DateTime.parse(json["start"]),
         end: DateTime.parse(json["end"]),
-        shopAvailabilityId: json["shop_availability_id"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
         startFormatted: json["start_formatted"],
         endFormatted: json["end_formatted"],
       );
@@ -202,9 +188,6 @@ class Slot {
         "id": id,
         "start": start.toIso8601String(),
         "end": end.toIso8601String(),
-        "shop_availability_id": shopAvailabilityId,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
         "start_formatted": startFormatted,
         "end_formatted": endFormatted,
       };

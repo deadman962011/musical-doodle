@@ -40,28 +40,19 @@ class AvailabilityDay {
   int id;
   String day;
   int status;
-  int shopId;
-  DateTime createdAt;
-  DateTime updatedAt;
   List<AvailabilitySlot> slots;
 
   AvailabilityDay({
     required this.id,
     required this.day,
     required this.status,
-    required this.shopId,
-    required this.createdAt,
-    required this.updatedAt,
     required this.slots,
   });
 
   factory AvailabilityDay.fromMap(Map<String, dynamic> json) => AvailabilityDay(
         id: json["id"],
         day: json["day"],
-        status: json["status"],
-        shopId: json["shop_id"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
+        status: json['status'],
         slots: List<AvailabilitySlot>.from(
             json["slots"].map((x) => AvailabilitySlot.fromMap(x))),
       );
@@ -69,10 +60,6 @@ class AvailabilityDay {
   Map<String, dynamic> toMap() => {
         "id": id,
         "day": day,
-        "status": status,
-        "shop_id": shopId,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
         "slots": List<dynamic>.from(slots.map((x) => x.toMap())),
       };
 }
@@ -81,9 +68,6 @@ class AvailabilitySlot {
   int id;
   dynamic start;
   dynamic end;
-  int shopAvailabilityId;
-  DateTime createdAt;
-  DateTime updatedAt;
   String? startFormatted;
   String? endFormatted;
 
@@ -91,9 +75,6 @@ class AvailabilitySlot {
     required this.id,
     required this.start,
     required this.end,
-    required this.shopAvailabilityId,
-    required this.createdAt,
-    required this.updatedAt,
     required this.startFormatted,
     required this.endFormatted,
   });
@@ -105,17 +86,11 @@ class AvailabilitySlot {
         end: json["end"],
         startFormatted: json["start_formatted"],
         endFormatted: json['end_formatted'],
-        shopAvailabilityId: json["shop_availability_id"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
       );
 
   Map<String, dynamic> toMap() => {
         "id": id,
         "start": start,
         "end": end,
-        "shop_availability_id": shopAvailabilityId,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
       };
 }

@@ -7,6 +7,8 @@ import 'package:com.mybill.app/models/responses/merchant/availability/merchant_a
 import 'package:com.mybill.app/models/responses/merchant/availability/merchant_availabiliy_add_slot_response.dart';
 import 'package:com.mybill.app/models/responses/merchant/merchant_update_contact_response.dart';
 import 'package:com.mybill.app/models/responses/merchant/merchant_response.dart';
+import 'package:com.mybill.app/models/responses/merchant/merchant_update_logo_response.dart';
+import 'package:com.mybill.app/models/responses/merchant/merchant_update_menu_response.dart';
 import 'package:com.mybill.app/models/responses/merchant/merchant_update_response.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -201,6 +203,46 @@ class MerchantRepository {
     final responseBody = jsonDecode(response.body);
     if (response.statusCode == 200 && responseBody['success'] == true) {
       return merchantAvailabilityAddSlotResponseFromMap(response.body);
+    } else {
+      return false;
+    }
+  }
+
+  Future<dynamic> getMerchantUpdateLogoResponse(
+      @required String image, @required String filename) async {
+    var postBody = jsonEncode({"image": image, "filename": filename});
+    Uri url = Uri.parse("${AppConfig.BASE_URL}/shop/update_logo");
+    final response = await http.post(url,
+        headers: {
+          'Accept': 'application/json',
+          "Content-Type": "application/json",
+          "Accept-Language": app_language.$,
+          "Authorization": "Bearer ${access_token.$}",
+        },
+        body: postBody);
+    AppConfig.alice.onHttpResponse(response, body: postBody);
+    if (response.statusCode == 200) {
+      return merchantUpdateLogoResponseFromJson(response.body);
+    } else {
+      return false;
+    }
+  }
+
+  Future<dynamic> getMerchantUpdateMenuResponse(
+      @required String image, @required String filename) async {
+    var postBody = jsonEncode({"image": image, "filename": filename});
+    Uri url = Uri.parse("${AppConfig.BASE_URL}/shop/update_menu");
+    final response = await http.post(url,
+        headers: {
+          'Accept': 'application/json',
+          "Content-Type": "application/json",
+          "Accept-Language": app_language.$,
+          "Authorization": "Bearer ${access_token.$}",
+        },
+        body: postBody);
+    AppConfig.alice.onHttpResponse(response, body: postBody);
+    if (response.statusCode == 200) {
+      return merchantUpdateMenuResponseFromJson(response.body);
     } else {
       return false;
     }

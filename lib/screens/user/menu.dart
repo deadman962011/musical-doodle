@@ -14,7 +14,7 @@ class UserMenu extends StatefulWidget {
   _MenuState createState() => _MenuState();
 }
 
-class _MenuState extends State<UserMenu> { 
+class _MenuState extends State<UserMenu> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -72,8 +72,7 @@ class _MenuState extends State<UserMenu> {
                       buildMenuSection(languageSettingsData),
                     ],
                   ),
-                )
-                ),
+                )),
           ],
         ));
   }
@@ -141,7 +140,9 @@ class _MenuState extends State<UserMenu> {
                       if (tab['redirect_to'] == 'change_language') {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) {
-                          return const ChangeLanguage();
+                          return const ChangeLanguage(
+                            model: 'user',
+                          );
                         }));
                       } else if (tab['redirect_to'] == 'change_theme') {
                         Navigator.push(context,

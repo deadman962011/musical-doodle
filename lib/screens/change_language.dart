@@ -1,6 +1,7 @@
 import 'package:com.mybill.app/custom/box_decorations.dart';
 import 'package:com.mybill.app/custom/useful_elements.dart';
 import 'package:com.mybill.app/generated/l10n.dart';
+import 'package:com.mybill.app/screens/merchant/statistics/statistics.dart';
 import 'package:flutter/material.dart';
 import 'package:com.mybill.app/my_theme.dart';
 // import 'package:com.mybill.app/repositories/language_repository.dart';
@@ -11,7 +12,9 @@ import 'package:provider/provider.dart';
 import 'package:com.mybill.app/dummy_data/dummy_languages.dart';
 
 class ChangeLanguage extends StatefulWidget {
-  const ChangeLanguage({super.key});
+  final String model;
+
+  const ChangeLanguage({super.key, required this.model});
 
   @override
   _ChangeLanguageState createState() => _ChangeLanguageState();
@@ -92,11 +95,17 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
       Provider.of<LocaleProvider>(context, listen: false)
           .setLocale(_list[_selected_index].mobile_app_code);
 
-      Navigator.push(context, MaterialPageRoute(builder: (context) {
-        return UserMain(
-          go_back: false,
-        );
-      }));
+      if (widget.model == 'merchant') {
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return MerchantStatistics();
+        }));
+      } else if (widget.model == 'user') {
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return UserMain(
+            go_back: false,
+          );
+        }));
+      }
     }
   }
 

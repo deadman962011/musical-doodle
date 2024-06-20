@@ -175,13 +175,15 @@ class _OfferDetailsState extends State<OfferDetails> {
                           child: _buildSalesList(),
                         ),
                       ),
-                      _offerDetails!.state == 'expired'
+                      _offerDetails!.state == 'expired' &&
+                              !_offerDetails!.isPaid
                           ? SizedBox(
                               width: MediaQuery.of(context).size.width,
                               child: _buildOfferTicket(),
                             )
                           : Container(),
-                      _offerDetails!.state == 'expired'
+                      _offerDetails!.state == 'expired' &&
+                              !_offerDetails!.isPaid
                           ? Container(
                               margin: const EdgeInsets.symmetric(vertical: 16),
                               width: double.infinity,

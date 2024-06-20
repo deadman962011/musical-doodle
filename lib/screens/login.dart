@@ -91,6 +91,7 @@ class _LoginState extends State<Login> {
         return CheckMail(email: email, model: widget.model);
       }));
     } else {
+      debugPrint(response.toString());
       ToastComponent.showDialog('network_error', context,
           gravity: Toast.bottom, duration: Toast.lengthLong);
     }

@@ -13,6 +13,9 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:toast/toast.dart';
 
+import 'package:com.mybill.app/helpers/file_helper.dart';
+import 'package:image_picker/image_picker.dart';
+
 class MerchantEdit extends StatefulWidget {
   const MerchantEdit({Key? key}) : super(key: key);
 
@@ -27,8 +30,10 @@ class _EditState extends State<MerchantEdit> {
   final TextEditingController _shopNameInArController = TextEditingController();
   final TextEditingController _shopNameInEnController = TextEditingController();
 
+  final ImagePicker _picker = ImagePicker();
+  late XFile _file;
   bool _isLoading = false;
-
+  MerchantDetails? merchantDetails;
   @override
   void initState() {
     super.initState();
@@ -46,6 +51,7 @@ class _EditState extends State<MerchantEdit> {
       setState(() {
         _shopNameInArController.text = data.payload.shopNameAr;
         _shopNameInEnController.text = data.payload.shopNameEn;
+        merchantDetails = data.payload;
       });
     }
   }
@@ -94,6 +100,27 @@ class _EditState extends State<MerchantEdit> {
     );
   }
 
+  handleUploadLogo(context) async {
+    _file = (await _picker.pickImage(source: ImageSource.gallery))!;
+    String base64Image = FileHelper.getBase64FormateFile(_file.path);
+    String fileName = _file.path.split("/").last;
+
+    var response = await MerchantRepository().getMerchantUpdateLogoResponse(
+      base64Image,
+      fileName,
+    );
+    debugPrint(response.toString());
+    if (response.runtimeType.toString() == 'MerchantUpdateLogoResponse') {
+      if (response.success) {
+        fetchAll();
+
+        ToastComponent.showDialog('shop logo updated', context,
+            gravity: Toast.bottom, duration: Toast.lengthLong);
+      }
+    }
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -121,10 +148,54 @@ class _EditState extends State<MerchantEdit> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Column(
-                            // mainAxisSize: MainAxisSize.max,
-                            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
+                              GestureDetector(
+                                  child: Container(
+                                    padding: const EdgeInsets.all(7.0),
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color:
+                                                Colors.black.withOpacity(0.12),
+                                            blurRadius: 6,
+                                            spreadRadius: 0.0,
+                                            offset: const Offset(0.0,
+                                                0.0), // shadow direction: bottom right
+                                          )
+                                        ],
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(100))),
+                                    child: Stack(
+                                      alignment: Alignment.bottomRight,
+                                      children: [
+                                        ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(100),
+                                            child: FadeInImage.assetNetwork(
+                                              placeholder:
+                                                  'assets/default_avatar.png',
+                                              image: merchantDetails != null &&
+                                                      merchantDetails!.logo !=
+                                                          null
+                                                  ? merchantDetails!.logo!
+                                                  : 'https://images.deliveryhero.io/image/stores-glovo/stores/323ded4b85d8d3f109a4eece288ab0d25b64e98bbbbe925a53d6949796726c96?t=W3siYXV0byI6eyJxIjoibG93In19LHsicmVzaXplIjp7Im1vZGUiOiJmaWxsIiwiYmciOiJ0cmFuc3BhcmVudCIsIndpZHRoIjo1ODgsImhlaWdodCI6MzIwfX1d',
+                                              width: 140,
+                                              height: 140,
+                                            )),
+                                        Image.asset(
+                                          'assets/add.png',
+                                          width: 40,
+                                          height: 40,
+                                          color: MyTheme.accent_color,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  onTap: () {
+                                    handleUploadLogo(context);
+                                  }),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [

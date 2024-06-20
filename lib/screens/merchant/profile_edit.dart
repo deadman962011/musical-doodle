@@ -1,16 +1,21 @@
+import 'package:com.mybill.app/custom/toast_component.dart';
 import 'package:com.mybill.app/helpers/file_helper.dart';
 import 'package:com.mybill.app/helpers/shared_value_helper.dart';
+import 'package:com.mybill.app/helpers/shimmer_helper.dart';
+import 'package:com.mybill.app/models/responses/merchant/merchant_response.dart';
 import 'package:com.mybill.app/my_theme.dart';
+import 'package:com.mybill.app/repositories/merchant/merchant_repository.dart';
+import 'package:com.mybill.app/screens/full_screen_image_view.dart';
 import 'package:com.mybill.app/screens/merchant/profile/contact_informations.dart';
 import 'package:com.mybill.app/screens/merchant/profile/edit.dart';
 import 'package:com.mybill.app/screens/merchant/profile/working_hours.dart';
 import 'package:com.mybill.app/ui_elements/merchant_appbar.dart';
 import 'package:com.mybill.app/ui_elements/merchant_drawer.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'package:com.mybill.app/generated/l10n.dart';
+import 'package:toast/toast.dart';
 
 class MerchantProfileEdit extends StatefulWidget {
   const MerchantProfileEdit({super.key});
@@ -21,18 +26,16 @@ class MerchantProfileEdit extends StatefulWidget {
 
 class _MerchantProfileEditState extends State<MerchantProfileEdit> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  final _formKey = GlobalKey<FormBuilderState>();
-  final TextEditingController _firstNameController = TextEditingController();
-  final TextEditingController _lastNameController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
 
   final ImagePicker _picker = ImagePicker();
   late XFile _file;
-  final bool _isLoading = false;
+  bool _isLoading = true;
+  MerchantDetails? merchantDetails;
 
   @override
   void initState() {
     super.initState();
+    fetchAll();
   }
 
   @override
@@ -40,22 +43,44 @@ class _MerchantProfileEditState extends State<MerchantProfileEdit> {
     super.dispose();
   }
 
-  chooseAndUploadImage(context) async {
+  fetchAll() {
+    fetchShop();
+  }
+
+  fetchShop() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    var response = await MerchantRepository().getMerchantResponse();
+    if (response.runtimeType.toString() == 'MerchantResponse') {
+      MerchantResponse data = response;
+      merchantDetails = data.payload;
+    }
+
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
+  handleUploadMenu(context) async {
     _file = (await _picker.pickImage(source: ImageSource.gallery))!;
     String base64Image = FileHelper.getBase64FormateFile(_file.path);
     String fileName = _file.path.split("/").last;
-    // var response =
-    //     await UserAuthRepository().getUserProfileUpdateImageResponse(
-    //   base64Image,
-    //   fileName,
-    // );
-    // if (response.runtimeType.toString() == 'UserProfileUploadImageResponse' &&
-    //     response.success) {
-    //   ToastComponent.showDialog('profile image updated', context,
-    //       gravity: Toast.bottom, duration: Toast.lengthLong);
-    // }
-    // user_avatar.$ = response.path;
-    // user_avatar.save();
+
+    var response = await MerchantRepository().getMerchantUpdateMenuResponse(
+      base64Image,
+      fileName,
+    );
+
+    if (response.runtimeType.toString() == 'MerchantUpdateMenuResponse') {
+      if (response.success) {
+        fetchAll();
+
+        ToastComponent.showDialog('menu updated', context,
+            gravity: Toast.bottom, duration: Toast.lengthLong);
+      }
+    }
     setState(() {});
   }
 
@@ -71,13 +96,15 @@ class _MerchantProfileEditState extends State<MerchantProfileEdit> {
             drawer: MerchantDrawer.buildDrawer(context),
             body: SizedBox(
               width: MediaQuery.of(context).size.width,
-              child: Column(
-                children: [
-                  _buildShopThumb(),
-                  const Text('مطعم جميل'),
-                  _buildProfileEditMenu()
-                ],
-              ),
+              child: _isLoading
+                  ? _buildLoaderWidget()
+                  : Column(
+                      children: [
+                        _buildShopThumb(),
+                        const Text('مطعم جميل'),
+                        _buildProfileEditMenu()
+                      ],
+                    ),
             )));
   }
 
@@ -88,14 +115,18 @@ class _MerchantProfileEditState extends State<MerchantProfileEdit> {
         FadeInImage.assetNetwork(
           width: MediaQuery.of(context).size.width,
           placeholder: 'assets/dummy_376x238.png',
-          image:
-              'https://images.deliveryhero.io/image/stores-glovo/stores/323ded4b85d8d3f109a4eece288ab0d25b64e98bbbbe925a53d6949796726c96?t=W3siYXV0byI6eyJxIjoibG93In19LHsicmVzaXplIjp7Im1vZGUiOiJmaWxsIiwiYmciOiJ0cmFuc3BhcmVudCIsIndpZHRoIjo1ODgsImhlaWdodCI6MzIwfX1d',
+          image: merchantDetails!.logo!,
         ),
         IconButton(
           onPressed: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) {
               return MerchantEdit();
-            }));
+            })).then((value) {
+              setState(() {
+                fetchAll();
+              });
+            });
+            ;
           },
           icon: const Icon(Icons.edit),
           color: Colors.black,
@@ -114,7 +145,9 @@ class _MerchantProfileEditState extends State<MerchantProfileEdit> {
           'title': S.of(context).menu,
           'image': 'assets/menu_2.png',
           'action': 'menu',
-          'action_title': S.of(context).add_menu
+          'action_title': merchantDetails!.menu == null
+              ? S.of(context).add_menu
+              : S.of(context).edit_menu
         },
         {
           'title': S.of(context).working_hours,
@@ -181,31 +214,52 @@ class _MerchantProfileEditState extends State<MerchantProfileEdit> {
                         ),
                         ['menu', 'working_hours', 'contact_informations']
                                 .contains(tab['action'])
-                            ? TextButton(
-                                onPressed: () {
-                                  if (tab['action'] == 'menu') {
-                                    chooseAndUploadImage(context);
-                                  } else if (tab['action'] == 'working_hours') {
-                                    Navigator.push(context,
-                                        MaterialPageRoute(builder: (context) {
-                                      return const WorkingHours();
-                                    }));
-                                  } else if (tab['action'] ==
-                                      'contact_informations') {
-                                    Navigator.push(context,
-                                        MaterialPageRoute(builder: (context) {
-                                      return const ContactInformations();
-                                    }));
-                                  }
-                                },
-                                child: Text(
-                                  tab['action_title'],
-                                  style: TextStyle(color: MyTheme.accent_color),
+                            ? Row(children: [
+                                TextButton(
+                                  onPressed: () {
+                                    if (tab['action'] == 'menu') {
+                                      handleUploadMenu(context);
+                                    } else if (tab['action'] ==
+                                        'working_hours') {
+                                      Navigator.push(context,
+                                          MaterialPageRoute(builder: (context) {
+                                        return const WorkingHours();
+                                      }));
+                                    } else if (tab['action'] ==
+                                        'contact_informations') {
+                                      Navigator.push(context,
+                                          MaterialPageRoute(builder: (context) {
+                                        return const ContactInformations();
+                                      }));
+                                    }
+                                  },
+                                  child: Text(
+                                    tab['action_title'],
+                                    style:
+                                        TextStyle(color: MyTheme.accent_color),
+                                  ),
                                 ),
-                              )
+                                tab['action'] == 'menu' &&
+                                        merchantDetails!.menu != null
+                                    ? IconButton(
+                                        icon: Icon(
+                                          Icons.remove_red_eye,
+                                          color: MyTheme.accent_color,
+                                        ),
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  FullscreenImageView(
+                                                      imageUrl: merchantDetails!
+                                                          .menu!),
+                                            ),
+                                          );
+                                        })
+                                    : Container()
+                              ])
                             : Container()
-
-                        // : tab['action'] ?  : Container()
                       ],
                     ),
                   ],
@@ -213,6 +267,16 @@ class _MerchantProfileEditState extends State<MerchantProfileEdit> {
           ],
         );
       }).toList(),
+    );
+  }
+
+  Widget _buildLoaderWidget() {
+    return Column(
+      children: [
+        ShimmerHelper().buildBasicShimmer(height: 300),
+        ShimmerHelper().buildBasicShimmer(height: 100),
+        ShimmerHelper().buildBasicShimmer(height: 100),
+      ],
     );
   }
 }
