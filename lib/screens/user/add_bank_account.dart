@@ -259,8 +259,7 @@ class _AddBankAccountState extends State<AddBankAccount> {
                                             backgroundColor: Colors
                                                 .transparent, // Customize the background color if needed
                                           ))
-                                      : Text(
-                                          'Save',
+                                      : Text(S.of(context).save,
                                           style: TextStyle(
                                             color: MyTheme.white,
                                             fontSize: 16,

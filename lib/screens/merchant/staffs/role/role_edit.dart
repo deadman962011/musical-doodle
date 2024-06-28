@@ -4,10 +4,9 @@ import 'package:com.mybill.app/generated/l10n.dart';
 import 'package:com.mybill.app/helpers/shared_value_helper.dart';
 import 'package:com.mybill.app/helpers/shimmer_helper.dart';
 import 'package:com.mybill.app/models/responses/merchant/role/merchant_permissions_response.dart';
+import 'package:com.mybill.app/models/responses/merchant/role/merchant_role_details_response.dart';
 import 'package:com.mybill.app/my_theme.dart';
 import 'package:com.mybill.app/repositories/merchant/merchant_role_repository.dart';
-import 'package:com.mybill.app/screens/merchant/staffs/role/roles.dart';
-import 'package:com.mybill.app/screens/user/bank_accounts.dart';
 import 'package:com.mybill.app/ui_elements/user_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -15,14 +14,16 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:toast/toast.dart';
 
-class AddRole extends StatefulWidget {
-  const AddRole({Key? key}) : super(key: key);
+class MerchantRoleEdit extends StatefulWidget {
+  final String id;
+
+  const MerchantRoleEdit({Key? key, required this.id}) : super(key: key);
 
   @override
-  _AddRoleState createState() => _AddRoleState();
+  _MerchantRoleEditState createState() => _MerchantRoleEditState();
 }
 
-class _AddRoleState extends State<AddRole> {
+class _MerchantRoleEditState extends State<MerchantRoleEdit> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final _formKey = GlobalKey<FormBuilderState>();
 
@@ -30,10 +31,13 @@ class _AddRoleState extends State<AddRole> {
       TextEditingController();
   final TextEditingController _roleNameInEnglishController =
       TextEditingController();
+  RoleDetails? _role;
   List<MerchantPermission> _permissionsList = [];
   List<String> _selectedPermissionsList = [];
   bool _isLoading = false;
   bool _isPermissionsLoading = true;
+  bool _isRoleDetailsLoading = true;
+
   Map<String, dynamic> _errors = {};
 
   bool isFormValid() {
@@ -44,6 +48,9 @@ class _AddRoleState extends State<AddRole> {
       return false;
     }
     if (_isLoading) {
+      return false;
+    }
+    if (_isRoleDetailsLoading) {
       return false;
     }
     if (_isPermissionsLoading) {
@@ -68,15 +75,27 @@ class _AddRoleState extends State<AddRole> {
     if (response.runtimeType.toString() == 'MerchantPermissionsResponse') {
       setState(() {
         _permissionsList = response.payload;
+        _isPermissionsLoading = false;
       });
     } else {}
-
-    setState(() {
-      _isPermissionsLoading = false;
-    });
   }
 
-  onPressedSaveRole() async {
+  fetchRole() async {
+    var response = await MerchantRoleRepository()
+        .getSaveMerchantRoleDetailsResponse(widget.id.toString());
+
+    if (response.runtimeType.toString() == 'MerchantRoleDetailsResponse') {
+      setState(() {
+        _role = response.payload;
+        _selectedPermissionsList = response.payload.permissions;
+        _roleNameInArabicController.text = response.payload.roleNameInArabic;
+        _roleNameInEnglishController.text = response.payload.roleNameInEnglish;
+        _isRoleDetailsLoading = false;
+      });
+    } else {}
+  }
+
+  onPressedUpdateRole() async {
     setState(() {
       _isLoading = true;
     });
@@ -85,16 +104,16 @@ class _AddRoleState extends State<AddRole> {
     var role_name_in_english =
         _roleNameInEnglishController.value.text.toString();
     var premissions = _selectedPermissionsList.join(',');
-    var response = await MerchantRoleRepository().getSaveMerchantRoleResponse(
-        role_name_in_arabic, role_name_in_english, premissions);
+    var response = await MerchantRoleRepository().getUpdateMerchantRoleResponse(
+        widget.id, role_name_in_arabic, role_name_in_english, premissions);
     debugPrint(response.runtimeType.toString());
-    if (response.runtimeType.toString() == 'MerchantSaveRoleResponse') {
-      ToastComponent.showDialog('staff role successfully created', context,
+    if (response.runtimeType.toString() == 'MerchantUpdateRoleResponse') {
+      ToastComponent.showDialog('staff role successfully updated', context,
           gravity: Toast.bottom, duration: Toast.lengthLong);
 
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-        return MerchantRoles();
-      }));
+      // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+      //   return MerchantRoles();
+      // }));
     } else if (response.runtimeType.toString() == 'ValidationResponse') {
       setState(() {
         _errors = response.errors;
@@ -122,6 +141,7 @@ class _AddRoleState extends State<AddRole> {
   void initState() {
     super.initState();
     fetchPermissions();
+    fetchRole();
     // WidgetsBinding.instance.addPostFrameCallback((_) {
     //   setState(() {});
     // });
@@ -135,7 +155,7 @@ class _AddRoleState extends State<AddRole> {
         child: Scaffold(
             key: _scaffoldKey,
             appBar: UserAppBar.buildUserAppBar(
-                context, 'add_role', S.of(context).add_role, {}),
+                context, 'edit_role', S.of(context).edit_role, {}),
             body: SingleChildScrollView(
                 child: Container(
                     padding:
@@ -258,7 +278,7 @@ class _AddRoleState extends State<AddRole> {
                                                   BorderRadius.circular(8.0))),
                                       onPressed: isFormValid()
                                           ? () async {
-                                              await onPressedSaveRole();
+                                              await onPressedUpdateRole();
                                             }
                                           : null,
                                       child: _isLoading
@@ -278,7 +298,7 @@ class _AddRoleState extends State<AddRole> {
                                                     .transparent, // Customize the background color if needed
                                               ))
                                           : Text(
-                                              S.of(context).save,
+                                              S.of(context).update,
                                               style: TextStyle(
                                                 color: MyTheme.white,
                                                 fontSize: 16,
@@ -291,14 +311,14 @@ class _AddRoleState extends State<AddRole> {
   }
 
   Widget _buildPermissionsList() {
-    if (_isPermissionsLoading) {
+    if (_isPermissionsLoading || _isRoleDetailsLoading) {
       return Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          ShimmerHelper().buildBasicShimmer(height: 120),
-          ShimmerHelper().buildBasicShimmer(height: 120),
-          ShimmerHelper().buildBasicShimmer(height: 120),
-          ShimmerHelper().buildBasicShimmer(height: 120),
+          ShimmerHelper().buildBasicShimmer(height: 80),
+          ShimmerHelper().buildBasicShimmer(height: 80),
+          ShimmerHelper().buildBasicShimmer(height: 80),
+          ShimmerHelper().buildBasicShimmer(height: 80),
         ],
       );
     } else {
@@ -308,7 +328,7 @@ class _AddRoleState extends State<AddRole> {
           return FormBuilderSwitch(
             name: 'permission_${permission.key}',
             title: Text(permission.name),
-            initialValue: false,
+            initialValue: _role!.permissions.contains(permission.key),
             activeColor: MyTheme.accent_color,
             inactiveThumbColor: Colors.grey.shade300,
             inactiveTrackColor: Colors.grey.shade500,

@@ -149,43 +149,42 @@ class _OfferDetailsState extends State<OfferDetails> {
                                           children: [
                                             Row(
                                               crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
+                                                  CrossAxisAlignment.center,
                                               mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
+                                                  MainAxisAlignment.center,
                                               children: [
                                                 Text(item.day),
-                                                Column(
-                                                  children:
-                                                      item.slots.map((slot) {
-                                                    return Row(
-                                                      children: [
-                                                        Container(
-                                                            margin:
-                                                                EdgeInsets.only(
-                                                                    bottom: 6),
-                                                            padding:
-                                                                EdgeInsets.all(
-                                                                    6),
-                                                            decoration: BoxDecoration(
-                                                                border:
-                                                                    Border.all(
-                                                                        width:
-                                                                            0.3),
-                                                                borderRadius: BorderRadius
-                                                                    .all(Radius
-                                                                        .circular(
-                                                                            3))),
-                                                            child: Text(
-                                                              '${intl.DateFormat('HH:MM a').format(slot.start)} - ${intl.DateFormat('HH:MM a').format(slot.end)}',
-                                                              style: TextStyle(
-                                                                  fontSize: 14),
-                                                            ))
-                                                      ],
-                                                    );
-                                                  }).toList(),
-                                                )
                                               ],
+                                            ),
+                                            Container(
+                                              width: double.infinity,
+                                              padding: EdgeInsets.all(6),
+                                              child: Column(
+                                                children:
+                                                    item.slots.map((slot) {
+                                                  return Container(
+                                                      width: double.infinity,
+                                                      margin: EdgeInsets.only(
+                                                          bottom: 6),
+                                                      padding:
+                                                          EdgeInsets.all(6),
+                                                      decoration: BoxDecoration(
+                                                          border: Border.all(
+                                                              width: 0.2),
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius
+                                                                      .circular(
+                                                                          3))),
+                                                      child: Text(
+                                                        '${intl.DateFormat('HH:MM a').format(slot.start)} - ${intl.DateFormat('HH:MM a').format(slot.end)}',
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        style: TextStyle(
+                                                            fontSize: 16),
+                                                      ));
+                                                }).toList(),
+                                              ),
                                             ),
                                             Divider(
                                               thickness: 0.2,

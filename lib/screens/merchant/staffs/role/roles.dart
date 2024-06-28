@@ -6,6 +6,7 @@ import 'package:com.mybill.app/models/responses/merchant/role/merchant_role_resp
 import 'package:com.mybill.app/my_theme.dart';
 import 'package:com.mybill.app/repositories/merchant/merchant_role_repository.dart';
 import 'package:com.mybill.app/screens/merchant/staffs/role/add_role.dart';
+import 'package:com.mybill.app/screens/merchant/staffs/role/role_edit.dart';
 import 'package:com.mybill.app/ui_elements/user_appbar.dart';
 import 'package:flutter/material.dart';
 
@@ -92,9 +93,8 @@ class _MerchantRoleState extends State<MerchantRoles>
                 },
                 child: SingleChildScrollView(
                   child: Column(
-                    // crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      _buildBankAccountList(),
+                      _buildRolesList(),
                     ],
                   ),
                 ),
@@ -102,7 +102,7 @@ class _MerchantRoleState extends State<MerchantRoles>
         ));
   }
 
-  Widget _buildBankAccountList() {
+  Widget _buildRolesList() {
     return Container(
         width: MediaQuery.of(context).size.width,
         alignment: Alignment.center,
@@ -204,11 +204,11 @@ class _MerchantRoleState extends State<MerchantRoles>
         decoration: BoxDecorations.buildBoxDecoration2(),
       ),
       onTap: () {
-        // Navigator.push(context, MaterialPageRoute(builder: (context) {
-        //   return BankAccountEdit(
-        //     bankAccountId: bank_account.id,
-        //   );
-        // }));
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return MerchantRoleEdit(
+            id: role.id.toString(),
+          );
+        }));
       },
     );
   }

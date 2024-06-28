@@ -232,13 +232,17 @@
   "select_role": "Select role",
   "role": "Role",
   "staff": "Staff",
-  "add_new_staff":"Add new staff",
-  "add_new_role":"Add new role",
-  "no_staff":"No staff",
-  "no_role":"No role",
-  "permissions":"Permissions",
-  "role_name_in_arabic":"Role name in arabic",
-  "role_name_in_english":"Role name in english",
-  "roles":"Roles"
-
+  "add_new_staff": "Add new staff",
+  "add_new_role": "Add new role",
+  "no_staff": "No staff",
+  "no_role": "No role",
+  "permissions": "Permissions",
+  "role_name_in_arabic": "Role name in arabic",
+  "role_name_in_english": "Role name in english",
+  "roles": "Roles",
+  "edit_role": "Edit role",
+  "phone_number_is_invalid": "invalid Mobile number ",
+  "your_withdrwa_balance_request_successfully_sent":"your withdraw balance request successfully sent",
+  "withdrwa_balance_request_is_processing":"Withdraw balance request is processing",
+  "edit_staff":"Edit staff"
 }

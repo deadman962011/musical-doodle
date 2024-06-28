@@ -34,7 +34,7 @@ class UserAuthRepository {
         return userLoginResponseFromJson(response.body);
       } else if (response.statusCode == 422) {
         return validationResponseFromJson(response.body);
-      } else {
+      } else { 
         return unexpectedErrorResponseFromJson(response.body);
       }
     } catch (e) {

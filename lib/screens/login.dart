@@ -90,8 +90,7 @@ class _LoginState extends State<Login> {
       Navigator.push(context, MaterialPageRoute(builder: (context) {
         return CheckMail(email: email, model: widget.model);
       }));
-    } else {
-      debugPrint(response.toString());
+    } else { 
       ToastComponent.showDialog('network_error', context,
           gravity: Toast.bottom, duration: Toast.lengthLong);
     }

@@ -113,6 +113,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "done": MessageLookupByLibrary.simpleMessage("منتهي"),
         "edit": MessageLookupByLibrary.simpleMessage("تعديل"),
         "edit_menu": MessageLookupByLibrary.simpleMessage("تعديل المنيو"),
+        "edit_role": MessageLookupByLibrary.simpleMessage("تعديل المنصب"),
+        "edit_staff": MessageLookupByLibrary.simpleMessage("تعديل الموظف"),
         "email": MessageLookupByLibrary.simpleMessage("البريد الالكتروني"),
         "end": MessageLookupByLibrary.simpleMessage("انتهاء"),
         "end_date_placeholder":
@@ -235,6 +237,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "pending_invoice": MessageLookupByLibrary.simpleMessage("فاتورة معلقة"),
         "permissions": MessageLookupByLibrary.simpleMessage("الصلاحيات"),
         "phone_number": MessageLookupByLibrary.simpleMessage("رقم الهاتف"),
+        "phone_number_is_invalid":
+            MessageLookupByLibrary.simpleMessage("رقم الهاتف غير صالح"),
         "please_check_your_email_inbox": MessageLookupByLibrary.simpleMessage(
             "الرجاء تفقد بريدك الالكتروني "),
         "please_enter_your_informations_to_continue":
@@ -265,7 +269,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "rejected_invoice": MessageLookupByLibrary.simpleMessage("مرفوضة"),
         "reports": MessageLookupByLibrary.simpleMessage("التقارير"),
         "resend_email": MessageLookupByLibrary.simpleMessage("اعادة ارسال"),
-        "role": MessageLookupByLibrary.simpleMessage("الدور"),
+        "role": MessageLookupByLibrary.simpleMessage("المنصب"),
         "role_name_in_arabic":
             MessageLookupByLibrary.simpleMessage("اسم المنصب بالعربي"),
         "role_name_in_english":
@@ -289,7 +293,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "select_location": MessageLookupByLibrary.simpleMessage("اختر العنوان"),
         "select_payment_method":
             MessageLookupByLibrary.simpleMessage("اختر طريقة الدفع"),
-        "select_role": MessageLookupByLibrary.simpleMessage("اختيار الدور"),
+        "select_role": MessageLookupByLibrary.simpleMessage("اختيار المنصب"),
         "sender_full_name":
             MessageLookupByLibrary.simpleMessage("الاسم الكامل للمرسل"),
         "sender_phone_number":
@@ -331,7 +335,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "terms_conditions":
             MessageLookupByLibrary.simpleMessage("شروط الاستخدام والخصوصية"),
         "tex_register": MessageLookupByLibrary.simpleMessage("السجل الضريبي"),
-        "theme": MessageLookupByLibrary.simpleMessage("الثيمة"),
+        "theme": MessageLookupByLibrary.simpleMessage("السمة"),
         "total_balance": MessageLookupByLibrary.simpleMessage("اجمالي الرصيد"),
         "total_commission":
             MessageLookupByLibrary.simpleMessage("اجمالي العمولة"),
@@ -356,8 +360,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "withdraw_balance": MessageLookupByLibrary.simpleMessage("سحب الرصيد"),
         "withdraw_blanace_long_text": MessageLookupByLibrary.simpleMessage(
             "كل نقطة بتطبيق مايبيل تعادل ا ريال سعودي يمكن استبدالها او طلبها للسحب يجب ان يكون الحد الادنى للطلب يعادل 100 نقطة, النقاط صالحة لمدة 12 شهر من تاريخ ربحها"),
+        "withdrwa_balance_request_is_processing":
+            MessageLookupByLibrary.simpleMessage("الطلب قيد التدقيق"),
         "working_hours": MessageLookupByLibrary.simpleMessage("ساعات العمل"),
         "year": MessageLookupByLibrary.simpleMessage("سنة"),
-        "yes": MessageLookupByLibrary.simpleMessage("نعم")
+        "yes": MessageLookupByLibrary.simpleMessage("نعم"),
+        "your_withdrwa_balance_request_successfully_sent":
+            MessageLookupByLibrary.simpleMessage(
+                "تم ارسال طلب سحب الرصيد بنجاح ")
       };
 }

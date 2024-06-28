@@ -423,6 +423,7 @@ class _MerchantRegistrationState extends State<MerchantRegistration> {
                       padding: const EdgeInsets.only(bottom: 8),
                       child: IntlPhoneField(
                         enabled: true,
+                        disableLengthCheck: true,
                         onChanged: (phone) {
                           List<int> _prefixes = [
                             50,
@@ -441,10 +442,14 @@ class _MerchantRegistrationState extends State<MerchantRegistration> {
                               containsPrefix) {
                             setState(() {
                               fullPhone = phone.number;
+                              _errors['shop_admin_phone'] = "";
                             });
                           } else {
                             setState(() {
                               fullPhone = '';
+                              _errors['shop_admin_phone'] = [
+                                S.of(context).phone_number_is_invalid
+                              ];
                             });
                           }
                         },
@@ -452,7 +457,9 @@ class _MerchantRegistrationState extends State<MerchantRegistration> {
                         controller: _phoneController,
                         decoration:
                             InputDecorations.buildDropdownInputDecoration_1(
-                                error_text: _errors['shop_admin_phone'] != null
+                                error_text: _errors['shop_admin_phone'] !=
+                                            null &&
+                                        _errors['shop_admin_phone'].length > 0
                                     ? _errors['shop_admin_phone']![0]
                                     : null),
                         initialCountryCode: 'SA',

@@ -29,7 +29,8 @@ class MerchantDrawer {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
                 return const MerchantStatistics();
               }));
-            }
+            },
+            'permissions': ['show_shop_statistics']
           },
           {
             'title': S.of(context).statistics,
@@ -37,9 +38,11 @@ class MerchantDrawer {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
                 return const MerchantLatestSales();
               }));
-            }
+            },
+            'permissions': ['show_shop_statistics']
           }
-        ]
+        ],
+        'permissions': ['show_shop_statistics']
       },
       {
         'title': S.of(context).wallet,
@@ -49,7 +52,8 @@ class MerchantDrawer {
             return const MerchantWallet();
           }));
         },
-        'sub': []
+        'sub': [],
+        'permissions': ['show_shop_wallet']
       },
       {
         'title': S.of(context).offers,
@@ -76,12 +80,8 @@ class MerchantDrawer {
         'title': S.of(context).loyalty_program,
         'image': 'assets/gift.png',
         'action': () {},
-        'sub': []
-      },
-      {
-        'title': S.of(context).notifications,
-        'image': 'assets/menu.png',
-        'sub': []
+        'sub': [],
+        'permissions': []
       },
       {
         'title': S.of(context).profile,
@@ -91,10 +91,15 @@ class MerchantDrawer {
             return const MerchantProfileEdit();
           }));
         },
-        'sub': []
+        'sub': [],
+        'permissions': [
+          'edit_shop_informations',
+          'edit_shop_contact_informations',
+          'edit_shop_availability'
+        ],
       },
       {
-        'title': 'staffs',
+        'title': S.of(context).staff,
         'image': 'assets/profile.png',
         'action': null,
         'permissions': [
@@ -107,7 +112,7 @@ class MerchantDrawer {
         ],
         'sub': [
           {
-            'title': 'staff',
+            'title': S.of(context).staff,
             'action': () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
                 return const MerchantStaff();
@@ -120,7 +125,7 @@ class MerchantDrawer {
             ]
           },
           {
-            'title': 'roles',
+            'title': S.of(context).roles,
             'action': () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
                 return const MerchantRoles();
@@ -142,10 +147,17 @@ class MerchantDrawer {
         'permissions': ['upgrade_shop']
       },
       {
+        'title': S.of(context).notifications,
+        'image': 'assets/menu.png',
+        'sub': [],
+        'permissions': []
+      },
+      {
         'title': S.of(context).settings,
         'image': 'assets/settings.png',
         'action': () {},
-        'sub': []
+        'sub': [],
+        'permissions': []
       },
       {
         'title': S.of(context).language,
@@ -157,7 +169,8 @@ class MerchantDrawer {
             );
           }));
         },
-        'sub': []
+        'sub': [],
+        'permissions': []
       },
       {
         'title': S.of(context).logout,
@@ -173,7 +186,8 @@ class MerchantDrawer {
             return Guest();
           }), (route) => false);
         },
-        'sub': []
+        'sub': [],
+        'permissions': []
       },
     ];
 
@@ -198,8 +212,7 @@ class MerchantDrawer {
           ),
           Column(
             children: drawerItems.map<Widget>((item) {
-              if (item['permissions'] != null &&
-                  AuthHelper().canAny(item['permissions'])) {
+              if (AuthHelper().canAny(item['permissions'])) {
                 return item['sub'].length > 0
                     ? ExpansionTile(
                         title: Row(
@@ -230,7 +243,6 @@ class MerchantDrawer {
                                 )),
                             onTap: child['action'],
                           );
-                          
                         }).toList(),
                         shape: const Border(),
                       )

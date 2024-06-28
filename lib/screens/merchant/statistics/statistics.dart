@@ -42,7 +42,7 @@ class _StatisticsState extends State<MerchantStatistics> {
         child: Scaffold(
             key: _scaffoldKey,
             appBar: MerchantAppBar.buildMerchantAppBar(
-                context, 'statistics', _scaffoldKey, S.of(context).add_offer),
+                context, 'statistics', _scaffoldKey, S.of(context).statistics),
             drawer: MerchantDrawer.buildDrawer(context),
             backgroundColor: Colors.transparent,
             body: RefreshIndicator(
@@ -68,7 +68,7 @@ class _StatisticsState extends State<MerchantStatistics> {
           alignment: AlignmentDirectional.centerEnd,
           children: [
             Image.asset('assets/statistics_2.png'),
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Padding(
@@ -84,7 +84,7 @@ class _StatisticsState extends State<MerchantStatistics> {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 8),
                   child: Text(
-                    'Total sales',
+                    S.of(context).total_sales,
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w600,
@@ -94,7 +94,7 @@ class _StatisticsState extends State<MerchantStatistics> {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 30),
                   child: Text(
-                    '5656 SAR',
+                    '0 ${S.of(context).sar}',
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w700,
@@ -118,7 +118,7 @@ class _StatisticsState extends State<MerchantStatistics> {
             alignment: AlignmentDirectional.centerStart,
             children: [
               Image.asset('assets/statistics_3.png'),
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Padding(
@@ -134,7 +134,7 @@ class _StatisticsState extends State<MerchantStatistics> {
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 8),
                     child: Text(
-                      'Total sales',
+                      S.of(context).total_balance,
                       style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w600,
@@ -144,7 +144,7 @@ class _StatisticsState extends State<MerchantStatistics> {
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 30),
                     child: Text(
-                      '5656 SAR',
+                      '0 ${S.of(context).sar}',
                       style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w700,
@@ -160,7 +160,7 @@ class _StatisticsState extends State<MerchantStatistics> {
         alignment: AlignmentDirectional.centerEnd,
         children: [
           Image.asset('assets/statistics_1.png'),
-          const Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Padding(
@@ -176,7 +176,7 @@ class _StatisticsState extends State<MerchantStatistics> {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 8),
                 child: Text(
-                  'Total sales',
+                  S.of(context).total_commission,
                   style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w600,
@@ -186,7 +186,7 @@ class _StatisticsState extends State<MerchantStatistics> {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 30),
                 child: Text(
-                  '5656 SAR',
+                  '0 ${S.of(context).sar}',
                   style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w700,
@@ -208,7 +208,7 @@ class _StatisticsState extends State<MerchantStatistics> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text('Offers '),
+              Text(S.of(context).offers),
               TextButton(
                   style: TextButton.styleFrom(
                       backgroundColor: MyTheme.accent_color,
@@ -221,16 +221,16 @@ class _StatisticsState extends State<MerchantStatistics> {
                   ))
             ],
           ),
-          _buildOfferSalesItem(),
-          _buildOfferSalesItem(),
-          _buildOfferSalesItem(),
-          _buildOfferSalesItem()
+          _buildOfferItem(),
+          _buildOfferItem(),
+          _buildOfferItem(),
+          _buildOfferItem()
         ],
       ),
     );
   }
 
-  Widget _buildOfferSalesItem() {
+  Widget _buildOfferItem() {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
       padding: const EdgeInsets.all(12),
@@ -245,84 +245,105 @@ class _StatisticsState extends State<MerchantStatistics> {
             ],
           ),
           DataTable(
-            horizontalMargin: 6,
-            columnSpacing: 12,
-            headingRowHeight: 24,
-            columns:   <DataColumn>[
-              DataColumn(
-                label: Expanded(
-                  child: Text(S.of(context).bill_id,
-                    style: TextStyle(fontSize: 12),
-                  ),
-                ),
-              ),
-              DataColumn(
-                label: Expanded(
-                  child: Text(S.of(context).customre_name,
-                    style: TextStyle(fontSize: 12),
-                  ),
-                ),
-              ),
-              DataColumn(
-                label: Expanded(
-                  child: Text(S.of(context).date,
-                    style: TextStyle(fontSize: 12),
-                  ),
-                ),
-              ),
-              DataColumn(
-                label: Expanded(
-                  child: Text(S.of(context).status,
-                    style: TextStyle(fontSize: 12),
-                  ),
-                ),
-              ),
-              DataColumn(
-                label: Expanded(
-                  child: Text(S.of(context).amount,
-                    style: TextStyle(fontSize: 12),
-                  ),
-                ),
-              ),
-              DataColumn(
-                label: Expanded(
-                  child: Text(S.of(context).bill,
-                    style: TextStyle(fontSize: 12),
-                  ),
-                ),
-              ),
-              DataColumn(
-                label: Expanded(
-                  child: Text(
-                    '',
-                    style: TextStyle(fontSize: 12),
-                  ),
-                ),
-              ),
-            ],
-            rows: <DataRow>[
-              DataRow(
-                cells: <DataCell>[
-                  const DataCell(Text('#150', style: TextStyle(fontSize: 12))),
-                  const DataCell(
-                      Text('Ahmad Mouhamad', style: TextStyle(fontSize: 12))),
-                  const DataCell(
-                      Text('1/12/2024', style: TextStyle(fontSize: 12))),
-                  const DataCell(
-                      Text('Canceled', style: TextStyle(fontSize: 12))),
-                  const DataCell(
-                      Text('150 SAR', style: TextStyle(fontSize: 12))),
-                  DataCell(GestureDetector(
-                    child: const ImageIcon(
-                      AssetImage('assets/bill.png'),
-                      size: 28,
+              horizontalMargin: 6,
+              columnSpacing: 24,
+              headingRowHeight: 24,
+              columns: <DataColumn>[
+                DataColumn(
+                  label: Expanded(
+                    child: Text(
+                      S.of(context).id,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 12,
+                      ),
                     ),
-                  )),
-                  const DataCell(Text('X')),
-                ],
-              ),
-            ],
-          )
+                  ),
+                ),
+                DataColumn(
+                  label: Expanded(
+                    child: Text(
+                      S.of(context).customre_name,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 12),
+                    ),
+                  ),
+                ),
+                DataColumn(
+                  label: Expanded(
+                    child: Text(
+                      S.of(context).date,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 12),
+                    ),
+                  ),
+                ),
+                DataColumn(
+                  label: Expanded(
+                    child: Text(
+                      S.of(context).status,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 12),
+                    ),
+                  ),
+                ),
+                DataColumn(
+                  label: Expanded(
+                    child: Text(
+                      S.of(context).amount,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 12),
+                    ),
+                  ),
+                ),
+                DataColumn(
+                  label: Expanded(
+                    child: Text(
+                      S.of(context).bill,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 12),
+                    ),
+                  ),
+                ),
+              ],
+              rows: [
+                DataRow(
+                  cells: <DataCell>[
+                    DataCell(Text(
+                      '1',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 12),
+                    )),
+                    DataCell(Text(
+                      'ahmad mahmoud',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 12),
+                    )),
+                    DataCell(Text(
+                      '10/12/2024',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 12),
+                    )),
+                    DataCell(Text(
+                      'paid',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 12),
+                    )),
+                    DataCell(Text(
+                      '50',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 12),
+                    )),
+                    DataCell(GestureDetector(
+                      child: const ImageIcon(
+                        AssetImage('assets/bill.png'),
+                        size: 28,
+                      ),
+                    )),
+                    // const DataCell(Text('X')),
+                  ],
+                )
+              ])
         ],
       ),
     );

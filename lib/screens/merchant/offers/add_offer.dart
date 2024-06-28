@@ -81,7 +81,7 @@ class _AddOfferState extends State<AddOffer> {
         setState(() {
           _checkout_amounts.add(DropdownMenuItem(
             value: element.toString(),
-            child: Text(element.toString()),
+            child: Text(" ${element.toString()}%"),
           ));
         });
       }
@@ -417,8 +417,7 @@ class _AddOfferState extends State<AddOffer> {
                                   Padding(
                                     padding: const EdgeInsets.only(
                                         top: 12, bottom: 3),
-                                    child: Text(
-                                        S.of(context).application_commission),
+                                    child: Text(S.of(context).offer_thumbnail),
                                   ),
                                   GestureDetector(
                                       child: DottedBorder(
@@ -527,7 +526,8 @@ class _AddOfferState extends State<AddOffer> {
                                 Padding(
                                   padding:
                                       const EdgeInsets.only(top: 12, bottom: 3),
-                                  child: Text(S.of(context).offer_thumbnail),
+                                  child: Text(
+                                      S.of(context).application_commission),
                                 ),
                                 TextFormField(
                                   controller: _offerComissionAmountController

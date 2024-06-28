@@ -251,7 +251,7 @@ class _UserHomeState extends State<UserHome> {
           ));
     } else {
       if (_categoriesList.isEmpty) {
-        return   Text(S.of(context).no_cateogies);
+        return Text(S.of(context).no_cateogies);
       } else {
         return Container(
             width: MediaQuery.of(context).size.width,
@@ -272,28 +272,34 @@ class _UserHomeState extends State<UserHome> {
                             Stack(
                               alignment: Alignment.center,
                               children: [
-                                ClipRRect(
-                                    borderRadius: BorderRadius.circular(18),
-                                    child: Image.network(
-                                      category.thumbnail,
-                                      width: 82,
-                                      height: 82,
+                                Container(
+                                    margin: EdgeInsets.only(bottom: 6),
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                            width: 2,
+                                            color: selectedCategoryId ==
+                                                    category.id
+                                                ? MyTheme.accent_color
+                                                : Colors.transparent),
+                                        borderRadius:
+                                            BorderRadius.circular(12)),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: Image.network(
+                                        category.thumbnail,
+                                        width: 80,
+                                        height: 50,
+                                      ),
                                     )),
-                                selectedCategoryId == category.id
-                                    ? Image.asset(
-                                        'assets/add.png',
-                                        width: 32,
-                                        height: 32,
-                                        color: MyTheme.accent_color_shadow,
-                                      )
-                                    : Container()
                               ],
                             ),
                             Text(
                               category.name,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: selectedCategoryId == category.id
+                                      ? MyTheme.accent_color
+                                      : Colors.black),
                             )
                           ],
                         ),

@@ -116,7 +116,7 @@ class _BankAccountsState extends State<BankAccounts> {
                         Padding(
                           padding: EdgeInsets.symmetric(vertical: 8),
                           child: Text(
-                            'No Bank accounts',
+                            S.of(context).no_bank_accounts,
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ),
@@ -124,7 +124,7 @@ class _BankAccountsState extends State<BankAccounts> {
                           padding: EdgeInsets.symmetric(vertical: 8),
                           child: GestureDetector(
                             child: Text(
-                              'Add new bank account',
+                              S.of(context).add_bank_account,
                               style: TextStyle(
                                   color: MyTheme.accent_color,
                                   fontWeight: FontWeight.bold),
@@ -153,7 +153,7 @@ class _BankAccountsState extends State<BankAccounts> {
                           padding: EdgeInsets.symmetric(vertical: 8),
                           child: GestureDetector(
                             child: Text(
-                              'Add new bank account',
+                              S.of(context).add_bank_account,
                               style: TextStyle(
                                   color: MyTheme.accent_color,
                                   fontWeight: FontWeight.bold),
@@ -199,5 +199,4 @@ class _BankAccountsState extends State<BankAccounts> {
       },
     );
   }
-
 }

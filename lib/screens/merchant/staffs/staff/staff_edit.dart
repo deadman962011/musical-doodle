@@ -1,7 +1,10 @@
+import 'dart:ui';
+
 import 'package:com.mybill.app/custom/input_decorations.dart';
 import 'package:com.mybill.app/custom/toast_component.dart';
 import 'package:com.mybill.app/generated/l10n.dart';
 import 'package:com.mybill.app/helpers/shared_value_helper.dart';
+import 'package:com.mybill.app/models/responses/merchant/staff/merchant_staff_details_response.dart';
 import 'package:com.mybill.app/my_theme.dart';
 import 'package:com.mybill.app/repositories/merchant/merchant_role_repository.dart';
 import 'package:com.mybill.app/repositories/merchant/merchant_staff_repository.dart';
@@ -16,21 +19,24 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:toast/toast.dart';
 
-class AddStaff extends StatefulWidget {
-  const AddStaff({Key? key}) : super(key: key);
+class StaffEdit extends StatefulWidget {
+  final String id;
+  const StaffEdit({Key? key, required this.id}) : super(key: key);
 
   @override
-  _AddStaffState createState() => _AddStaffState();
+  _StaffEditState createState() => _StaffEditState();
 }
 
-class _AddStaffState extends State<AddStaff> {
+class _StaffEditState extends State<StaffEdit> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final _formKey = GlobalKey<FormBuilderState>();
 
   List<DropdownMenuItem<Object>> _roles = [];
   final TextEditingController _fullNameController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _phoneNumberController = TextEditingController();
   String roleId = '';
+  StaffRole? staffRole = null;
+
   Country _country = Country(
     name: "Saudi Arabia",
     nameTranslations: {
@@ -63,8 +69,8 @@ class _AddStaffState extends State<AddStaff> {
     maxLength: 9,
   );
   String fullPhone = '';
-
   bool _isLoading = false;
+  bool _isStaffDetailsLoading = true;
   Map<String, dynamic> _errors = {};
 
   bool isFormValid() {
@@ -80,6 +86,9 @@ class _AddStaffState extends State<AddStaff> {
     if (_isLoading) {
       return false;
     }
+    if (_isStaffDetailsLoading) {
+      return false;
+    }
 
     return true;
   }
@@ -92,22 +101,18 @@ class _AddStaffState extends State<AddStaff> {
     }
   }
 
-  onPressedSaveBankAccount() async {
+  onPressedUpdateStaff() async {
     setState(() {
       _isLoading = true;
     });
 
     var full_name = _fullNameController.value.text.toString();
-    var email = _emailController.value.text.toString();
     var response = await MerchantStaffRepository()
-        .getSaveMerchantStaffResponse(full_name, email, fullPhone, roleId);
-    if (response.runtimeType.toString() == 'MerchantSaveStaffResponse') {
-      ToastComponent.showDialog('staff successfully created', context,
+        .getUpdateMerchantStaffResponse(
+            widget.id, full_name, fullPhone, roleId);
+    if (response.runtimeType.toString() == 'MerchantUpdateStaffResponse') {
+      ToastComponent.showDialog('staff successfully updated', context,
           gravity: Toast.bottom, duration: Toast.lengthLong);
-      // Navigator.pop(context);
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-        return MerchantStaff();
-      }));
     } else if (response.runtimeType.toString() == 'ValidationResponse') {
       setState(() {
         _errors = response.errors;
@@ -146,10 +151,27 @@ class _AddStaffState extends State<AddStaff> {
     }
   }
 
+  fetchStaff() async {
+    var response = await MerchantStaffRepository()
+        .getMerchantStaffDetailsResponse(widget.id.toString());
+    debugPrint(response.runtimeType.toString());
+    if (response.runtimeType.toString() == 'MerchantStaffDetailsResponse') {
+      setState(() {
+        _fullNameController.text = response.payload.name;
+        _phoneNumberController.text = response.payload.phone;
+        fullPhone = response.payload.phone;
+        roleId = response.payload.role.id.toString();
+        _isStaffDetailsLoading = false;
+        staffRole = response.payload.role;
+      });
+    } else {}
+  }
+
   @override
   void initState() {
     super.initState();
     fetchRoles();
+    fetchStaff();
   }
 
   @override
@@ -160,7 +182,7 @@ class _AddStaffState extends State<AddStaff> {
         child: Scaffold(
           key: _scaffoldKey,
           appBar: UserAppBar.buildUserAppBar(
-              context, 'add_staff', S.of(context).add_staff, {}),
+              context, 'edit_staff', S.of(context).edit_staff, {}),
           body: Container(
               padding: const EdgeInsets.only(left: 14, right: 14, bottom: 12),
               width: MediaQuery.of(context).size.width,
@@ -222,6 +244,7 @@ class _AddStaffState extends State<AddStaff> {
                                       IntlPhoneField(
                                         enabled: true,
                                         disableLengthCheck: true,
+                                        controller: _phoneNumberController,
                                         onChanged: (phone) {
                                           List<int> _prefixes = [
                                             50,
@@ -281,34 +304,6 @@ class _AddStaffState extends State<AddStaff> {
                                     children: [
                                       Padding(
                                         padding: EdgeInsets.only(bottom: 8),
-                                        child: Text(S.of(context).email),
-                                      ),
-                                      FormBuilderTextField(
-                                        name: 'email',
-                                        controller: _emailController,
-                                        decoration: InputDecorations
-                                            .buildDropdownInputDecoration_1(
-                                                error_text:
-                                                    _errors['email'] != null
-                                                        ? _errors['email']![0]
-                                                        : null),
-                                        validator:
-                                            FormBuilderValidators.compose([
-                                          FormBuilderValidators.required(),
-                                          FormBuilderValidators.email(),
-                                        ]),
-                                      ),
-                                    ],
-                                  )),
-                              Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 10),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.only(bottom: 8),
                                         child: Text(S.of(context).role),
                                       ),
                                       DropdownSearch(
@@ -325,6 +320,19 @@ class _AddStaffState extends State<AddStaff> {
                                                     title: selectedItem,
                                                   ),
                                                 ));
+                                          } else if (selectedItem == null &&
+                                              staffRole != null) {
+                                            return Padding(
+                                                padding:
+                                                    const EdgeInsets.all(4.0),
+                                                child: Container(
+                                                  child: ListTile(
+                                                    contentPadding:
+                                                        const EdgeInsets.all(0),
+                                                    title:
+                                                        Text(staffRole!.name),
+                                                  ),
+                                                ));
                                           } else {
                                             return Text(
                                                 S.of(context).select_role);
@@ -334,6 +342,7 @@ class _AddStaffState extends State<AddStaff> {
                                           setState(
                                             () {
                                               roleId = value.value.toString();
+                                              staffRole = null;
                                             },
                                           );
                                         },
@@ -372,7 +381,7 @@ class _AddStaffState extends State<AddStaff> {
                           borderRadius: BorderRadius.circular(8.0))),
                   onPressed: isFormValid()
                       ? () async {
-                          await onPressedSaveBankAccount();
+                          await onPressedUpdateStaff();
                         }
                       : null,
                   child: _isLoading
@@ -389,7 +398,7 @@ class _AddStaffState extends State<AddStaff> {
                                 .transparent, // Customize the background color if needed
                           ))
                       : Text(
-                          'Save',
+                          S.of(context).update,
                           style: TextStyle(
                             color: MyTheme.white,
                             fontSize: 16,

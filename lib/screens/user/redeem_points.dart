@@ -112,35 +112,34 @@ class _RedeemPointsState extends State<RedeemPoints> {
                         ],
                       ),
                     ),
-                    SizedBox(
-                        width: double.infinity,
-                        child: TextButton(
-                            style: TextButton.styleFrom(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 12),
-                                backgroundColor:
-                                    bgColorSub(), //MyTheme.accent_color
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8.0))),
-                            onPressed: isFormValid()
-                                ? () async {
-                                    Navigator.push(context,
-                                        MaterialPageRoute(builder: (context) {
-                                      return CouponDetails(
-                                        couponId: selectedCoupon!,
-                                      );
-                                    }));
-                                  }
-                                : () {},
-                            child: Text(
-                              S.of(context).next,
-                              style: TextStyle(
-                                color: MyTheme.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.normal,
-                              ),
-                            )))
                   ])),
+          bottomNavigationBar: Container(
+              margin: EdgeInsets.all(10),
+              width: double.infinity,
+              child: TextButton(
+                  style: TextButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      backgroundColor: bgColorSub(), //MyTheme.accent_color
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.0))),
+                  onPressed: isFormValid()
+                      ? () async {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                            return CouponDetails(
+                              couponId: selectedCoupon!,
+                            );
+                          }));
+                        }
+                      : () {},
+                  child: Text(
+                    S.of(context).next,
+                    style: TextStyle(
+                      color: MyTheme.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ))),
         ));
   }
 
@@ -186,7 +185,8 @@ class _RedeemPointsState extends State<RedeemPoints> {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 12),
-            child: Text('${S.of(context).notice}: 1 ${S.of(context).point_at_my_bill_equal} 1 ${S.of(context).sar}'),
+            child: Text(
+                '${S.of(context).notice}: 1 ${S.of(context).point_at_my_bill_equal} 1 ${S.of(context).sar}'),
           ),
           FormBuilder(
               onChanged: () {
@@ -195,8 +195,6 @@ class _RedeemPointsState extends State<RedeemPoints> {
               child: Column(
                 children: [
                   FormBuilderTextField(
-                    // autofocus: false,
-                    // autovalidateMode: AutovalidateMode.always,
                     name: 'point_amount',
                     controller: _pointAmountController,
                     autovalidateMode: AutovalidateMode.disabled,
@@ -206,6 +204,7 @@ class _RedeemPointsState extends State<RedeemPoints> {
                       FormBuilderValidators.required(),
                       FormBuilderValidators.minLength(3),
                     ]),
+                    keyboardType: TextInputType.number,
                     textInputAction: TextInputAction.next,
                   )
                 ],

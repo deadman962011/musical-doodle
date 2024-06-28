@@ -113,7 +113,7 @@ class MerchantRepository {
       "shop_availability_id": id,
     });
 
-    Uri url = Uri.parse("${AppConfig.BASE_URL}/shop/availability/");
+    Uri url = Uri.parse("${AppConfig.BASE_URL}/shop/availability");
 
     final response = await http.put(url,
         headers: {
@@ -220,8 +220,9 @@ class MerchantRepository {
           "Authorization": "Bearer ${access_token.$}",
         },
         body: postBody);
+    final responseBody = jsonDecode(response.body); 
     AppConfig.alice.onHttpResponse(response, body: postBody);
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200 && responseBody['success']) {
       return merchantUpdateLogoResponseFromJson(response.body);
     } else {
       return false;

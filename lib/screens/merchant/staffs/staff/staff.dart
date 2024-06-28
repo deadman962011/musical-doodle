@@ -6,6 +6,7 @@ import 'package:com.mybill.app/models/responses/merchant/staff/merchant_staff_re
 import 'package:com.mybill.app/my_theme.dart';
 import 'package:com.mybill.app/repositories/merchant/merchant_staff_repository.dart';
 import 'package:com.mybill.app/screens/merchant/staffs/staff/add_staff.dart';
+import 'package:com.mybill.app/screens/merchant/staffs/staff/staff_edit.dart';
 import 'package:com.mybill.app/ui_elements/user_appbar.dart';
 import 'package:flutter/material.dart';
 
@@ -147,9 +148,7 @@ class _StaffState extends State<MerchantStaff> with TickerProviderStateMixin {
                               Navigator.push(context,
                                   MaterialPageRoute(builder: (context) {
                                 return AddStaff();
-                              })).then((value) => setState(() {
-                                
-                              }));
+                              })).then((value) => setState(() {}));
                             },
                           ),
                         )
@@ -177,9 +176,7 @@ class _StaffState extends State<MerchantStaff> with TickerProviderStateMixin {
                               Navigator.push(context,
                                   MaterialPageRoute(builder: (context) {
                                 return AddStaff();
-                              })).then((value) => setState(() {
-                                
-                              }));
+                              })).then((value) => setState(() {}));
                               // Navigator.push(context,
                               //     MaterialPageRoute(builder: (context) {
                               //   return AddBankAccount();
@@ -211,11 +208,11 @@ class _StaffState extends State<MerchantStaff> with TickerProviderStateMixin {
         decoration: BoxDecorations.buildBoxDecoration2(),
       ),
       onTap: () {
-        // Navigator.push(context, MaterialPageRoute(builder: (context) {
-        //   return BankAccountEdit(
-        //     bankAccountId: bank_account.id,
-        //   );
-        // }));
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return StaffEdit(
+            id: staff.id.toString(),
+          );
+        }));
       },
     );
   }

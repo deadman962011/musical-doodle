@@ -2459,6 +2459,56 @@ class S {
       args: [],
     );
   }
+
+  /// `Edit role`
+  String get edit_role {
+    return Intl.message(
+      'Edit role',
+      name: 'edit_role',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `invalid Mobile number `
+  String get phone_number_is_invalid {
+    return Intl.message(
+      'invalid Mobile number ',
+      name: 'phone_number_is_invalid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `your withdraw balance request successfully sent`
+  String get your_withdrwa_balance_request_successfully_sent {
+    return Intl.message(
+      'your withdraw balance request successfully sent',
+      name: 'your_withdrwa_balance_request_successfully_sent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Withdraw balance request is processing`
+  String get withdrwa_balance_request_is_processing {
+    return Intl.message(
+      'Withdraw balance request is processing',
+      name: 'withdrwa_balance_request_is_processing',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Edit staff`
+  String get edit_staff {
+    return Intl.message(
+      'Edit staff',
+      name: 'edit_staff',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

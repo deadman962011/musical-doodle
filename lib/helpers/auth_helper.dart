@@ -73,8 +73,9 @@ class AuthHelper {
   }
 
   bool canAny(permissions) {
-    return permissions
-        .any((permission) => shop_admin_permissions.$.contains(permission));
+    return permissions.isEmpty ||
+        permissions
+            .any((permission) => shop_admin_permissions.$.contains(permission));
   }
 
   bool can(permission) {

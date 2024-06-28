@@ -153,13 +153,13 @@ class _MerchantOffersState extends State<MerchantOffers>
                     textColor =
                         MyTheme.warning_color; // Example color for pending
                     return TextSpan(
-                      text: 'Pending',
+                      text: S.of(context).pending,
                       style: TextStyle(color: textColor, fontSize: fontSize),
                     );
                   case 'expired':
                     textColor = Colors.red; // Example color for expired
                     return TextSpan(
-                      text: 'Expired',
+                      text: S.of(context).expired,
                       style: TextStyle(color: textColor, fontSize: fontSize),
                     );
                   default:

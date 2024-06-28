@@ -74,7 +74,8 @@ class _UserRegistrationState extends State<UserRegistration> {
       if (value.runtimeType.toString() == 'UserCompleteRegisterResponse') {
         //authHelper
         AuthHelper().setUserData(value.payload);
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) {
           return UserMain();
         }));
       } else {
@@ -196,9 +197,11 @@ class _UserRegistrationState extends State<UserRegistration> {
                   padding: const EdgeInsets.only(bottom: 8),
                   child: FormBuilderDropdown(
                       name: 'gender',
-                      items:   [
-                        DropdownMenuItem(value: 'male', child: Text(S.of(context).male)),
-                        DropdownMenuItem(value: 'female', child: Text(S.of(context).female))
+                      items: [
+                        DropdownMenuItem(
+                            value: 'male', child: Text(S.of(context).male)),
+                        DropdownMenuItem(
+                            value: 'female', child: Text(S.of(context).female))
                       ],
                       decoration:
                           InputDecorations.buildDropdownInputDecoration_1(

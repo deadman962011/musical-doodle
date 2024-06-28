@@ -115,6 +115,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "done": MessageLookupByLibrary.simpleMessage("Done"),
         "edit": MessageLookupByLibrary.simpleMessage("Edit"),
         "edit_menu": MessageLookupByLibrary.simpleMessage("Edit menu"),
+        "edit_role": MessageLookupByLibrary.simpleMessage("Edit role"),
+        "edit_staff": MessageLookupByLibrary.simpleMessage("Edit staff"),
         "email": MessageLookupByLibrary.simpleMessage("Email"),
         "end": MessageLookupByLibrary.simpleMessage("End"),
         "end_date_placeholder":
@@ -243,6 +245,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Pending invoice"),
         "permissions": MessageLookupByLibrary.simpleMessage("Permissions"),
         "phone_number": MessageLookupByLibrary.simpleMessage("Phone number"),
+        "phone_number_is_invalid":
+            MessageLookupByLibrary.simpleMessage("invalid Mobile number "),
         "please_check_your_email_inbox": MessageLookupByLibrary.simpleMessage(
             "Please check your email address"),
         "please_enter_your_informations_to_continue":
@@ -371,8 +375,14 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Withdraw balance"),
         "withdraw_blanace_long_text": MessageLookupByLibrary.simpleMessage(
             "Each point is equivalent to one riyal and can be exchanged or requested to be withdrawn and transferred to your bank account. A minimum of 100 points must be collected for withdrawal. Points are valid for 12 months from the date they were earned."),
+        "withdrwa_balance_request_is_processing":
+            MessageLookupByLibrary.simpleMessage(
+                "Withdraw balance request is processing"),
         "working_hours": MessageLookupByLibrary.simpleMessage("Working hours"),
         "year": MessageLookupByLibrary.simpleMessage("Year"),
-        "yes": MessageLookupByLibrary.simpleMessage("yes")
+        "yes": MessageLookupByLibrary.simpleMessage("yes"),
+        "your_withdrwa_balance_request_successfully_sent":
+            MessageLookupByLibrary.simpleMessage(
+                "your withdraw balance request successfully sent")
       };
 }

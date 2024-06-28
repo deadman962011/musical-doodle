@@ -341,6 +341,7 @@ class _OfferDetailsState extends State<OfferDetails> {
                         ),
                       ],
               )
+            
             : Expanded(
                 child: Center(
                   child: Text(S.of(context).no_data),

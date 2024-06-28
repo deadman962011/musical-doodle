@@ -211,7 +211,7 @@ class _UserWalletState extends State<UserWallet> {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) {
                           return const UserWalletHistory();
-                        }));
+                        })).then((value) => setState(() {}));
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -272,7 +272,7 @@ class _UserWalletState extends State<UserWallet> {
             onTap: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
                 return const RedeemPoints();
-              }));
+              })).then((value) => setState(() {}));
             },
             child: Container(
               width: 110,
@@ -296,7 +296,7 @@ class _UserWalletState extends State<UserWallet> {
             onTap: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
                 return const WithdrawBalance();
-              }));
+              })).then((value) => setState(() {}));
             },
             child: Container(
               width: 110,
@@ -425,7 +425,7 @@ class _UserWalletState extends State<UserWallet> {
           return UserInvoiceDetails(
             offerInvoiceId: offerInvoice.id,
           );
-        }));
+        })).then((value) => setState(() {}));
       },
     );
   }
