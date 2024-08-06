@@ -12,7 +12,9 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 import 'package:com.mybill.app/generated/l10n.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:loading_indicator/loading_indicator.dart';
+import 'package:intl_phone_field/countries.dart';
 
 class UserRegistration extends StatefulWidget {
   final String email;
@@ -25,15 +27,50 @@ class UserRegistration extends StatefulWidget {
 
 class _UserRegistrationState extends State<UserRegistration> {
   //controllers
+
+  Map<String, dynamic> _errors = {};
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _birthDateController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
   String _gender = '';
   final TextEditingController _referralCodeController = TextEditingController();
 
   final _formKey = GlobalKey<FormBuilderState>();
   bool _isLoading = false;
   bool obscureText = true;
+  String fullPhone = '';
+  Country _country = Country(
+    name: "Saudi Arabia",
+    nameTranslations: {
+      "no": "Saudi-Arabia",
+      "sk": "Saudská Arábia",
+      "se": "Saudi-Arábia",
+      "pl": "Arabia Saudyjska",
+      "ja": "サウジアラビア",
+      "it": "Arabia Saudita",
+      "zh": "沙特阿拉伯",
+      "nl": "Saoedi-Arabië",
+      "de": "Saudi-Arabien",
+      "fr": "Arabie saoudite",
+      "es": "Arabia Saudí",
+      "en": "Saudi Arabia",
+      "pt_BR": "Arábia Saudita",
+      "sr-Cyrl": "Саудијска Арабија",
+      "sr-Latn": "Saudijska Arabija",
+      "zh_TW": "沙烏地阿拉",
+      "tr": "Suudi Arabistan",
+      "ro": "Arabia Saudită",
+      "ar": "السعودية",
+      "fa": "عربستان سعودی",
+      "yue": "沙地阿拉伯"
+    },
+    flag: "🇸🇦",
+    code: "SA",
+    dialCode: "966",
+    minLength: 9,
+    maxLength: 9,
+  );
 
   void toggleObscureText() {
     setState(() {
@@ -71,6 +108,7 @@ class _UserRegistrationState extends State<UserRegistration> {
             widget.email, firstName, lastName, _gender, birthDate, referralCode)
         .then((value) {
       debugPrint(value.runtimeType.toString());
+      debugPrint(fullPhone);
       if (value.runtimeType.toString() == 'UserCompleteRegisterResponse') {
         //authHelper
         AuthHelper().setUserData(value.payload);
@@ -88,7 +126,7 @@ class _UserRegistrationState extends State<UserRegistration> {
 
   Color bgColorSub() {
     if (_formKey.currentState == null || !_formKey.currentState!.isValid) {
-      return MyTheme.grey_153;
+      return MyTheme.accent_color_shadow;
     }
     if (_isLoading) {
       return MyTheme.accent_color_shadow;
@@ -177,6 +215,41 @@ class _UserRegistrationState extends State<UserRegistration> {
                     textInputAction: TextInputAction.next,
                   ),
                 ),
+                // Padding(
+                //     padding: const EdgeInsets.only(bottom: 8),
+                //     child: IntlPhoneField(
+                //       enabled: true,
+                //       disableLengthCheck: true,
+                //       onChanged: (phone) {
+                //         List<int> _prefixes = [50, 53, 54, 55, 59, 58, 56, 57];
+                //         int prefix = int.parse(phone.number.substring(0, 2));
+                //         bool containsPrefix = _prefixes.contains(prefix);
+                //         if (phone.number.length >= _country.minLength &&
+                //             phone.number.length <= _country.maxLength &&
+                //             containsPrefix) {
+                //           setState(() {
+                //             fullPhone = phone.number;
+                //             _errors['phone'] = "";
+                //           });
+                //         } else {
+                //           setState(() {
+                //             fullPhone = '';
+                //             _errors['phone'] = [
+                //               S.of(context).phone_number_is_invalid
+                //             ];
+                //           });
+                //         }
+                //       },
+                //       countries: [_country],
+                //       controller: _phoneController,
+                //       decoration:
+                //           InputDecorations.buildDropdownInputDecoration_1(
+                //               error_text: _errors['phone'] != null &&
+                //                       _errors['phone'].length > 0
+                //                   ? _errors['phone']![0]
+                //                   : null),
+                //       initialCountryCode: 'SA',
+                //     )),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 8),
                   child: FormBuilderDateTimePicker(

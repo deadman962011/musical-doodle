@@ -34,7 +34,7 @@ class UserAuthRepository {
         return userLoginResponseFromJson(response.body);
       } else if (response.statusCode == 422) {
         return validationResponseFromJson(response.body);
-      } else { 
+      } else {
         return unexpectedErrorResponseFromJson(response.body);
       }
     } catch (e) {
@@ -54,7 +54,8 @@ class UserAuthRepository {
           "Content-Type": "application/json",
           "Accept-Language": app_language.$,
           "latitude": user_latitude.$,
-          "longitude": user_longitude.$
+          "longitude": user_longitude.$,
+          "fcm_token": app_fcm.$
         },
         body: postBody);
 
@@ -79,6 +80,7 @@ class UserAuthRepository {
     @required String lastName,
     @required String gender,
     @required String birthDate,
+    // @required String phone,
     String referralCode,
   ) async {
     var postBody = jsonEncode({
@@ -98,7 +100,8 @@ class UserAuthRepository {
           "Content-Type": "application/json",
           "Accept-Language": app_language.$,
           "latitude": user_latitude.$,
-          "longitude": user_longitude.$
+          "longitude": user_longitude.$,
+          "fcm_token": app_fcm.$
         },
         body: postBody);
 
@@ -133,16 +136,17 @@ class UserAuthRepository {
   }
 
   Future<dynamic> getUserProfileUpdateResponse(
-    @required String firstName,
-    @required String lastName,
-    @required String gender,
-    @required String birthDate,
-  ) async {
+      @required String firstName,
+      @required String lastName,
+      @required String gender,
+      @required String birthDate,
+      @required String phone) async {
     var postBody = jsonEncode({
       "first_name": firstName,
       'last_name': lastName,
       "birth_date": birthDate,
       "gender": gender,
+      "phone": phone
     });
     debugPrint(postBody);
     Uri url = Uri.parse("${AppConfig.BASE_URL}/user/auth/profile");
@@ -182,5 +186,24 @@ class UserAuthRepository {
     } else {
       return false;
     }
+  }
+
+  Future<dynamic> getUserLogoutResponse({int page = 1}) async {
+    Uri url = Uri.parse("${AppConfig.BASE_URL}/user/auth/logout");
+
+    final response = await http.get(
+      url,
+      headers: {
+        'Accept': 'application/json',
+        "Content-Type": "application/json",
+        "Accept-Language": app_language.$,
+        "Authorization": "Bearer ${access_token.$}",
+      },
+    );
+    debugPrint(response.body.toString());
+    AppConfig.alice.onHttpResponse(response, body: null);
+    // response.body
+
+    return (response.statusCode == 200);
   }
 }

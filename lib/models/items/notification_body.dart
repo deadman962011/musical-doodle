@@ -1,7 +1,9 @@
 enum NotificationType {
-  message,
-  order,
   general,
+  cashback_recived,
+  other
+  // message,
+  // order,
 }
 
 class NotificationBodyModel {
@@ -10,6 +12,10 @@ class NotificationBodyModel {
   int? adminId;
   int? deliverymanId;
   int? restaurantId;
+
+  int? offer_Id;
+  int? cashback_amount;
+
   String? type;
   int? conversationId;
   int? index;
@@ -23,6 +29,8 @@ class NotificationBodyModel {
     this.adminId,
     this.deliverymanId,
     this.restaurantId,
+    this.offer_Id,
+    this.cashback_amount,
     this.type,
     this.conversationId,
     this.index,
@@ -37,6 +45,9 @@ class NotificationBodyModel {
     adminId = json['admin_id'];
     deliverymanId = json['deliveryman_id'];
     restaurantId = json['restaurant_id'];
+
+    offer_Id = json['offer_Id'];
+    cashback_amount = json['cashback_amount'];
     type = json['type'];
     conversationId = json['conversation_id'];
     index = json['index'];
@@ -52,6 +63,10 @@ class NotificationBodyModel {
     data['admin_id'] = adminId;
     data['deliveryman_id'] = deliverymanId;
     data['restaurant_id'] = restaurantId;
+
+    data['offer_Id'] = offer_Id;
+    data['cashback_amount'] = cashback_amount;
+
     data['type'] = type;
     data['conversation_id'] = conversationId;
     data['index'] = index;
@@ -64,10 +79,10 @@ class NotificationBodyModel {
   NotificationType convertToEnum(String? enumString) {
     if (enumString == NotificationType.general.toString()) {
       return NotificationType.general;
-    } else if (enumString == NotificationType.order.toString()) {
-      return NotificationType.order;
-    } else if (enumString == NotificationType.message.toString()) {
-      return NotificationType.message;
+    } else if (enumString == NotificationType.cashback_recived.toString()) {
+      return NotificationType.cashback_recived;
+    } else if (enumString == NotificationType.other.toString()) {
+      return NotificationType.other;
     }
     return NotificationType.general;
   }

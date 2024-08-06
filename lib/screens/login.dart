@@ -90,8 +90,8 @@ class _LoginState extends State<Login> {
       Navigator.push(context, MaterialPageRoute(builder: (context) {
         return CheckMail(email: email, model: widget.model);
       }));
-    } else { 
-      ToastComponent.showDialog('network_error', context,
+    } else {
+      ToastComponent.showDialog(S.of(context).network_error, context,
           gravity: Toast.bottom, duration: Toast.lengthLong);
     }
 
@@ -228,7 +228,7 @@ class _LoginState extends State<Login> {
                       : Text(
                           S.of(context).continue_b,
                           style: TextStyle(
-                            color: MyTheme.white,
+                            color: Colors.black,
                             fontSize: 16,
                             fontWeight: FontWeight.normal,
                           ),

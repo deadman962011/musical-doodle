@@ -81,7 +81,8 @@ class _BankAccountEditState extends State<BankAccountEdit> {
         .getUserupdateBankAccountResponse(
             widget.bankAccountId, bank_name, full_name, account_number, iban);
     if (response.runtimeType.toString() == 'UserCreateBankAccountsResponse') {
-      ToastComponent.showDialog('bank account successfully updated', context,
+      ToastComponent.showDialog(
+          S.of(context).bank_account_successfuly_updated, context,
           gravity: Toast.bottom, duration: Toast.lengthLong);
     } else if (response.runtimeType.toString() == 'ValidationResponse') {
       setState(() {

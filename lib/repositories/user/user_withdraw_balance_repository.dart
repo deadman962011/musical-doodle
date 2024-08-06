@@ -40,8 +40,10 @@ class UserWithdrawBalanceRepository {
     } else if (response.statusCode == 422) {
       return validationResponseFromJson(response.body);
     } else {
-      OneContext().showSnackBar(
-          builder: (_) => SnackBar(content: Text(responseBody['message'])));
+      if (OneContext.hasContext) {
+        OneContext().showSnackBar(
+            builder: (_) => SnackBar(content: Text(responseBody['message'])));
+      }
       return false;
     }
   }
@@ -64,12 +66,14 @@ class UserWithdrawBalanceRepository {
       response,
     );
     final responseBody = jsonDecode(response.body);
- 
+
     if (response.statusCode == 200 && responseBody['success'] == true) {
       return userWithdrawBalanceHistoryResponseFromMap(response.body);
     } else {
-      OneContext().showSnackBar(
-          builder: (_) => SnackBar(content: Text(responseBody['message'])));
+      if (OneContext.hasContext) {
+        OneContext().showSnackBar(
+            builder: (_) => SnackBar(content: Text(responseBody['message'])));
+      }
       return false;
     }
   }

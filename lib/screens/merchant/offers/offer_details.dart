@@ -6,6 +6,7 @@ import 'package:com.mybill.app/models/responses/merchant/offer/merchant_offer_de
 import 'package:com.mybill.app/my_theme.dart';
 import 'package:com.mybill.app/repositories/merchant/merchant_offer_repository.dart';
 import 'package:com.mybill.app/screens/merchant/pay_offer_commission.dart';
+import 'package:com.mybill.app/ui_elements/dialog.dart';
 import 'package:com.mybill.app/ui_elements/merchant_appbar.dart';
 import 'package:com.mybill.app/ui_elements/merchant_drawer.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +33,6 @@ class _OfferDetailsState extends State<OfferDetails> {
   @override
   void initState() {
     reset();
-    fetchOffer();
 
     super.initState();
   }
@@ -47,6 +47,7 @@ class _OfferDetailsState extends State<OfferDetails> {
       _isOfferLoading = true;
       // offer = null;
     });
+    fetchOffer();
   }
 
   fetchOffer() async {
@@ -68,6 +69,15 @@ class _OfferDetailsState extends State<OfferDetails> {
     setState(() {
       _isOfferLoading = false;
     });
+  }
+
+  cancelOfferInvoice(int id) async {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) => CancelOfferInvoiceDialog(
+              offerId: _offerDetails!.id,
+              InvoiceId: id,
+            )).then((value) => reset());
   }
 
   @override
@@ -288,6 +298,13 @@ class _OfferDetailsState extends State<OfferDetails> {
                       ),
                     ),
                   ),
+                  DataColumn(
+                    label: Expanded(
+                      child: Text(
+                        '',
+                      ),
+                    ),
+                  ),
                 ],
                 rows: _offerDetails!.beneficiaries.isNotEmpty
                     ? _offerDetails!.beneficiaries.map((beneficiary) {
@@ -331,6 +348,18 @@ class _OfferDetailsState extends State<OfferDetails> {
                                 size: 28,
                               ),
                             )),
+                            DataCell(_offerDetails!.state == 'expired' &&
+                                    !_offerDetails!.isPaid
+                                ? GestureDetector(
+                                    child: Icon(
+                                      Icons.close,
+                                      size: 12,
+                                    ),
+                                    onTap: () {
+                                      cancelOfferInvoice(beneficiary.id);
+                                    },
+                                  )
+                                : Container())
                             // const DataCell(Text('X')),
                           ],
                         );
@@ -341,12 +370,16 @@ class _OfferDetailsState extends State<OfferDetails> {
                         ),
                       ],
               )
-            
-            : Expanded(
-                child: Center(
-                  child: Text(S.of(context).no_data),
-                ),
-              ));
+            : Center(
+                child: Text(S.of(context).no_data),
+              )
+
+        //  Expanded(
+        //     child:
+
+        //     ,
+        //   )
+        );
   }
 
   Widget _buildOfferTicket() {

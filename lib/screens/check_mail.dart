@@ -228,14 +228,14 @@ class _CheckMailState extends State<CheckMail> with TickerProviderStateMixin {
                           ),
                           Container(
                             child: _isLoading
-                                ? const Padding(
+                                ? Padding(
                                     padding:
                                         EdgeInsets.symmetric(horizontal: 12),
                                     child: SizedBox(
                                       width: 30,
                                       height: 30,
                                       child: CircularProgressIndicator(
-                                        color: Color.fromRGBO(84, 38, 222, 1),
+                                        color: MyTheme.accent_color,
                                       ),
                                     ))
                                 : !_displayCounter

@@ -111,7 +111,7 @@ class _StaffEditState extends State<StaffEdit> {
         .getUpdateMerchantStaffResponse(
             widget.id, full_name, fullPhone, roleId);
     if (response.runtimeType.toString() == 'MerchantUpdateStaffResponse') {
-      ToastComponent.showDialog('staff successfully updated', context,
+      ToastComponent.showDialog(S.of(context).staff_role_successfully_updated, context,
           gravity: Toast.bottom, duration: Toast.lengthLong);
     } else if (response.runtimeType.toString() == 'ValidationResponse') {
       setState(() {

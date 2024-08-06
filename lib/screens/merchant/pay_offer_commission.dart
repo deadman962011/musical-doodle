@@ -10,9 +10,7 @@ import 'package:com.mybill.app/repositories/deposit_bank_accounts_repository.dar
 import 'package:com.mybill.app/screens/merchant/pay_offer_commission_bank.dart';
 import 'package:com.mybill.app/ui_elements/merchant_appbar.dart';
 import 'package:com.mybill.app/ui_elements/merchant_drawer.dart';
-import 'package:com.mybill.app/ui_elements/user_appbar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:toast/toast.dart';
@@ -86,57 +84,55 @@ class _PayOfferCommissionState extends State<PayOfferCommission> {
         textDirection:
             app_language_rtl.$ ? TextDirection.rtl : TextDirection.ltr,
         child: Scaffold(
-            key: _scaffoldKey,
-            appBar: MerchantAppBar.buildMerchantAppBar(context,
-                'commission_payment', _scaffoldKey, 'commission payment'),
-            drawer: MerchantDrawer.buildDrawer(context),
-            body: Container(
-                width: MediaQuery.of(context).size.width,
-                margin: const EdgeInsets.symmetric(
-                  horizontal: 14,
+          key: _scaffoldKey,
+          appBar: MerchantAppBar.buildMerchantAppBar(context,
+              'commission_payment', _scaffoldKey, 'commission payment'),
+          drawer: MerchantDrawer.buildDrawer(context),
+          body: Container(
+              width: MediaQuery.of(context).size.width,
+              margin: const EdgeInsets.symmetric(
+                horizontal: 14,
+              ),
+              padding: const EdgeInsets.only(bottom: 14),
+              child: Column(
+                  // crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Column(
+                      children: [
+                        _buildCommissionAmountCard(),
+                        _buildSelectPaymentMethodCard(),
+                        selectedPaymentMethod == 'bank_transaction'
+                            ? _buildDepositBankAccountsCard()
+                            : Container()
+                      ],
+                    ),
+                  ])),
+          bottomNavigationBar: Container(
+              margin: EdgeInsets.only(bottom: 10, left: 16, right: 16),
+              width: double.infinity,
+              height: 46,
+              child: TextButton(
+                style: TextButton.styleFrom(
+                  // primary: Colors.white,
+                  backgroundColor: bgColorSub(),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0)),
                 ),
-                padding: const EdgeInsets.only(bottom: 14),
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    // crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Column(
-                        children: [
-                          _buildCommissionAmountCard(),
-                          _buildSelectPaymentMethodCard(),
-                          selectedPaymentMethod == 'bank_transaction'
-                              ? _buildDepositBankAccountsCard()
-                              : Container()
-                        ],
-                      ),
-                      Container(
-                          width: double.infinity,
-                          height: 46,
-                          child: TextButton(
-                            style: TextButton.styleFrom(
-                              // primary: Colors.white,
-                              backgroundColor: bgColorSub(),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8.0)),
-                              // padding: !_isLoading
-                              //     ? const EdgeInsets.symmetric(vertical: 12)
-                              //     : null,
-                            ),
-                            onPressed: isFormValid()
-                                ? () {
-                                    handlePayCommission();
-                                  }
-                                : null,
-                            child: Text(
-                              S.of(context).next,
-                              style: TextStyle(
-                                color: MyTheme.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.normal,
-                              ),
-                            ),
-                          ))
-                    ]))));
+                onPressed: isFormValid()
+                    ? () {
+                        handlePayCommission();
+                      }
+                    : null,
+                child: Text(
+                  S.of(context).next,
+                  style: TextStyle(
+                    color: MyTheme.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
+              )),
+        ));
   }
 
   Widget _buildCommissionAmountCard() {
@@ -253,44 +249,6 @@ class _PayOfferCommissionState extends State<PayOfferCommission> {
               ),
               _buildDepositBankAccountList()
             ]));
-
-    //       Expanded(
-    //         child: _isDepositBankAccoutsLoading
-    //             ? Container(
-    //                 alignment: Alignment.center,
-    //                 margin: const EdgeInsets.only(bottom: 80),
-    //                 padding: const EdgeInsets.symmetric(vertical: 4),
-    //                 child: Column(
-    //                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //                   children: [
-    //                     ShimmerHelper().buildBasicShimmer(height: 60),
-    //                     ShimmerHelper().buildBasicShimmer(height: 60),
-    //                     ShimmerHelper().buildBasicShimmer(height: 60),
-    //                     ShimmerHelper().buildBasicShimmer(height: 60),
-    //                   ],
-    //                 ))
-    //             : _depositBankAccouts.isNotEmpty
-    //                 ? Padding(
-    //                     padding: EdgeInsets.symmetric(vertical: 6),
-    //                     child: Column(
-    //                       children: [
-    //                         _buildDepositBankAccountItem(),
-    //                         _buildDepositBankAccountItem(),
-    //                         _buildDepositBankAccountItem(),
-    //                         _buildDepositBankAccountItem(),
-    //                         _buildDepositBankAccountItem(),
-    //                         _buildDepositBankAccountItem(),
-    //                         _buildDepositBankAccountItem(),
-    //                         _buildDepositBankAccountItem(),
-    //                       ],
-    //                     ))
-    //                 : Container(
-    //                     child: Text('nu deposit bank accounts'),
-    //                   ),
-    //       )
-    //     ],
-    //   ),
-    // );
   }
 
   Widget _buildDepositBankAccountList() {
@@ -319,17 +277,7 @@ class _PayOfferCommissionState extends State<PayOfferCommission> {
                         .map((DepositBankAccount depositBankAccount) =>
                             _buildDepositBankAccountItem(depositBankAccount))
                         .toList()
-
-                    //  [
-                    //   _buildDepositBankAccountItem(),
-                    //   _buildDepositBankAccountItem(),
-                    //   _buildDepositBankAccountItem(),
-                    //   _buildDepositBankAccountItem(),
-                    //   _buildDepositBankAccountItem(),
-                    //   _buildDepositBankAccountItem(),
-                    //   _buildDepositBankAccountItem(),
-                    //   _buildDepositBankAccountItem(),
-                    // ],
+ 
                     ),
               )));
     } else {

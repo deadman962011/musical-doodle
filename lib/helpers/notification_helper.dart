@@ -9,10 +9,17 @@
 // import 'package:get/get.dart';
 import 'dart:convert';
 import 'dart:io';
+import 'package:com.mybill.app/app_config.dart';
 import 'package:com.mybill.app/models/items/notification_body.dart';
+import 'package:com.mybill.app/models/responses/user/offer/user_offer_cashback_recived.dart';
+import 'package:com.mybill.app/models/responses/user/offer/user_offers_response.dart';
+import 'package:com.mybill.app/repositories/user/user_offers_repository.dart';
+import 'package:com.mybill.app/ui_elements/dialog.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:one_context/one_context.dart';
+
 import 'package:path_provider/path_provider.dart';
 import 'package:http/http.dart' as http;
 
@@ -138,8 +145,11 @@ class NotificationHelper {
     });
   }
 
-  static Future<void> showNotification(RemoteMessage message,
-      FlutterLocalNotificationsPlugin fln, bool data) async {
+  static Future<void> showNotification(
+    RemoteMessage message,
+    FlutterLocalNotificationsPlugin fln,
+    bool data,
+  ) async {
     String? title;
     String? body;
     String? orderID;
@@ -171,6 +181,25 @@ class NotificationHelper {
                 message.notification!.apple!.imageUrl!.isNotEmpty)
             ? message.notification!.apple!.imageUrl!
             : null;
+      }
+    }
+
+    if (notificationBody.notificationType.toString() ==
+        'NotificationType.cashback_recived') {
+      //get invoice amount information
+      var response = await UserOfferRepository()
+          .getUserOfferCashbackRecivedResponse(id: notificationBody.offer_Id!);
+      debugPrint(response.runtimeType.toString());
+      if (response.runtimeType.toString() == 'UserOfferCashbackRecived') {
+        if (OneContext.hasContext) {
+          UserOfferCashbackRecived data = response;
+          OneContext().showDialog(
+            builder: (BuildContext context) => UserCashbackRecivedDialog(
+              offer_id: notificationBody.offer_Id!,
+              cashback_amount: data.payload.amount,
+            ),
+          );
+        }
       }
     }
 
@@ -293,19 +322,29 @@ class NotificationHelper {
   static NotificationBodyModel convertNotification(Map<String, dynamic> data) {
     if (data['type'] == 'general') {
       return NotificationBodyModel(notificationType: NotificationType.general);
-    } else if (data['type'] == 'order_status') {
+    } else if (data['type'] == 'cashback_recived') {
+      debugPrint(data.toString());
       return NotificationBodyModel(
-          notificationType: NotificationType.order,
-          orderId: int.parse(data['order_id']));
+          offer_Id: int.parse(data['offer_id']),
+          cashback_amount: int.parse(data['cashback_amount']),
+          notificationType: NotificationType.cashback_recived);
     } else {
-      return NotificationBodyModel(
-        notificationType: NotificationType.message,
-        deliverymanId: data['sender_type'] == 'delivery_man' ? 0 : null,
-        adminId: data['sender_type'] == 'admin' ? 0 : null,
-        restaurantId: data['sender_type'] == 'vendor' ? 0 : null,
-        conversationId: int.parse(data['conversation_id'].toString()),
-      );
+      return NotificationBodyModel(notificationType: NotificationType.other);
     }
+
+    // else if (data['type'] == 'order_status') {
+    //   return NotificationBodyModel(
+    //       notificationType: NotificationType.order,
+    //       orderId: int.parse(data['order_id']));
+    // } else {
+    //   return NotificationBodyModel(
+    //     notificationType: NotificationType.message,
+    //     deliverymanId: data['sender_type'] == 'delivery_man' ? 0 : null,
+    //     adminId: data['sender_type'] == 'admin' ? 0 : null,
+    //     restaurantId: data['sender_type'] == 'vendor' ? 0 : null,
+    //     conversationId: int.parse(data['conversation_id'].toString()),
+    //   );
+    // }
   }
 }
 

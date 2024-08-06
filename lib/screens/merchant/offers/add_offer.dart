@@ -167,13 +167,13 @@ class _AddOfferState extends State<AddOffer> {
         cashbackAmount,
         _uploaded_file_id!);
     if (response.runtimeType.toString() == 'MerchantSaveOfferResponse') {
-      ToastComponent.showDialog('offer successfully saved', context,
+      ToastComponent.showDialog(S.of(context).offer_successfully_saved, context,
           gravity: Toast.center, duration: Toast.lengthLong);
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
         return const MerchantOffers();
       }));
     } else {
-      ToastComponent.showDialog('unable to save offer', context,
+      ToastComponent.showDialog(S.of(context).unable_to_save_offer, context,
           gravity: Toast.center, duration: Toast.lengthLong);
     }
 

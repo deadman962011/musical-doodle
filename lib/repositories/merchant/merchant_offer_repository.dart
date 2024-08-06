@@ -1,8 +1,10 @@
 import 'dart:convert';
 
+import 'package:com.mybill.app/models/responses/merchant/offer/merchant_cancel_offer_invoice_response.dart';
 import 'package:com.mybill.app/models/responses/merchant/offer/merchant_offer_details_response.dart';
 import 'package:com.mybill.app/models/responses/merchant/offer/merchant_offers_response.dart';
 import 'package:com.mybill.app/models/responses/merchant/offer/merchant_save_offer_response.dart';
+import 'package:com.mybill.app/models/responses/merchant/offer/merchant_save_pay_offer_commission_request_response.dart';
 import 'package:com.mybill.app/models/responses/unexpected_error_response.dart';
 import 'package:com.mybill.app/models/responses/validation_response.dart';
 import 'package:flutter/material.dart';
@@ -106,6 +108,7 @@ class MerchantOfferRepository {
       @required String sender_name,
       @required String sender_phone,
       @required String deposit_at,
+      @required String deposit_bank_account_id,
       @required String attachments,
       @required String notice) async {
     Uri url = Uri.parse("${AppConfig.BASE_URL}/shop/shop_pay_commission");
@@ -116,10 +119,11 @@ class MerchantOfferRepository {
       "full_name": sender_name,
       "phone": sender_phone,
       "deposit_at": deposit_at,
+      "deposit_bank_account_id": deposit_bank_account_id,
       "attachments": attachments,
       "notice": notice
     });
-    debugPrint(attachments);
+
     final response = await http.post(url,
         headers: {
           'Accept': 'application/json',
@@ -133,9 +137,40 @@ class MerchantOfferRepository {
     // response.body
     // debugPrint(response)
     if (response.statusCode == 200 && responseBody['success']) {
-      return merchantOfferDetailsResponseFromMap(response.body);
+      return merchantSavePayOfferCommissionRequestResponseFromJson(
+          response.body);
     } else if (response.statusCode == 422) {
       return validationResponseFromJson(response.body);
+    } else {
+      return unexpectedErrorResponseFromJson(response.body);
+    }
+  }
+
+  Future<dynamic> getMerchantCancelOfferInvoice(@required int id,
+      @required int invoice_id, @required String cancel_reason) async {
+    debugPrint("${id.toString()} ${invoice_id.toString()} ${cancel_reason}");
+
+    Uri url =
+        Uri.parse("${AppConfig.BASE_URL}/shop/offer/${id}/cancel_invoice");
+
+    var postBody = jsonEncode({
+      "invoice_id": invoice_id,
+      "reason": cancel_reason,
+    });
+
+    final response = await http.post(url,
+        headers: {
+          'Accept': 'application/json',
+          "Content-Type": "application/json",
+          "Accept-Language": app_language.$,
+          "Authorization": "Bearer ${access_token.$}",
+        },
+        body: postBody);
+    final responseBody = jsonDecode(response.body);
+    AppConfig.alice.onHttpResponse(response, body: null);
+    debugPrint(responseBody.toString());
+    if (response.statusCode == 200 && responseBody['success']) {
+      return merchantCancelOfferInvoiceResponseFromMap(response.body);
     } else {
       return unexpectedErrorResponseFromJson(response.body);
     }

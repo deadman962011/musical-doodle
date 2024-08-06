@@ -48,10 +48,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "all": MessageLookupByLibrary.simpleMessage("الكل"),
         "amount": MessageLookupByLibrary.simpleMessage("المبلغ"),
         "application_commission":
-            MessageLookupByLibrary.simpleMessage("عمولة التطبيق"),
+            MessageLookupByLibrary.simpleMessage("عمولة مايبيل"),
         "approved": MessageLookupByLibrary.simpleMessage("موافقة"),
         "approved_at": MessageLookupByLibrary.simpleMessage("مؤكدة بتاريخ"),
         "arabic": MessageLookupByLibrary.simpleMessage("العربي"),
+        "are_you_sure_you_want_cancel_the_invoice_with_id":
+            MessageLookupByLibrary.simpleMessage(
+                "هل انت متأكد انك تريد الغاء الفاتورة بالرقم"),
+        "availability_slot_updated":
+            MessageLookupByLibrary.simpleMessage("تم التحديث بنجاح"),
         "available_balance":
             MessageLookupByLibrary.simpleMessage("الرصيد المتاح"),
         "available_points":
@@ -61,6 +66,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "balance": MessageLookupByLibrary.simpleMessage("االرصيد"),
         "bank_account_edit":
             MessageLookupByLibrary.simpleMessage("تعديل الحساب البنكي"),
+        "bank_account_successfuly_created":
+            MessageLookupByLibrary.simpleMessage(
+                "تم اضافة الحساب البنكي بنجاح"),
+        "bank_account_successfuly_updated":
+            MessageLookupByLibrary.simpleMessage(
+                "تم تحديث معلومات الحساب البنكي بنجاح"),
         "bank_accounts":
             MessageLookupByLibrary.simpleMessage("الحسابات البنكية"),
         "bank_name": MessageLookupByLibrary.simpleMessage("اسم البنك"),
@@ -69,11 +80,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "bill": MessageLookupByLibrary.simpleMessage("الفاتورة"),
         "bill_id": MessageLookupByLibrary.simpleMessage("رقم الفاتورة"),
         "bill_number": MessageLookupByLibrary.simpleMessage("رقم الفاتورة"),
+        "bills": MessageLookupByLibrary.simpleMessage("فواتير"),
         "birthDate": MessageLookupByLibrary.simpleMessage("تاريخ الميلاد"),
         "birth_date": MessageLookupByLibrary.simpleMessage("تاريخ الميلاد"),
         "by_clicking_continue_you_are": MessageLookupByLibrary.simpleMessage(
             "بضغطك على زر اكمال فانت موافق على "),
         "cancel": MessageLookupByLibrary.simpleMessage("الغاء"),
+        "cancel_reason": MessageLookupByLibrary.simpleMessage("سبب  الالغاء"),
         "canceled": MessageLookupByLibrary.simpleMessage("ملغي"),
         "canceled_invoice":
             MessageLookupByLibrary.simpleMessage("فاتورة ملغية"),
@@ -92,6 +105,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "commission": MessageLookupByLibrary.simpleMessage("العمولة"),
         "commission_amount_for_offer":
             MessageLookupByLibrary.simpleMessage("قيمة العمولة للعرض"),
+        "congrats_you_got_cashback_reward":
+            MessageLookupByLibrary.simpleMessage(
+                " مبروك  حصلت على نقاط كاشباك"),
         "contact_informations":
             MessageLookupByLibrary.simpleMessage("معلومات التواصل"),
         "continue_b": MessageLookupByLibrary.simpleMessage("اكمال"),
@@ -102,6 +118,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "dark": MessageLookupByLibrary.simpleMessage("غامق"),
         "date": MessageLookupByLibrary.simpleMessage("التاريخ"),
         "day": MessageLookupByLibrary.simpleMessage("يوم"),
+        "day_status_updated":
+            MessageLookupByLibrary.simpleMessage("تم تحديث حالة اليوم بنجاح"),
         "days": MessageLookupByLibrary.simpleMessage("الايام"),
         "delete_my_acc": MessageLookupByLibrary.simpleMessage("حذف حسابي"),
         "deposit_bank_account":
@@ -119,6 +137,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "end": MessageLookupByLibrary.simpleMessage("انتهاء"),
         "end_date_placeholder":
             MessageLookupByLibrary.simpleMessage("10/10/2023 10:14 PM"),
+        "ends_at": MessageLookupByLibrary.simpleMessage("ينتهي بتاريخ"),
         "english": MessageLookupByLibrary.simpleMessage("الانكليزي"),
         "enter_points_amount_you_want_to_redeem":
             MessageLookupByLibrary.simpleMessage(
@@ -166,6 +185,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "maybe_later": MessageLookupByLibrary.simpleMessage("ربما لاحقا"),
         "me": MessageLookupByLibrary.simpleMessage("انا"),
         "menu": MessageLookupByLibrary.simpleMessage("المنيو"),
+        "menu_updated": MessageLookupByLibrary.simpleMessage("تم تحديث المنيو"),
         "merchant_login": MessageLookupByLibrary.simpleMessage("دخول التاجر"),
         "merchant_registran_request_pending":
             MessageLookupByLibrary.simpleMessage(
@@ -176,6 +196,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "my_codes": MessageLookupByLibrary.simpleMessage("اكوادي"),
         "my_history": MessageLookupByLibrary.simpleMessage("التاريخ"),
         "mybill": MessageLookupByLibrary.simpleMessage("ماي بيل"),
+        "network_error": MessageLookupByLibrary.simpleMessage("مشكلة بالاتصال"),
         "next": MessageLookupByLibrary.simpleMessage("التالي"),
         "no": MessageLookupByLibrary.simpleMessage("لا"),
         "no_bank_accounts":
@@ -202,9 +223,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "notifications": MessageLookupByLibrary.simpleMessage("الاشعارات"),
         "of_bill_amount": MessageLookupByLibrary.simpleMessage(
             " من قيمة الفاتورة بدون الضربية"),
+        "offer": MessageLookupByLibrary.simpleMessage("العرض"),
         "offer_added_to_favorite": MessageLookupByLibrary.simpleMessage(
             "تم اضافة العرض للمفضلة بنجاح"),
         "offer_duration": MessageLookupByLibrary.simpleMessage("مدة العرض"),
+        "offer_invoice_cancelation_request_successfully_sent":
+            MessageLookupByLibrary.simpleMessage(
+                "تم ارسال طلب الغاء الفاتورة بنجاح سيتم مراجعة الطلب"),
         "offer_name": MessageLookupByLibrary.simpleMessage("اسم العرض"),
         "offer_name_in_ar":
             MessageLookupByLibrary.simpleMessage("اسم العرض بالعربية"),
@@ -216,6 +241,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "offer_removed_from_favorite": MessageLookupByLibrary.simpleMessage(
             "تم ازالة العرض من المفضلة بنجاح"),
         "offer_sales": MessageLookupByLibrary.simpleMessage("مبيعات العرض"),
+        "offer_successfully_saved":
+            MessageLookupByLibrary.simpleMessage("تم حفظ العرض بنجاح"),
         "offer_thumbnail": MessageLookupByLibrary.simpleMessage("صورة العرض"),
         "offers": MessageLookupByLibrary.simpleMessage("العروض"),
         "ok": MessageLookupByLibrary.simpleMessage("موافق"),
@@ -288,12 +315,19 @@ class MessageLookup extends MessageLookupByLibrary {
         "select_category_home":
             MessageLookupByLibrary.simpleMessage("اختر تصنيف"),
         "select_city": MessageLookupByLibrary.simpleMessage("اختر المدينة"),
-        "select_district": MessageLookupByLibrary.simpleMessage("اختر الممطقة"),
+        "select_district": MessageLookupByLibrary.simpleMessage("اختر المنطقة"),
         "select_gender": MessageLookupByLibrary.simpleMessage("اختر الجنس"),
         "select_location": MessageLookupByLibrary.simpleMessage("اختر العنوان"),
         "select_payment_method":
             MessageLookupByLibrary.simpleMessage("اختر طريقة الدفع"),
         "select_role": MessageLookupByLibrary.simpleMessage("اختيار المنصب"),
+        "send": MessageLookupByLibrary.simpleMessage("ارسال"),
+        "sender_bank_account_iban":
+            MessageLookupByLibrary.simpleMessage("رقم الايبان البنك للمرسل"),
+        "sender_bank_account_number":
+            MessageLookupByLibrary.simpleMessage("رقم حساب البنك للمرسل"),
+        "sender_bank_name":
+            MessageLookupByLibrary.simpleMessage("اسم بنك المرسل"),
         "sender_full_name":
             MessageLookupByLibrary.simpleMessage("الاسم الكامل للمرسل"),
         "sender_phone_number":
@@ -318,13 +352,24 @@ class MessageLookup extends MessageLookupByLibrary {
             "تم تحديث معلومات المتجر بنجاح"),
         "shop_informations":
             MessageLookupByLibrary.simpleMessage("معلومات المتجر"),
+        "shop_logo_updated":
+            MessageLookupByLibrary.simpleMessage("تم تحديث شعار المتجر"),
         "shop_name": MessageLookupByLibrary.simpleMessage("اسم المتجر"),
         "shop_name_in_arabic":
             MessageLookupByLibrary.simpleMessage("اسم المتجر بالعربي"),
         "shop_name_in_english":
             MessageLookupByLibrary.simpleMessage("اسم المتجر بالانكليزي"),
         "sorry": MessageLookupByLibrary.simpleMessage("عذرا"),
+        "split_reward": MessageLookupByLibrary.simpleMessage("تقسيم الهدية"),
         "staff": MessageLookupByLibrary.simpleMessage("الموظفين"),
+        "staff_role_successfully_created":
+            MessageLookupByLibrary.simpleMessage("تم حفظ المنصب بنجاح"),
+        "staff_role_successfully_updated":
+            MessageLookupByLibrary.simpleMessage("تم تحديث المنصب بنجاح"),
+        "staff_successfully_created":
+            MessageLookupByLibrary.simpleMessage("تم اضافة الموظف بنجاح"),
+        "staff_successfully_updated":
+            MessageLookupByLibrary.simpleMessage("تم تحديث الموظق بنجاح"),
         "start": MessageLookupByLibrary.simpleMessage(" بدء"),
         "start_date_placeholder":
             MessageLookupByLibrary.simpleMessage("10/10/2023 10:14 PM"),
@@ -344,6 +389,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("الاجمالي مع الضريبة"),
         "transaction_screenshot":
             MessageLookupByLibrary.simpleMessage("صورة لعملية الايداع"),
+        "unable_to_save_offer":
+            MessageLookupByLibrary.simpleMessage("لا يمكن حفظ العرض"),
         "unpaid": MessageLookupByLibrary.simpleMessage("غير مدفوع"),
         "update": MessageLookupByLibrary.simpleMessage("تحديث"),
         "upgrade_profile": MessageLookupByLibrary.simpleMessage("ترقية الحساب"),
@@ -365,6 +412,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "working_hours": MessageLookupByLibrary.simpleMessage("ساعات العمل"),
         "year": MessageLookupByLibrary.simpleMessage("سنة"),
         "yes": MessageLookupByLibrary.simpleMessage("نعم"),
+        "you_can_cancel_bill_in":
+            MessageLookupByLibrary.simpleMessage("بامكانك الغاء فاتورة خلال"),
         "your_withdrwa_balance_request_successfully_sent":
             MessageLookupByLibrary.simpleMessage(
                 "تم ارسال طلب سحب الرصيد بنجاح ")

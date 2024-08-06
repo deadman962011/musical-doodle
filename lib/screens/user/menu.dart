@@ -87,7 +87,7 @@ class _MenuState extends State<UserMenu> {
                 children: [
                   Image.asset(
                     tab['image'],
-                    color: MyTheme.accent_color,
+                    color: Colors.black,
                     height: 24,
                   ),
                   Padding(
@@ -157,7 +157,7 @@ class _MenuState extends State<UserMenu> {
                           padding: const EdgeInsetsDirectional.only(end: 8),
                           child: Image.asset(
                             tab['image'],
-                            color: MyTheme.accent_color,
+                            color: Colors.black,
                             height: 20,
                           ),
                         ),

@@ -237,11 +237,12 @@ class _StatisticsState extends State<MerchantStatistics> {
       decoration: BoxDecorations.buildBoxDecoration_1(),
       child: Column(
         children: [
-          const Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Offer 10# bills'),
-              Text('you can cancel bill in 14 days')
+              Text('${S.of(context).offer} #1 '),
+              Text(
+                  ' ${S.of(context).you_can_cancel_bill_in}  14 ${S.of(context).day}')
             ],
           ),
           DataTable(

@@ -16,6 +16,8 @@ class UserFavoriteOfferRepository {
         "Content-Type": "application/json",
         "Accept-Language": app_language.$,
         "Authorization": "Bearer ${access_token.$}",
+        "latitude": user_latitude.$,
+        "longitude": user_longitude.$
       },
     );
 

@@ -660,10 +660,10 @@ class S {
     );
   }
 
-  /// `Cashback Amount`
+  /// `Customer Amount`
   String get cashback_amount {
     return Intl.message(
-      'Cashback Amount',
+      'Customer Amount',
       name: 'cashback_amount',
       desc: '',
       args: [],
@@ -710,10 +710,10 @@ class S {
     );
   }
 
-  /// `Application Commission`
+  /// `Mybill Commission`
   String get application_commission {
     return Intl.message(
-      'Application Commission',
+      'Mybill Commission',
       name: 'application_commission',
       desc: '',
       args: [],
@@ -1860,6 +1860,36 @@ class S {
     );
   }
 
+  /// `Sender Bank name`
+  String get sender_bank_name {
+    return Intl.message(
+      'Sender Bank name',
+      name: 'sender_bank_name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sender Bank account number`
+  String get sender_bank_account_number {
+    return Intl.message(
+      'Sender Bank account number',
+      name: 'sender_bank_account_number',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sender Bank account iban`
+  String get sender_bank_account_iban {
+    return Intl.message(
+      'Sender Bank account iban',
+      name: 'sender_bank_account_iban',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Deposited at`
   String get deposited_at {
     return Intl.message(
@@ -2300,10 +2330,10 @@ class S {
     );
   }
 
-  /// `Offer thumbnail`
+  /// `Offer image`
   String get offer_thumbnail {
     return Intl.message(
-      'Offer thumbnail',
+      'Offer image',
       name: 'offer_thumbnail',
       desc: '',
       args: [],
@@ -2505,6 +2535,236 @@ class S {
     return Intl.message(
       'Edit staff',
       name: 'edit_staff',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Offer`
+  String get offer {
+    return Intl.message(
+      'Offer',
+      name: 'offer',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `bills`
+  String get bills {
+    return Intl.message(
+      'bills',
+      name: 'bills',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `you can cancel bill in`
+  String get you_can_cancel_bill_in {
+    return Intl.message(
+      'you can cancel bill in',
+      name: 'you_can_cancel_bill_in',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Offer successfully saved`
+  String get offer_successfully_saved {
+    return Intl.message(
+      'Offer successfully saved',
+      name: 'offer_successfully_saved',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `unable to save offer`
+  String get unable_to_save_offer {
+    return Intl.message(
+      'unable to save offer',
+      name: 'unable_to_save_offer',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `shop logo updated`
+  String get shop_logo_updated {
+    return Intl.message(
+      'shop logo updated',
+      name: 'shop_logo_updated',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `day status updated`
+  String get day_status_updated {
+    return Intl.message(
+      'day status updated',
+      name: 'day_status_updated',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `availability slot updated`
+  String get availability_slot_updated {
+    return Intl.message(
+      'availability slot updated',
+      name: 'availability_slot_updated',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Staff role successfully created`
+  String get staff_role_successfully_created {
+    return Intl.message(
+      'Staff role successfully created',
+      name: 'staff_role_successfully_created',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Staff role successfully updated`
+  String get staff_role_successfully_updated {
+    return Intl.message(
+      'Staff role successfully updated',
+      name: 'staff_role_successfully_updated',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Staff successfully created`
+  String get staff_successfully_created {
+    return Intl.message(
+      'Staff successfully created',
+      name: 'staff_successfully_created',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Staff successfully updated`
+  String get staff_successfully_updated {
+    return Intl.message(
+      'Staff successfully updated',
+      name: 'staff_successfully_updated',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `bank account successfully created`
+  String get bank_account_successfuly_created {
+    return Intl.message(
+      'bank account successfully created',
+      name: 'bank_account_successfuly_created',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `bank account successfully updated`
+  String get bank_account_successfuly_updated {
+    return Intl.message(
+      'bank account successfully updated',
+      name: 'bank_account_successfuly_updated',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// ` network error`
+  String get network_error {
+    return Intl.message(
+      ' network error',
+      name: 'network_error',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Menu updated`
+  String get menu_updated {
+    return Intl.message(
+      'Menu updated',
+      name: 'menu_updated',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Ends at`
+  String get ends_at {
+    return Intl.message(
+      'Ends at',
+      name: 'ends_at',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Send`
+  String get send {
+    return Intl.message(
+      'Send',
+      name: 'send',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to cancel the invoice with the id #`
+  String get are_you_sure_you_want_cancel_the_invoice_with_id {
+    return Intl.message(
+      'Are you sure you want to cancel the invoice with the id #',
+      name: 'are_you_sure_you_want_cancel_the_invoice_with_id',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancel reason`
+  String get cancel_reason {
+    return Intl.message(
+      'Cancel reason',
+      name: 'cancel_reason',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Offer invoice cancelation request successfully sent`
+  String get offer_invoice_cancelation_request_successfully_sent {
+    return Intl.message(
+      'Offer invoice cancelation request successfully sent',
+      name: 'offer_invoice_cancelation_request_successfully_sent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `congrats you got cashback reward`
+  String get congrats_you_got_cashback_reward {
+    return Intl.message(
+      'congrats you got cashback reward',
+      name: 'congrats_you_got_cashback_reward',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `split reward`
+  String get split_reward {
+    return Intl.message(
+      'split reward',
+      name: 'split_reward',
       desc: '',
       args: [],
     );

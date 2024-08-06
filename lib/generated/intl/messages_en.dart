@@ -48,10 +48,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "all": MessageLookupByLibrary.simpleMessage("All"),
         "amount": MessageLookupByLibrary.simpleMessage("Amount"),
         "application_commission":
-            MessageLookupByLibrary.simpleMessage("Application Commission"),
+            MessageLookupByLibrary.simpleMessage("Mybill Commission"),
         "approved": MessageLookupByLibrary.simpleMessage("Approved"),
         "approved_at": MessageLookupByLibrary.simpleMessage("Approved at"),
         "arabic": MessageLookupByLibrary.simpleMessage("Arabic"),
+        "are_you_sure_you_want_cancel_the_invoice_with_id":
+            MessageLookupByLibrary.simpleMessage(
+                "Are you sure you want to cancel the invoice with the id #"),
+        "availability_slot_updated":
+            MessageLookupByLibrary.simpleMessage("availability slot updated"),
         "available_balance":
             MessageLookupByLibrary.simpleMessage("Available balance"),
         "available_points":
@@ -61,6 +66,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "balance": MessageLookupByLibrary.simpleMessage("Balance"),
         "bank_account_edit":
             MessageLookupByLibrary.simpleMessage("Edit bank account"),
+        "bank_account_successfuly_created":
+            MessageLookupByLibrary.simpleMessage(
+                "bank account successfully created"),
+        "bank_account_successfuly_updated":
+            MessageLookupByLibrary.simpleMessage(
+                "bank account successfully updated"),
         "bank_accounts": MessageLookupByLibrary.simpleMessage("Bank Account"),
         "bank_name": MessageLookupByLibrary.simpleMessage("Bank name"),
         "bank_transaction":
@@ -69,17 +80,19 @@ class MessageLookup extends MessageLookupByLibrary {
         "bill": MessageLookupByLibrary.simpleMessage("Bill"),
         "bill_id": MessageLookupByLibrary.simpleMessage("Bill ID"),
         "bill_number": MessageLookupByLibrary.simpleMessage("Bill number"),
+        "bills": MessageLookupByLibrary.simpleMessage("bills"),
         "birthDate": MessageLookupByLibrary.simpleMessage("birth date"),
         "birth_date": MessageLookupByLibrary.simpleMessage("Birth date"),
         "by_clicking_continue_you_are": MessageLookupByLibrary.simpleMessage(
             "by clicking continue you are agreeing to the "),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
+        "cancel_reason": MessageLookupByLibrary.simpleMessage("Cancel reason"),
         "canceled": MessageLookupByLibrary.simpleMessage("Canceled"),
         "canceled_invoice":
             MessageLookupByLibrary.simpleMessage("Canceled invoice"),
         "cashback": MessageLookupByLibrary.simpleMessage("Cashback"),
         "cashback_amount":
-            MessageLookupByLibrary.simpleMessage("Cashback Amount"),
+            MessageLookupByLibrary.simpleMessage("Customer Amount"),
         "cashback_amount_placeholder":
             MessageLookupByLibrary.simpleMessage("Select cashback amount"),
         "change_language":
@@ -94,6 +107,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "commission": MessageLookupByLibrary.simpleMessage("Comission"),
         "commission_amount_for_offer":
             MessageLookupByLibrary.simpleMessage("Commission amount for offer"),
+        "congrats_you_got_cashback_reward":
+            MessageLookupByLibrary.simpleMessage(
+                "congrats you got cashback reward"),
         "contact_informations":
             MessageLookupByLibrary.simpleMessage("Contact informations"),
         "continue_b": MessageLookupByLibrary.simpleMessage("Continue"),
@@ -104,6 +120,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "dark": MessageLookupByLibrary.simpleMessage("dark"),
         "date": MessageLookupByLibrary.simpleMessage("Date"),
         "day": MessageLookupByLibrary.simpleMessage("Day"),
+        "day_status_updated":
+            MessageLookupByLibrary.simpleMessage("day status updated"),
         "days": MessageLookupByLibrary.simpleMessage("Days"),
         "delete_my_acc":
             MessageLookupByLibrary.simpleMessage("Delete My Account"),
@@ -121,6 +139,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "end": MessageLookupByLibrary.simpleMessage("End"),
         "end_date_placeholder":
             MessageLookupByLibrary.simpleMessage("10/10/2023 10:14 PM"),
+        "ends_at": MessageLookupByLibrary.simpleMessage("Ends at"),
         "english": MessageLookupByLibrary.simpleMessage("English"),
         "enter_points_amount_you_want_to_redeem":
             MessageLookupByLibrary.simpleMessage(
@@ -171,6 +190,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "maybe_later": MessageLookupByLibrary.simpleMessage("Maybe Later"),
         "me": MessageLookupByLibrary.simpleMessage("me"),
         "menu": MessageLookupByLibrary.simpleMessage("Menu"),
+        "menu_updated": MessageLookupByLibrary.simpleMessage("Menu updated"),
         "merchant_login":
             MessageLookupByLibrary.simpleMessage("Merchant Login"),
         "merchant_registran_request_pending": MessageLookupByLibrary.simpleMessage(
@@ -181,6 +201,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "my_codes": MessageLookupByLibrary.simpleMessage("My Codes"),
         "my_history": MessageLookupByLibrary.simpleMessage("My history"),
         "mybill": MessageLookupByLibrary.simpleMessage("MyBill"),
+        "network_error": MessageLookupByLibrary.simpleMessage(" network error"),
         "next": MessageLookupByLibrary.simpleMessage("Next"),
         "no": MessageLookupByLibrary.simpleMessage("no"),
         "no_bank_accounts":
@@ -207,10 +228,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
         "of_bill_amount":
             MessageLookupByLibrary.simpleMessage("of bill amount without vat"),
+        "offer": MessageLookupByLibrary.simpleMessage("Offer"),
         "offer_added_to_favorite": MessageLookupByLibrary.simpleMessage(
             "offer successfully added to favorite"),
         "offer_duration":
             MessageLookupByLibrary.simpleMessage("offer duration"),
+        "offer_invoice_cancelation_request_successfully_sent":
+            MessageLookupByLibrary.simpleMessage(
+                "Offer invoice cancelation request successfully sent"),
         "offer_name": MessageLookupByLibrary.simpleMessage("Offer Name"),
         "offer_name_in_ar":
             MessageLookupByLibrary.simpleMessage("Offer name in arabic"),
@@ -222,8 +247,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "offer_removed_from_favorite": MessageLookupByLibrary.simpleMessage(
             "Offer successfully removed from favorite"),
         "offer_sales": MessageLookupByLibrary.simpleMessage("Offer sales"),
-        "offer_thumbnail":
-            MessageLookupByLibrary.simpleMessage("Offer thumbnail"),
+        "offer_successfully_saved":
+            MessageLookupByLibrary.simpleMessage("Offer successfully saved"),
+        "offer_thumbnail": MessageLookupByLibrary.simpleMessage("Offer image"),
         "offers": MessageLookupByLibrary.simpleMessage("Offers"),
         "ok": MessageLookupByLibrary.simpleMessage("Ok"),
         "online_payment_soon":
@@ -305,6 +331,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "select_payment_method":
             MessageLookupByLibrary.simpleMessage("Select payment method"),
         "select_role": MessageLookupByLibrary.simpleMessage("Select role"),
+        "send": MessageLookupByLibrary.simpleMessage("Send"),
+        "sender_bank_account_iban":
+            MessageLookupByLibrary.simpleMessage("Sender Bank account iban"),
+        "sender_bank_account_number":
+            MessageLookupByLibrary.simpleMessage("Sender Bank account number"),
+        "sender_bank_name":
+            MessageLookupByLibrary.simpleMessage("Sender Bank name"),
         "sender_full_name":
             MessageLookupByLibrary.simpleMessage("Sender full name"),
         "sender_phone_number":
@@ -329,13 +362,24 @@ class MessageLookup extends MessageLookupByLibrary {
             "Shop informations successfully updated"),
         "shop_informations":
             MessageLookupByLibrary.simpleMessage("shop informations"),
+        "shop_logo_updated":
+            MessageLookupByLibrary.simpleMessage("shop logo updated"),
         "shop_name": MessageLookupByLibrary.simpleMessage("shop name"),
         "shop_name_in_arabic":
             MessageLookupByLibrary.simpleMessage("Shop name in arabic"),
         "shop_name_in_english":
             MessageLookupByLibrary.simpleMessage("Shop name in english"),
         "sorry": MessageLookupByLibrary.simpleMessage("Sorry"),
+        "split_reward": MessageLookupByLibrary.simpleMessage("split reward"),
         "staff": MessageLookupByLibrary.simpleMessage("Staff"),
+        "staff_role_successfully_created": MessageLookupByLibrary.simpleMessage(
+            "Staff role successfully created"),
+        "staff_role_successfully_updated": MessageLookupByLibrary.simpleMessage(
+            "Staff role successfully updated"),
+        "staff_successfully_created":
+            MessageLookupByLibrary.simpleMessage("Staff successfully created"),
+        "staff_successfully_updated":
+            MessageLookupByLibrary.simpleMessage("Staff successfully updated"),
         "start": MessageLookupByLibrary.simpleMessage("Start"),
         "start_date_placeholder":
             MessageLookupByLibrary.simpleMessage("10/10/2023 10:14 PM"),
@@ -356,6 +400,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Total with vat"),
         "transaction_screenshot":
             MessageLookupByLibrary.simpleMessage("Transaction screenshot"),
+        "unable_to_save_offer":
+            MessageLookupByLibrary.simpleMessage("unable to save offer"),
         "unpaid": MessageLookupByLibrary.simpleMessage("Un paid"),
         "update": MessageLookupByLibrary.simpleMessage("Update"),
         "upgrade_profile":
@@ -381,6 +427,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "working_hours": MessageLookupByLibrary.simpleMessage("Working hours"),
         "year": MessageLookupByLibrary.simpleMessage("Year"),
         "yes": MessageLookupByLibrary.simpleMessage("yes"),
+        "you_can_cancel_bill_in":
+            MessageLookupByLibrary.simpleMessage("you can cancel bill in"),
         "your_withdrwa_balance_request_successfully_sent":
             MessageLookupByLibrary.simpleMessage(
                 "your withdraw balance request successfully sent")

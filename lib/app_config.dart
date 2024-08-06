@@ -11,12 +11,12 @@ class AppConfig {
   static String mobile_app_code = "en";
   static bool app_language_rtl = false;
 
-  static const bool HTTPS = true;
+  static const bool HTTPS = false;
 
-  static const bool IsDevelp = false;
+  static const bool IsDevelp = true;
 
   static const DOMAIN_PATH = IsDevelp
-      ? "192.168.43.103:8000"
+      ? "192.168.10.96:8000"
       : 'admin.mybill1.com'; //  http://192.168.43.103:8000/ 192.168.123.236:8000
 
   static const String API_ENDPATH = "api/v1";

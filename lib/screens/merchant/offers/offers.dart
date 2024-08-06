@@ -136,7 +136,8 @@ class _MerchantOffersState extends State<MerchantOffers>
                   case 'active':
                     textColor = Colors.green;
                     return TextSpan(
-                      text: '$state ends at $endDate',
+                      text:
+                          '${S.of(context).active} ${S.of(context).ends_at} $endDate',
                       style: TextStyle(
                         color: textColor,
                         fontSize: fontSize,
@@ -191,7 +192,7 @@ class _MerchantOffersState extends State<MerchantOffers>
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        'Offer Num #${offer.id}',
+                                        '${S.of(context).offer_name} #${offer.id}',
                                         style: const TextStyle(
                                             fontWeight: FontWeight.w300),
                                       ),

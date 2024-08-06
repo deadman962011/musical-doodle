@@ -81,8 +81,10 @@ class UserCouponRepository {
     if (response.statusCode == 200 && responseBody['success']) {
       return UserCouponRedeemResponseFromMap(response.body);
     } else {
-      OneContext().showSnackBar(
-          builder: (_) => SnackBar(content: Text(responseBody['message'])));
+      if (OneContext.hasContext) {
+        OneContext().showSnackBar(
+            builder: (_) => SnackBar(content: Text(responseBody['message'])));
+      }
       // ToastComponent.showDialog(responseBody['message'], OneContext().context!,
       //     gravity: Toast.bottom, duration: Toast.lengthLong);
       return false;

@@ -108,7 +108,7 @@ class _MerchantRoleEditState extends State<MerchantRoleEdit> {
         widget.id, role_name_in_arabic, role_name_in_english, premissions);
     debugPrint(response.runtimeType.toString());
     if (response.runtimeType.toString() == 'MerchantUpdateRoleResponse') {
-      ToastComponent.showDialog('staff role successfully updated', context,
+      ToastComponent.showDialog(S.of(context).staff_role_successfully_updated, context,
           gravity: Toast.bottom, duration: Toast.lengthLong);
 
       // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {

@@ -101,7 +101,7 @@ class _FavoriteState extends State<Favorite> {
                   child: Column(
                     // crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      _buildFavoriteTabs(),
+                      // _buildFavoriteTabs(),
                       activeTab == 'offers'
                           ? _buildFavoriteOfferList()
                           : _buildFavoriteCodes()

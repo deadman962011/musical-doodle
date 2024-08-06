@@ -80,6 +80,13 @@ final SharedValue<String> user_email = SharedValue(
   key: "user_email", // disk storage key for shared_preferences
 );
 
+final SharedValue<String> user_phone = SharedValue(
+  value: "", // initial value
+  key: "user_phone", // disk storage key for shared_preferences
+);
+
+
+
 final SharedValue<String> user_latitude = SharedValue(
   value: "", // initial value
   key: "user_latitude", // disk storage key for shared_preferences
@@ -88,6 +95,11 @@ final SharedValue<String> user_latitude = SharedValue(
 final SharedValue<String> user_longitude = SharedValue(
   value: "", // initial value
   key: "user_longitude", // disk storage key for shared_preferences
+);
+
+final SharedValue<String> app_fcm = SharedValue(
+  value: "", // initial value
+  key: "app_fcm", // disk storage key for shared_preferences
 );
 
 final SharedValue<bool> app_language_rtl = SharedValue(

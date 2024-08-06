@@ -67,6 +67,14 @@ class MerchantAppBar {
         ];
         break;
 
+      case 'upgrade_profile':
+        widgets = [
+          _buildToggleDrawerButton(context, scaffoldKey),
+          Text(title),
+          Container(),
+        ];
+        break;
+
       default:
         widgets = [
           _buildBackButton(context),
@@ -141,7 +149,7 @@ class MerchantAppBar {
         },
         icon: Image.asset(
           'assets/add.png',
-          color: MyTheme.accent_color,
+          color: Colors.black,
         ),
       ),
     );

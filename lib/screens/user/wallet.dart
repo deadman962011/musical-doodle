@@ -8,6 +8,7 @@ import 'package:com.mybill.app/repositories/user/user_offer_invoice.dart';
 import 'package:com.mybill.app/repositories/user/user_wallet_repository.dart';
 import 'package:com.mybill.app/screens/user/invoice_details.dart';
 import 'package:com.mybill.app/screens/user/redeem_points.dart';
+import 'package:com.mybill.app/screens/user/split_reward_select_contacts.dart';
 import 'package:com.mybill.app/screens/user/wallet_history.dart';
 import 'package:com.mybill.app/screens/user/withdraw_balance.dart';
 import 'package:com.mybill.app/ui_elements/merchant_drawer.dart';
@@ -141,7 +142,7 @@ class _UserWalletState extends State<UserWallet> {
       backgroundColor: Colors.transparent,
       appBar: UserAppBar.buildUserAppBar(
           context, 'wallet', S.of(context).wallet, {}),
-      drawer: MerchantDrawer.buildDrawer(context),
+      // drawer: MerchantDrawer.buildDrawer(context),
       body: Column(
         children: [
           _buildWalletMainBox(),
@@ -221,12 +222,12 @@ class _UserWalletState extends State<UserWallet> {
                                   top: 6, bottom: 6, end: 6),
                               child: ImageIcon(
                                 AssetImage('assets/rep.png'),
-                                color: Colors.white,
+                                color: Colors.black,
                                 size: 20,
                               )),
                           Text(
                             S.of(context).my_history,
-                            style: TextStyle(color: Colors.white),
+                            style: TextStyle(color: Colors.black),
                           )
                         ],
                       )),
@@ -248,7 +249,7 @@ class _UserWalletState extends State<UserWallet> {
         bottom: 20,
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Container(
             width: 110,
@@ -268,30 +269,33 @@ class _UserWalletState extends State<UserWallet> {
               ],
             ),
           ),
-          GestureDetector(
-            onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return const RedeemPoints();
-              })).then((value) => setState(() {}));
-            },
-            child: Container(
-              width: 110,
-              height: 110,
-              decoration: BoxDecorations.buildBoxDecoration_1(),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    'assets/wallet_1.png',
-                  ),
-                  Text(
-                    S.of(context).redeem_points,
-                    style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500),
-                  )
-                ],
-              ),
-            ),
-          ),
+          // GestureDetector(
+          //   onTap: () {
+          //     Navigator.push(context, MaterialPageRoute(builder: (context) {
+          //       return SplitRewardSelectContacts(
+          //         offer_id: 1,
+          //         cashback_amount: 20,
+          //       );
+          //     }));
+          //   },
+          //   child: Container(
+          //     width: 110,
+          //     height: 110,
+          //     decoration: BoxDecorations.buildBoxDecoration_1(),
+          //     child: Column(
+          //       mainAxisAlignment: MainAxisAlignment.center,
+          //       children: [
+          //         Image.asset(
+          //           'assets/wallet_1.png',
+          //         ),
+          //         Text(
+          //           S.of(context).redeem_points,
+          //           style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500),
+          //         )
+          //       ],
+          //     ),
+          //   ),
+          // ),
           GestureDetector(
             onTap: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -378,7 +382,7 @@ class _UserWalletState extends State<UserWallet> {
       state = 'Pending';
       side = Icon(
         Icons.timer,
-        color: MyTheme.accent_color,
+        color: Colors.black,
         size: 36,
       );
     }
@@ -386,7 +390,7 @@ class _UserWalletState extends State<UserWallet> {
       state = S.of(context).rejected_invoice;
       side = Icon(
         Icons.priority_high,
-        color: MyTheme.accent_color,
+        color: Colors.black,
         size: 36,
       );
     }

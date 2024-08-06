@@ -102,7 +102,7 @@ class _AddStaffState extends State<AddStaff> {
     var response = await MerchantStaffRepository()
         .getSaveMerchantStaffResponse(full_name, email, fullPhone, roleId);
     if (response.runtimeType.toString() == 'MerchantSaveStaffResponse') {
-      ToastComponent.showDialog('staff successfully created', context,
+      ToastComponent.showDialog(S.of(context).staff_successfully_created, context,
           gravity: Toast.bottom, duration: Toast.lengthLong);
       // Navigator.pop(context);
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {

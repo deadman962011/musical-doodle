@@ -72,7 +72,7 @@ class _WorkingHoursState extends State<WorkingHours> {
         await MerchantRepository().getMerchantAvailabilityToggleDayResponse(id);
     if (response.runtimeType.toString() ==
         'MerchantAvailabilityToggleDayStatusResponse') {
-      ToastComponent.showDialog('day status updated', context,
+      ToastComponent.showDialog(S.of(context).day_status_updated, context,
           gravity: Toast.bottom, duration: Toast.lengthLong);
     }
   }
@@ -110,7 +110,7 @@ class _WorkingHoursState extends State<WorkingHours> {
             _formKey.currentState!.value['end_date_$id'].toString());
     if (response.runtimeType.toString() ==
         'MerchantAvailabilityAddSlotResponse') {
-      ToastComponent.showDialog('availability slot updated', context,
+      ToastComponent.showDialog(S.of(context).availability_slot_updated, context,
           gravity: Toast.bottom, duration: Toast.lengthLong);
     }
   }

@@ -60,6 +60,10 @@
 			<key>CFBundleURLName</key>
 			<string>com.mybill.app</string>
 		</dict>
+		<dict>
+			<key>NSContactsUsageDescription</key>
+			<string>we need access to the contact list</string>
+		</dict>
 	</array>
 
 </dict>

@@ -23,8 +23,7 @@ class _WithdrawBalanceSuccessState extends State<WithdrawBalanceSuccess> {
           body: Container(
               width: MediaQuery.of(context).size.width,
               padding: const EdgeInsets.symmetric(horizontal: 14),
-              child: Expanded(
-                  child: CustomScrollView(slivers: [
+              child: CustomScrollView(slivers: [
                 // Wrap your widgets with the SliverToBoxAdapter
                 SliverFillRemaining(
                     child: Column(
@@ -52,7 +51,7 @@ class _WithdrawBalanceSuccessState extends State<WithdrawBalanceSuccess> {
                     )
                   ],
                 ))
-              ]))),
+              ])),
           bottomNavigationBar: Container(
               margin: EdgeInsets.all(10),
               width: double.infinity,
@@ -66,7 +65,9 @@ class _WithdrawBalanceSuccessState extends State<WithdrawBalanceSuccess> {
                   onPressed: () async {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
-                      return UserMain();
+                      return UserMain(
+                        go_back: false,
+                      );
                     }));
                   },
                   child: Text(

@@ -1,6 +1,7 @@
 import 'package:com.mybill.app/helpers/auth_helper.dart';
 import 'package:com.mybill.app/helpers/shared_value_helper.dart';
 import 'package:com.mybill.app/my_theme.dart';
+import 'package:com.mybill.app/repositories/user/user_auth_repository.dart';
 import 'package:com.mybill.app/screens/user/bank_accounts.dart';
 import 'package:com.mybill.app/screens/user/profile_edit.dart';
 import 'package:com.mybill.app/screens/user/favorite.dart';
@@ -110,7 +111,7 @@ class _ProfileState extends State<UserProfile> {
                 children: [
                   Image.asset(
                     tab['image'],
-                    color: MyTheme.accent_color,
+                    color: Colors.black,
                     height: 24,
                   ),
                   Padding(
@@ -192,6 +193,7 @@ class _ProfileState extends State<UserProfile> {
                       }
 
                       if (tab['redirect_to'] == 'logout') {
+                        UserAuthRepository().getUserLogoutResponse();
                         AuthHelper().clearUserData();
                         Navigator.pushAndRemoveUntil(context,
                             MaterialPageRoute(builder: (context) {
@@ -212,7 +214,7 @@ class _ProfileState extends State<UserProfile> {
                           padding: const EdgeInsetsDirectional.only(end: 8),
                           child: Image.asset(
                             tab['image'],
-                            color: MyTheme.accent_color,
+                            color: Colors.black,
                             height: 20,
                           ),
                         ),

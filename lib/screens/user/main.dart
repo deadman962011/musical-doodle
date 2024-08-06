@@ -130,10 +130,10 @@ class _UserMainState extends State<UserMain> {
                                 backgroundColor: Colors.white.withOpacity(0.95),
                                 unselectedItemColor:
                                     const Color.fromRGBO(168, 175, 179, 1),
-                                selectedItemColor: MyTheme.accent_color,
+                                selectedItemColor: Colors.black,
                                 selectedLabelStyle: TextStyle(
                                     fontWeight: FontWeight.w700,
-                                    color: MyTheme.accent_color,
+                                    color: Colors.black,
                                     fontSize: 12),
                                 unselectedLabelStyle: const TextStyle(
                                     fontWeight: FontWeight.w400,
@@ -147,9 +147,7 @@ class _UserMainState extends State<UserMain> {
                                         child: Image.asset(
                                           "assets/home.png",
                                           color: _currentIndex == 0
-                                              ? Theme.of(context)
-                                                  .colorScheme
-                                                  .secondary
+                                              ? Colors.black
                                               : const Color.fromRGBO(
                                                   153, 153, 153, 1),
                                           height: 24,
@@ -165,9 +163,7 @@ class _UserMainState extends State<UserMain> {
                                         child: Image.asset(
                                           "assets/wallet.png",
                                           color: _currentIndex == 1
-                                              ? Theme.of(context)
-                                                  .colorScheme
-                                                  .secondary
+                                              ? Colors.black
                                               : const Color.fromRGBO(
                                                   153, 153, 153, 1),
                                           height: 24,
@@ -183,9 +179,7 @@ class _UserMainState extends State<UserMain> {
                                       child: Image.asset(
                                         "assets/scan.png",
                                         color: _currentIndex == 2
-                                            ? Theme.of(context)
-                                                .colorScheme
-                                                .secondary
+                                            ? Colors.black
                                             : const Color.fromRGBO(
                                                 153, 153, 153, 1),
                                         height: 24,
@@ -202,9 +196,7 @@ class _UserMainState extends State<UserMain> {
                                       child: Image.asset(
                                         "assets/profile.png",
                                         color: _currentIndex == 3
-                                            ? Theme.of(context)
-                                                .colorScheme
-                                                .secondary
+                                            ? Colors.black
                                             : const Color.fromRGBO(
                                                 153, 153, 153, 1),
                                         height: 24,
@@ -221,9 +213,7 @@ class _UserMainState extends State<UserMain> {
                                       child: Image.asset(
                                         "assets/menu.png",
                                         color: _currentIndex == 4
-                                            ? Theme.of(context)
-                                                .colorScheme
-                                                .secondary
+                                            ? Colors.black
                                             : const Color.fromRGBO(
                                                 153, 153, 153, 1),
                                         height: 24,

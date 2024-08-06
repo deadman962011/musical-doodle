@@ -48,7 +48,8 @@ class MerchantAuthRepository {
           "Content-Type": "application/json",
           "Accept-Language": app_language.$,
           "latitude": user_latitude.$,
-          "longitude": user_longitude.$
+          "longitude": user_longitude.$,
+          "fcm_token": app_fcm.$
         },
         body: postBody);
     AppConfig.alice.onHttpResponse(response, body: postBody);
@@ -115,5 +116,24 @@ class MerchantAuthRepository {
     } else {
       return false;
     }
+  }
+
+  Future<dynamic> getMerchantLogoutResponse() async {
+    Uri url = Uri.parse("${AppConfig.BASE_URL}/shop/auth/logout");
+
+    final response = await http.get(
+      url,
+      headers: {
+        'Accept': 'application/json',
+        "Content-Type": "application/json",
+        "Accept-Language": app_language.$,
+        "Authorization": "Bearer ${access_token.$}",
+      },
+    );
+    debugPrint(response.body.toString());
+    AppConfig.alice.onHttpResponse(response, body: null);
+    // response.body
+
+    return (response.statusCode == 200);
   }
 }

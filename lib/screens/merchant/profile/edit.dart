@@ -31,7 +31,7 @@ class _EditState extends State<MerchantEdit> {
   final TextEditingController _shopNameInEnController = TextEditingController();
 
   final ImagePicker _picker = ImagePicker();
-  late XFile _file;
+  late XFile? _file;
   bool _isLoading = false;
   MerchantDetails? merchantDetails;
   @override
@@ -101,21 +101,24 @@ class _EditState extends State<MerchantEdit> {
   }
 
   handleUploadLogo(context) async {
-    _file = (await _picker.pickImage(source: ImageSource.gallery))!;
-    String base64Image = FileHelper.getBase64FormateFile(_file.path);
-    String fileName = _file.path.split("/").last;
+    _file = await _picker.pickImage(source: ImageSource.gallery);
 
-    var response = await MerchantRepository().getMerchantUpdateLogoResponse(
-      base64Image,
-      fileName,
-    );
-    debugPrint(response.toString());
-    if (response.runtimeType.toString() == 'MerchantUpdateLogoResponse') {
-      if (response.success) {
-        fetchAll();
+    if (_file != null) {
+      String base64Image = FileHelper.getBase64FormateFile(_file!.path);
+      String fileName = _file!.path.split("/").last;
 
-        ToastComponent.showDialog('shop logo updated', context,
-            gravity: Toast.bottom, duration: Toast.lengthLong);
+      var response = await MerchantRepository().getMerchantUpdateLogoResponse(
+        base64Image,
+        fileName,
+      );
+      debugPrint(response.toString());
+      if (response.runtimeType.toString() == 'MerchantUpdateLogoResponse') {
+        if (response.success) {
+          fetchAll();
+          ToastComponent.showDialog(S.of(context).shop_logo_updated, context,
+              gravity: Toast.bottom, duration: Toast.lengthLong);
+          setState(() {});
+        }
       }
     }
     setState(() {});

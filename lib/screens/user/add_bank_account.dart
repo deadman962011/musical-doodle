@@ -65,7 +65,7 @@ class _AddBankAccountState extends State<AddBankAccount> {
         .getUsercreateBankAccountResponse(
             bank_name, full_name, account_number, iban);
     if (response.runtimeType.toString() == 'UserCreateBankAccountsResponse') {
-      ToastComponent.showDialog('bank account successfully created', context,
+      ToastComponent.showDialog(S.of(context).bank_account_successfuly_created, context,
           gravity: Toast.bottom, duration: Toast.lengthLong);
       // Navigator.pop(context);
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {

@@ -8,6 +8,7 @@ import 'package:com.mybill.app/my_theme.dart';
 import 'package:com.mybill.app/repositories/deposit_bank_accounts_repository.dart';
 import 'package:com.mybill.app/repositories/file_repository.dart';
 import 'package:com.mybill.app/repositories/merchant/merchant_offer_repository.dart';
+import 'package:com.mybill.app/screens/merchant/statistics/statistics.dart';
 
 import 'package:com.mybill.app/ui_elements/merchant_appbar.dart';
 import 'package:com.mybill.app/ui_elements/merchant_drawer.dart';
@@ -32,15 +33,16 @@ class PayOfferCommissionBank extends StatefulWidget {
 }
 
 class _PayOfferCommissionBankState extends State<PayOfferCommissionBank> {
+  Map<String, dynamic> _errors = {};
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final _formKey = GlobalKey<FormBuilderState>();
-
   List<DropdownMenuItem<Object>> _depositBankAccouts = [];
   final TextEditingController _amountController = TextEditingController();
   final TextEditingController _fullNameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _depositAtController = TextEditingController();
   final TextEditingController _noticeCodeController = TextEditingController();
+  String deposit_bank_account_id = '';
 
   final ImagePicker _picker = ImagePicker();
   late XFile _file;
@@ -135,10 +137,31 @@ class _PayOfferCommissionBankState extends State<PayOfferCommissionBank> {
     String notice = _noticeCodeController.text.toString();
 
     var response = await MerchantOfferRepository()
-        .getMerchantOfferPayCommissionResponse(widget.offerId, amount, fullname,
-            fullPhone, deposit_at, _uploaded_file_id!.toString(), notice);
+        .getMerchantOfferPayCommissionResponse(
+            widget.offerId,
+            amount,
+            fullname,
+            fullPhone,
+            deposit_at,
+            deposit_bank_account_id,
+            _uploaded_file_id!.toString(),
+            notice);
 
-    if (response.runtimeType.toString() == 'UnexpectedErrorResponse') {
+    debugPrint(response.runtimeType.toString());
+    if (response.runtimeType.toString() ==
+        'MerchantSavePayOfferCommissionRequestResponse') {
+      ToastComponent.showDialog(response.message, context,
+          gravity: Toast.bottom, duration: Toast.lengthLong);
+
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+        return const MerchantStatistics();
+      }));
+    } else if (response.runtimeType.toString() == 'ValidationResponse') {
+      setState(() {
+        _errors = response.errors;
+      });
+      debugPrint(response.errors.toString());
+    } else if (response.runtimeType.toString() == 'UnexpectedErrorResponse') {
       ToastComponent.showDialog(response.message, context,
           gravity: Toast.bottom, duration: Toast.lengthLong);
     }
@@ -197,7 +220,10 @@ class _PayOfferCommissionBankState extends State<PayOfferCommissionBank> {
         child: Scaffold(
             key: _scaffoldKey,
             appBar: MerchantAppBar.buildMerchantAppBar(
-                context, 'add_offer', _scaffoldKey, S.of(context).add_offer),
+                context,
+                'pay_offer_comission_bank',
+                _scaffoldKey,
+                S.of(context).pay_comission),
             drawer: MerchantDrawer.buildDrawer(context),
             body: SingleChildScrollView(
                 child: Padding(
@@ -384,7 +410,8 @@ class _PayOfferCommissionBankState extends State<PayOfferCommissionBank> {
                                         onChanged: (value) {
                                           setState(
                                             () {
-                                              // categoriesIds = value.value.toString();
+                                              deposit_bank_account_id =
+                                                  value.value.toString();
                                             },
                                           );
                                         },

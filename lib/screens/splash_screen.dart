@@ -1,19 +1,18 @@
 // ignore_for_file: unused_field
+import 'package:com.mybill.app/helpers/auth_helper.dart';
+import 'package:com.mybill.app/ui_elements/dialog.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:one_context/one_context.dart';
 
 import 'package:com.mybill.app/custom/device_info.dart';
-import 'package:com.mybill.app/helpers/auth_helper.dart';
 import 'package:com.mybill.app/helpers/shared_value_helper.dart';
 import 'package:com.mybill.app/my_theme.dart';
 import 'package:com.mybill.app/providers/locale_provider.dart';
 import 'package:com.mybill.app/screens/guest.dart';
 import 'package:com.mybill.app/screens/merchant/main.dart';
 import 'package:com.mybill.app/screens/user/main.dart';
-import 'package:flutter/material.dart';
-import 'package:com.mybill.app/ui_elements/dialog.dart';
-import 'package:geolocator/geolocator.dart';
-// import 'package:package_info/package_info.dart';
+import 'package:flutter/material.dart'; 
 import 'package:provider/provider.dart';
-import 'package:one_context/one_context.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -50,7 +49,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
     // _locationPermission();
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<String>(
@@ -138,9 +137,9 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<String> getSharedValueHelperData() async {
-    access_token.load().whenComplete(() {
-      AuthHelper().fetch_and_set();
-    });
+    // access_token.load().whenComplete(() {
+    //   AuthHelper().fetch_and_set();
+    // });
     await app_language.load();
     await app_mobile_language.load();
     await app_language_rtl.load();

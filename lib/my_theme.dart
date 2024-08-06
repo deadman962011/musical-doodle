@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 class MyTheme {
   /*configurable colors stars*/
-  static Color accent_color = const Color.fromRGBO(249, 0, 130, 1);
+  static Color accent_color = const Color.fromRGBO(74, 255, 177, 1);
   static Color accent_color_shadow =
-      const Color.fromRGBO(255, 89, 176, 1); // this color is a dropshadow of
+      Color.fromARGB(255, 151, 255, 210); // this color is a dropshadow of
   static Color soft_accent_color = const Color.fromRGBO(254, 234, 209, 1);
   static Color splash_screen_color = const Color.fromRGBO(
       255, 255, 255, 1); // if not sure , use the same color as accent color

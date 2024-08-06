@@ -1,6 +1,7 @@
 import 'package:com.mybill.app/helpers/auth_helper.dart';
 import 'package:com.mybill.app/my_theme.dart';
 import 'package:com.mybill.app/providers/offer_provider.dart';
+import 'package:com.mybill.app/repositories/merchant/merchant_auth_repository.dart';
 import 'package:com.mybill.app/screens/change_language.dart';
 import 'package:com.mybill.app/screens/guest.dart';
 import 'package:com.mybill.app/screens/merchant/offers/offers.dart';
@@ -9,6 +10,7 @@ import 'package:com.mybill.app/screens/merchant/staffs/role/roles.dart';
 import 'package:com.mybill.app/screens/merchant/staffs/staff/staff.dart';
 import 'package:com.mybill.app/screens/merchant/statistics/latest_sales.dart';
 import 'package:com.mybill.app/screens/merchant/statistics/statistics.dart';
+import 'package:com.mybill.app/screens/merchant/upgrade.dart';
 import 'package:com.mybill.app/screens/merchant/wallet.dart';
 import 'package:flutter/material.dart';
 
@@ -142,7 +144,11 @@ class MerchantDrawer {
       {
         'title': S.of(context).upgrade_profile,
         'image': 'assets/upgrade_account.png',
-        'action': () {},
+        'action': () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return const MerchantUpgrade();
+          }));
+        },
         'sub': [],
         'permissions': ['upgrade_shop']
       },
@@ -176,6 +182,7 @@ class MerchantDrawer {
         'title': S.of(context).logout,
         'image': 'assets/settings.png',
         'action': () {
+          MerchantAuthRepository().getMerchantLogoutResponse();
           AuthHelper().clearMerchantData();
           final offerProvider =
               Provider.of<OfferProvider>(context, listen: false);
@@ -224,13 +231,13 @@ class MerchantDrawer {
                                   start: 6, end: 12),
                               child: Image.asset(
                                 item['image'],
-                                color: Colors.white,
+                                color: Colors.black,
                               ),
                             ),
                             Text(
                               item['title'],
                               style:
-                                  TextStyle(fontSize: 12, color: Colors.white),
+                                  TextStyle(fontSize: 12, color: Colors.black),
                             )
                           ],
                         ),
@@ -238,7 +245,7 @@ class MerchantDrawer {
                           return ListTile(
                             title: Text(child['title'],
                                 style: TextStyle(
-                                  color: Colors.white,
+                                  color: Colors.black,
                                   fontSize: 12,
                                 )),
                             onTap: child['action'],
@@ -255,12 +262,12 @@ class MerchantDrawer {
                               padding: const EdgeInsetsDirectional.only(
                                   start: 6, end: 12),
                               child: Image.asset(item['image'],
-                                  color: MyTheme.white),
+                                  color: Colors.black),
                             ),
                             Text(
                               item['title'],
                               style:
-                                  TextStyle(color: Colors.white, fontSize: 12),
+                                  TextStyle(color: Colors.black, fontSize: 12),
                             )
                           ],
                         ),

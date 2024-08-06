@@ -39,7 +39,7 @@ class MerchantRepository {
 
   Future<dynamic> getMerchantUpdateResponse(
       @required String shop_name_ar, @required String shop_name_en) async {
-    Uri url = Uri.parse("${AppConfig.BASE_URL}/shop/");
+    Uri url = Uri.parse("${AppConfig.BASE_URL}/shop");
 
     var postBody = jsonEncode(
         {"shop_name_ar": shop_name_ar, "shop_name_en": shop_name_en});
@@ -220,7 +220,7 @@ class MerchantRepository {
           "Authorization": "Bearer ${access_token.$}",
         },
         body: postBody);
-    final responseBody = jsonDecode(response.body); 
+    final responseBody = jsonDecode(response.body);
     AppConfig.alice.onHttpResponse(response, body: postBody);
     if (response.statusCode == 200 && responseBody['success']) {
       return merchantUpdateLogoResponseFromJson(response.body);

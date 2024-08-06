@@ -10,6 +10,8 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 
 import 'package:com.mybill.app/generated/l10n.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl_phone_field/countries.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 // import 'package:intl/intl.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:toast/toast.dart';
@@ -25,16 +27,52 @@ class ProfileEdit extends StatefulWidget {
 class _ProfileEditState extends State<ProfileEdit> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final _formKey = GlobalKey<FormBuilderState>();
+  Map<String, dynamic> _errors = {};
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _birthDateController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+
   String _gender = '';
   final DateTime _birthDate = DateTime.now();
 
   final ImagePicker _picker = ImagePicker();
   late XFile _file;
   bool _isLoading = false;
+
+  String fullPhone = '';
+  Country _country = Country(
+    name: "Saudi Arabia",
+    nameTranslations: {
+      "no": "Saudi-Arabia",
+      "sk": "Saudská Arábia",
+      "se": "Saudi-Arábia",
+      "pl": "Arabia Saudyjska",
+      "ja": "サウジアラビア",
+      "it": "Arabia Saudita",
+      "zh": "沙特阿拉伯",
+      "nl": "Saoedi-Arabië",
+      "de": "Saudi-Arabien",
+      "fr": "Arabie saoudite",
+      "es": "Arabia Saudí",
+      "en": "Saudi Arabia",
+      "pt_BR": "Arábia Saudita",
+      "sr-Cyrl": "Саудијска Арабија",
+      "sr-Latn": "Saudijska Arabija",
+      "zh_TW": "沙烏地阿拉",
+      "tr": "Suudi Arabistan",
+      "ro": "Arabia Saudită",
+      "ar": "السعودية",
+      "fa": "عربستان سعودی",
+      "yue": "沙地阿拉伯"
+    },
+    flag: "🇸🇦",
+    code: "SA",
+    dialCode: "966",
+    minLength: 9,
+    maxLength: 9,
+  );
 
   @override
   void initState() {
@@ -97,10 +135,14 @@ class _ProfileEditState extends State<ProfileEdit> {
     });
 
     var response = await UserAuthRepository()
-        .getUserProfileUpdateResponse(firstName, lastName, _gender, birthDate)
+        .getUserProfileUpdateResponse(
+            firstName, lastName, _gender, birthDate, fullPhone)
         .then((value) {
       if (value.runtimeType.toString() == 'UserProfileUpdateResponse' &&
           value.success) {
+        user_phone.$ = fullPhone;
+        user_phone.save();
+
         ToastComponent.showDialog(S.of(context).profile_updated, context,
             gravity: Toast.bottom, duration: Toast.lengthLong);
       }
@@ -241,6 +283,55 @@ class _ProfileEditState extends State<ProfileEdit> {
                                       ]),
                                     ),
                                   ],
+                                )),
+                            Padding(
+                                padding: const EdgeInsets.only(bottom: 8),
+                                child: IntlPhoneField(
+                                  enabled: true,
+                                  disableLengthCheck: true,
+                                  onChanged: (phone) {
+                                    List<int> _prefixes = [
+                                      50,
+                                      53,
+                                      54,
+                                      55,
+                                      59,
+                                      58,
+                                      56,
+                                      57
+                                    ];
+                                    int prefix =
+                                        int.parse(phone.number.substring(0, 2));
+                                    bool containsPrefix =
+                                        _prefixes.contains(prefix);
+                                    if (phone.number.length >=
+                                            _country.minLength &&
+                                        phone.number.length <=
+                                            _country.maxLength &&
+                                        containsPrefix) {
+                                      setState(() {
+                                        fullPhone = phone.number;
+                                        _errors['phone'] = "";
+                                      });
+                                    } else {
+                                      setState(() {
+                                        fullPhone = '';
+                                        _errors['phone'] = [
+                                          S.of(context).phone_number_is_invalid
+                                        ];
+                                      });
+                                    }
+                                  },
+                                  countries: [_country],
+                                  controller: _phoneController,
+                                  decoration: InputDecorations
+                                      .buildDropdownInputDecoration_1(
+                                          error_text: _errors['phone'] !=
+                                                      null &&
+                                                  _errors['phone'].length > 0
+                                              ? _errors['phone']![0]
+                                              : null),
+                                  initialCountryCode: 'SA',
                                 )),
                             Row(
                               children: [

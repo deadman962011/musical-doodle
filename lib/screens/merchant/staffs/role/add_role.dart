@@ -89,7 +89,7 @@ class _AddRoleState extends State<AddRole> {
         role_name_in_arabic, role_name_in_english, premissions);
     debugPrint(response.runtimeType.toString());
     if (response.runtimeType.toString() == 'MerchantSaveRoleResponse') {
-      ToastComponent.showDialog('staff role successfully created', context,
+      ToastComponent.showDialog(S.of(context).staff_role_successfully_created, context,
           gravity: Toast.bottom, duration: Toast.lengthLong);
 
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {

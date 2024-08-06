@@ -158,7 +158,7 @@ class _GuestState extends State<Guest> with TickerProviderStateMixin {
                               style: TextStyle(
                                   fontSize: 42,
                                   fontWeight: FontWeight.bold,
-                                  color: MyTheme.accent_color),
+                                  color: Colors.black),
                             )
                           ],
                         ),
@@ -180,7 +180,7 @@ class _GuestState extends State<Guest> with TickerProviderStateMixin {
                                 child: Text(
                                   S.of(context).client_login,
                                   style: TextStyle(
-                                    color: MyTheme.white,
+                                    color: Colors.black,
                                     fontSize: 18,
                                     fontWeight: FontWeight.normal,
                                   ),
@@ -211,7 +211,7 @@ class _GuestState extends State<Guest> with TickerProviderStateMixin {
                                 child: Text(
                                   S.of(context).merchant_login,
                                   style: TextStyle(
-                                    color: MyTheme.white,
+                                    color: Colors.black,
                                     fontSize: 18,
                                     fontWeight: FontWeight.normal,
                                   ),

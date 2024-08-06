@@ -93,18 +93,18 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
+    super.initState();
+    initUniLinks();
+    initFirebase();
+    // super.initState();
+    // getLocation();
     // _alice = Alice(
     //   navigatorKey: navigatorKey,
     //   showNotification: true,
     //   showInspectorOnShake: true,
     //   maxCallsCount: 1000,
     // );
-    super.initState();
-    // getLocation();
-    initUniLinks();
-    initFirebase();
     // _checkPermission(() {});
-    super.initState();
   }
 
   Future<void> initUniLinks() async {
@@ -133,9 +133,10 @@ class _MyAppState extends State<MyApp> {
     if (uri.path.toString() == '/to/guest') {
       //do nothing
     } else {
-      AppConfig.alice
-          .getNavigatorKey()!
-          .currentState!
+      // AppConfig.alice
+      //     .getNavigatorKey()!
+      //     .currentState!
+      Navigator.of(OneContext().context!)
           .push(MaterialPageRoute(builder: (context) {
         return VerifyLink(
           url: uri,
@@ -165,6 +166,8 @@ class _MyAppState extends State<MyApp> {
     // Get the FCM token
     _firebaseMessaging.getToken().then((String? token) {
       assert(token != null);
+      app_fcm.$ = token!;
+      app_fcm.save();
       print('FCM Token: $token');
     });
     // Listen for messages when the app is in the foreground
@@ -190,7 +193,8 @@ class _MyAppState extends State<MyApp> {
               builder: (context, offerProvider, snapshot) {
             return MaterialApp(
               builder: OneContext().builder,
-              navigatorKey: AppConfig.alice.getNavigatorKey(),
+              navigatorKey: OneContext().key,
+              //  AppConfig.alice.getNavigatorKey(),
               title: AppConfig.app_name,
               debugShowCheckedModeBanner: false,
               theme: ThemeData(
@@ -205,6 +209,7 @@ class _MyAppState extends State<MyApp> {
                   backgroundColor: Colors.white,
                   surfaceTintColor: Colors.white,
                 ),
+                fontFamily: 'beINNormal',
                 // dialogBackgroundColor:Colors.white
 
                 //  .interTightTextTheme(textTheme).copyWith(
